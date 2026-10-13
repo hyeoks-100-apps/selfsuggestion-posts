@@ -25,6 +25,15 @@ def parse_captions(txt):
             out[m.group(2)] = re.sub(r'\n— .*$', '', m.group(3).strip())
     return out
 
+# 스튜디오 설정 백업(backup/*.json)에 있는 게시물별 문구·말한 사람 수정 반영 (가장 최근 백업)
+import glob
+over = {}
+bks = sorted(glob.glob(os.path.join(HERE, 'backup', 'selfsuggestion_studio_backup_*.json')))
+if bks:
+    ls = json.load(open(bks[-1], encoding='utf-8'))['localStorage']
+    over = json.loads(ls.get('ss_postset_v1', '{}'))
+    print('backup:', os.path.basename(bks[-1]), len(over), 'posts with settings')
+
 langs = {}
 for l in ('ko', 'ja', 'en'):
     zp = os.path.join(zdir, f'selfsuggestion_{l}_feed_200.zip')
@@ -44,7 +53,8 @@ for l in ('ko', 'ja', 'en'):
     posts = []
     for p in [x for x in d['posts'] if x['language'] == l]:
         n = p['post_id'][1:4]
-        posts.append({'id': p['post_id'], 'n': n, 'text': edited.get(p['post_id'], p['text']), 'author': p['author'],
+        o = over.get(p['post_id'], {})
+        posts.append({'id': p['post_id'], 'n': n, 'text': o.get('text', edited.get(p['post_id'], p['text'])), 'author': o.get('author', p['author']),
                       'caption': p['caption'], 'tags': p['hashtags'], 'img': f'img/{l}/{n}.jpg' if has_img else '', 'thumb': f'thumb/{l}/{n}.jpg' if has_img else ''})
     a = acc[l]
     langs[l] = {'handle': a['account_id_candidate'], 'name': a['display_name'], 'hasImages': has_img, 'posts': posts}
