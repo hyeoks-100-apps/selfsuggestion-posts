@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="자기암시 게시">
+<meta name="theme-color" content="#f4f1eb">
+<title>자기암시 게시 보드</title>
+<style>
+:root{--bg:#f4f1eb;--card:#fffdf9;--ink:#26241f;--sub:#7a746a;--line:#e6e0d6;--accent:#bf6b49;--ok:#4f7a5a;--okbg:#e8f0e9}
+@media (prefers-color-scheme:dark){:root{--bg:#171614;--card:#211f1c;--ink:#f1ece4;--sub:#a49d92;--line:#35312c;--accent:#d98a69;--ok:#8fc39b;--okbg:#22302599}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Hiragino Sans",sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:calc(10px + env(safe-area-inset-top)) 16px 10px;border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:4px;background:var(--line);padding:3px;border-radius:11px}
+.tabs button{flex:1;border:0;background:transparent;border-radius:9px;padding:8px 4px;font-weight:650;color:var(--sub)}
+.tabs button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px #0002}
+.meta{display:flex;justify-content:space-between;align-items:center;margin-top:9px;font-size:13px;color:var(--sub)}
+.bar{height:5px;background:var(--line);border-radius:5px;margin-top:6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+.filters{display:flex;gap:6px;margin-top:9px;overflow-x:auto}
+.filters button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-size:13px;white-space:nowrap}
+.filters button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+main{max-width:560px;margin:0 auto;padding:12px 16px calc(80px + env(safe-area-inset-bottom))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;margin:0 0 16px;overflow:hidden}
+.card.done{border-color:var(--ok)}
+.head{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-size:13px;color:var(--sub)}
+.head b{color:var(--ink);font-size:15px}
+.done-badge{color:var(--ok);font-weight:700}
+.pic{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--line)}
+.noimg{aspect-ratio:4/5;display:grid;place-items:center;text-align:center;padding:24px;color:var(--sub);background:var(--line);font-size:14px;white-space:pre-line}
+.quote{padding:12px 14px 0;font-weight:700;white-space:pre-line}
+.quote small{display:block;font-weight:500;color:var(--sub);margin-top:2px}
+details{padding:6px 14px 0}summary{font-size:13px;color:var(--sub);cursor:pointer;padding:4px 0}
+.cap{white-space:pre-wrap;font-size:14px;margin:6px 0 4px;padding:10px 12px;background:var(--bg);border-radius:10px}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 14px 14px}
+.acts button{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:12px 6px;font-weight:650;font-size:14px}
+.acts .primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.acts .check{grid-column:1/3;display:flex;justify-content:center;align-items:center;gap:8px}
+.card.done .acts .check{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+.empty{text-align:center;color:var(--sub);padding:60px 10px}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:9;border:0;background:var(--accent);color:#fff;border-radius:999px;padding:12px 18px;font-weight:700;box-shadow:0 6px 18px #0003}
+.toast{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;z-index:20;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw;text-align:center}
+.toast.show{opacity:1}
+.foot{text-align:center;font-size:12px;color:var(--sub);margin-top:24px}
+.foot button{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 10px;font-size:12px;margin:4px}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="tabs" id="tabs"><button data-l="ko">🇰🇷 한국어</button><button data-l="ja">🇯🇵 日本語</button><button data-l="en">🇺🇸 English</button></div>
+  <div class="meta"><span id="acct"></span><span id="prog"></span></div>
+  <div class="bar"><i id="barfill"></i></div>
+  <div class="filters" id="filters"><button data-f="todo">안 올린 것</button><button data-f="all">전체</button><button data-f="done">올린 것</button></div>
+</div>
+<main id="list"></main>
+<button class="fab" id="next">다음 올릴 것 ↓</button>
+<div class="toast" id="toast"></div>
+<script>
+const $=id=>document.getElementById(id);
+let DATA=null,lang=localStorage.getItem('ssb_lang')||'ko',filter=localStorage.getItem('ssb_filter')||'todo';
+let posted={};try{posted=JSON.parse(localStorage.getItem('ssb_posted_v1')||'{}')}catch(e){}
+const savePosted=()=>{try{localStorage.setItem('ssb_posted_v1',JSON.stringify(posted))}catch(e){}};
+function toast(t){let el=$('toast');el.textContent=t;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),1800)}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const captionOf=p=>p.caption+'\n\n'+p.tags;
+function fmt(iso){let d=new Date(iso);return `${d.getMonth()+1}/${d.getDate()} 올림`}
+function render(){
+  for(const b of $('tabs').children)b.classList.toggle('on',b.dataset.l===lang);
+  for(const b of $('filters').children)b.classList.toggle('on',b.dataset.f===filter);
+  const L=DATA.langs[lang],posts=L.posts,done=posts.filter(p=>posted[p.id]).length;
+  $('acct').textContent=L.handle;$('prog').textContent=`올림 ${done} / ${posts.length}`;$('barfill').style.width=(done/posts.length*100)+'%';
+  const shown=posts.filter(p=>filter==='all'||(filter==='done'?posted[p.id]:!posted[p.id]));
+  $('list').innerHTML=shown.length?shown.map(p=>{const d=posted[p.id];return `
+  <article class="card${d?' done':''}" id="c-${p.id}">
+    <div class="head"><b>#${p.n}</b><span class="${d?'done-badge':''}">${d?'✓ '+fmt(d):p.id}</span></div>
+    ${p.img?`<img class="pic" loading="lazy" src="${p.thumb}" alt="">`:`<div class="noimg">한국어 이미지는 아직 없어요.\n스튜디오에서 한국어 ZIP을 받은 뒤\n추가하면 여기에 나와요.</div>`}
+    <div class="quote">${esc(p.text)}${p.author?`<small>— ${esc(p.author)}</small>`:''}</div>
+    <details><summary>캡션 미리보기</summary><div class="cap">${esc(captionOf(p))}</div></details>
+    <div class="acts">
+      <button class="primary" data-a="save" data-id="${p.id}" ${p.img?'':'disabled style="opacity:.4"'}>이미지 저장</button>
+      <button data-a="copy" data-id="${p.id}">캡션+태그 복사</button>
+      <button class="check" data-a="toggle" data-id="${p.id}">${d?'✓ 올렸어요 (누르면 취소)':'○ 올렸으면 체크'}</button>
+    </div>
+  </article>`}).join('')+`<div class="foot">기록은 이 폰(브라우저)에 저장돼요.<br><button id="bk-out">체크 기록 복사</button><button id="bk-in">체크 기록 붙여넣기</button></div>`
+  :`<div class="empty">${filter==='todo'?'이 계정은 다 올렸어요 🎉':'아직 올린 게 없어요'}</div>`;
+}
+const find=id=>DATA.langs[lang].posts.find(p=>p.id===id);
+async function saveImage(p){
+  try{
+    const blob=await (await fetch(p.img)).blob();
+    const file=new File([blob],`${p.id}.jpg`,{type:'image/jpeg'});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file]});return}
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`${p.id}.jpg`;document.body.appendChild(a);a.click();a.remove();toast('이미지를 내려받았어요');
+  }catch(e){if(e&&e.name==='AbortError')return;window.open(p.img,'_blank');toast('이미지를 길게 눌러 저장하세요')}
+}
+async function copy(p){
+  const t=captionOf(p);
+  try{await navigator.clipboard.writeText(t);toast('캡션+태그 복사 완료 · 인스타에 붙여넣으세요')}
+  catch(e){const ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('복사했어요')}
+}
+document.addEventListener('click',async e=>{
+  const t=e.target.closest('[data-l],[data-f],[data-a],#next,#bk-out,#bk-in');if(!t)return;
+  if(t.dataset.l){lang=t.dataset.l;localStorage.setItem('ssb_lang',lang);render();scrollTo(0,0);return}
+  if(t.dataset.f){filter=t.dataset.f;localStorage.setItem('ssb_filter',filter);render();scrollTo(0,0);return}
+  if(t.id==='next'){const p=DATA.langs[lang].posts.find(p=>!posted[p.id]);if(!p)return toast('다 올렸어요');if(filter==='done'){filter='todo';render()}$('c-'+p.id)?.scrollIntoView({behavior:'smooth',block:'start'});return}
+  if(t.id==='bk-out'){try{await navigator.clipboard.writeText(JSON.stringify(posted));toast('체크 기록을 복사했어요. 다른 기기에서 붙여넣기 하세요')}catch(_){prompt('이 내용을 복사하세요',JSON.stringify(posted))}return}
+  if(t.id==='bk-in'){const v=prompt('복사해 둔 체크 기록을 붙여넣으세요');if(!v)return;try{Object.assign(posted,JSON.parse(v));savePosted();render();toast('체크 기록을 합쳤어요')}catch(_){toast('형식이 맞지 않아요')}return}
+  const p=find(t.dataset.id);if(!p)return;
+  if(t.dataset.a==='save')saveImage(p);
+  if(t.dataset.a==='copy')copy(p);
+  if(t.dataset.a==='toggle'){if(posted[p.id])delete posted[p.id];else posted[p.id]=new Date().toISOString();savePosted();
+    const y=$('c-'+p.id).getBoundingClientRect().top;render();const el=$('c-'+p.id);if(el)scrollBy(0,el.getBoundingClientRect().top-y);toast(posted[p.id]?'올림으로 체크했어요':'체크를 취소했어요')}
+});
+fetch('data.json',{cache:'no-cache'}).then(r=>r.json()).then(d=>{DATA=d;if(!DATA.langs[lang])lang='ko';render()});
+</script>
+</body>
+</html>
