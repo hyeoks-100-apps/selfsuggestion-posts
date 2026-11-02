@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="사주핑계의 한국어·일본어·영어 인스타그램 콘텐츠를 다듬고 이미지와 캡션으로 내보내는 작업실">
+  <meta name="theme-color" content="#173d32">
+  <title>사주핑계 · 콘텐츠 작업실</title>
+  <link rel="stylesheet" href="studio.css?v=1">
+  <script src="studio.js?v=2" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#workspace">작업 영역으로 건너뛰기</a>
+  <header class="site-header">
+    <a class="wordmark" href="./" aria-label="사주핑계 콘텐츠 작업실"><span class="brand-seal" aria-hidden="true">木</span><span>사주핑계<small>CONTENT STUDIO</small></span></a>
+    <nav class="header-links" aria-label="서비스 링크"><a href="../">자기암시 게시 보드</a><a href="https://saju.teamhyeok.com/" target="_blank" rel="noopener noreferrer">무료 성향 풀이 <span aria-hidden="true">↗</span></a></nav>
+  </header>
+
+  <main>
+    <section class="intro" aria-labelledby="page-title"><div><p class="kicker">한 장에 담는, 나를 읽는 핑계</p><h1 id="page-title">사주핑계 콘텐츠 작업실</h1><p class="intro-copy">짧은 답변 다섯 장과 자연스러운 다음 걸음. 문구를 다듬고, 저장하고, 직접 게시해.</p></div><span class="intro-symbol" aria-hidden="true">木 <i>火</i> 土 <i>金</i> 水</span></section>
+
+    <div class="workspace-tabs" role="tablist" aria-label="작업실 메뉴"><button id="tab-studio" role="tab" aria-selected="true" aria-controls="studio-panel" tabindex="0">콘텐츠 만들기</button><button id="tab-references" role="tab" aria-selected="false" aria-controls="references-panel" tabindex="-1">레퍼런스 노트 <span aria-hidden="true">↗</span></button></div>
+
+    <p id="loading" class="notice">작업실을 여는 중이야…</p>
+    <div id="load-error" class="notice error" role="alert" hidden></div>
+
+    <section id="studio-panel" role="tabpanel" aria-labelledby="tab-studio">
+      <div id="workspace" class="workspace" tabindex="-1" hidden>
+        <aside class="campaign-panel panel" aria-labelledby="campaign-heading">
+          <div class="section-top"><p class="step">01 / 주제 고르기</p><span id="campaign-count" class="small-muted"></span></div>
+          <h2 id="campaign-heading">오늘은 어떤 이야기?</h2>
+          <div class="locale-switch" role="group" aria-label="콘텐츠 언어"><button type="button" data-locale="ko" aria-pressed="true">한국어</button><button type="button" data-locale="ja" aria-pressed="false">日本語</button><button type="button" data-locale="en" aria-pressed="false">English</button></div>
+          <div id="campaign-list" class="campaign-list"></div>
+          <button type="button" id="duplicate-campaign" class="button duplicate-button">이 기획 복제 <span aria-hidden="true">＋</span></button>
+          <div class="local-note"><span class="local-dot" aria-hidden="true"></span><div><strong>이 브라우저에 자동 저장</strong><p>문구와 게시 기록은 이 기기에 남아. 다른 기기로 옮길 때는 백업을 받아 둬.</p></div></div>
+          <div class="backup-actions"><button type="button" id="export-backup" class="button quiet">JSON 백업 받기</button><button type="button" id="import-backup" class="button quiet">백업 불러오기</button><input id="backup-file" type="file" accept="application/json,.json" hidden></div>
+        </aside>
+
+        <section class="preview-panel" aria-labelledby="preview-heading">
+          <div class="preview-top"><div><p class="step">02 / 이미지 미리보기</p><h2 id="preview-heading">한 장씩, 읽히게</h2></div><label class="format-label" for="format">출력 규격<select id="format"><option value="feed">피드 · 4:5</option><option value="story">스토리 · 9:16</option></select></label></div>
+          <div class="template-switch" role="group" aria-label="이미지 템플릿"><button type="button" data-template="hanji" aria-pressed="true"><span class="template-dot hanji-dot" aria-hidden="true"></span>한지</button><button type="button" data-template="muk" aria-pressed="false"><span class="template-dot muk-dot" aria-hidden="true"></span>먹빛</button><button type="button" data-template="inyeon" aria-pressed="false"><span class="template-dot inyeon-dot" aria-hidden="true"></span>인연</button></div>
+          <div class="canvas-wrap"><canvas id="poster" width="1080" height="1350" role="img" aria-label="선택한 콘텐츠 이미지 미리보기"></canvas></div>
+          <div class="slide-navigation" aria-label="캐러셀 슬라이드 이동"><button type="button" id="previous-slide" class="arrow-button" aria-label="이전 슬라이드">←</button><div id="slide-buttons" class="slide-buttons" role="group" aria-label="슬라이드 선택"></div><button type="button" id="next-slide" class="arrow-button" aria-label="다음 슬라이드">→</button></div>
+          <p id="preview-message" class="preview-message" role="status" aria-live="polite"></p>
+          <div class="export-actions"><button type="button" id="export-png" class="button secondary">현재 이미지 PNG</button><button type="button" id="export-zip" class="button primary">현재 언어 5장 ZIP <span aria-hidden="true">↓</span></button></div>
+          <p class="export-hint">ZIP에는 현재 언어의 PNG 5장, caption.txt, metadata.json이 들어가. 스토리도 동영상이 아닌 이미지로 저장돼.</p>
+        </section>
+
+        <aside class="editor-panel panel" aria-labelledby="editor-heading">
+          <div class="section-top"><p class="step">03 / 내 말로 다듬기</p><span id="slide-label" class="small-muted">01 / 05</span></div><h2 id="editor-heading">짧아도, 한 문장은 끝까지</h2>
+          <p id="content-label" class="editor-context"></p>
+          <div class="campaign-fields"><label for="edit-topic">기획 주제 <span class="small-muted">세 언어 공통</span></label><input id="edit-topic" type="text" maxlength="100"><label for="edit-label">기획 이름 <span class="small-muted">현재 언어</span></label><input id="edit-label" type="text" maxlength="160"></div>
+          <div class="editor-fields"><label for="edit-title">이미지 제목 <span id="title-count" class="field-count"></span></label><textarea id="edit-title" rows="2" maxlength="180" spellcheck="false"></textarea><label for="edit-body">본문 <span id="body-count" class="field-count"></span></label><textarea id="edit-body" rows="5" maxlength="1400" spellcheck="false"></textarea><label for="edit-note">아래 덧말 <span id="note-count" class="field-count"></span></label><textarea id="edit-note" rows="2" maxlength="360" spellcheck="false"></textarea><button type="button" id="reset-slide" class="text-button">이 장의 문구를 처음대로</button></div>
+          <div class="caption-editor"><div class="section-top"><label for="edit-caption">게시물 캡션</label><button type="button" id="copy-caption" class="text-button">캡션 + 태그 복사</button></div><textarea id="edit-caption" rows="6" maxlength="10000" spellcheck="false"></textarea><label for="edit-hashtags">해시태그 <span class="small-muted">공백이나 줄바꿈으로 구분</span></label><textarea id="edit-hashtags" rows="3" maxlength="2400" spellcheck="false"></textarea><p id="hashtag-message" class="small-muted">태그는 최대 5개까지 사용할 수 있어.</p><p id="caption-count" class="small-muted">캡션 + 태그 0 / 2,200자</p></div>
+          <div class="posting-box"><label class="posting-label"><input type="checkbox" id="posted-check"><span>이 언어의 게시물을 올렸어</span></label><p id="posted-at">게시 기록은 주제와 언어별로 따로 남아.</p></div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="references-panel" class="references-panel" role="tabpanel" aria-labelledby="tab-references" hidden><div class="references-intro"><p class="step">REFERENCE NOTES</p><h2>잘 읽히는 방식부터 살펴봤어</h2><p id="references-summary">지역별 원문과 확인한 내용을 정리하고 있어.</p><p id="references-date" class="small-muted"></p></div><div id="reference-regions" class="reference-regions"></div><div id="reference-positioning" class="reference-positioning panel"></div></section>
+
+    <div class="status-bar"><span id="save-status" role="status" aria-live="polite" aria-atomic="true">준비 중</span><span class="status-note">자동 게시 없이, 직접 확인하고 올려.</span></div>
+  </main>
+  <footer class="site-footer"><span>사주핑계 · 작은 콘텐츠 작업실</span><span>만들기 → 저장하기 → 캡션 복사 → 직접 게시</span></footer>
+</body>
+</html>

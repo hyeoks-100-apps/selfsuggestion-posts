@@ -18,6 +18,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .tabs{display:flex;gap:4px;background:var(--line);padding:3px;border-radius:11px}
 .tabs button{flex:1;border:0;background:transparent;border-radius:9px;padding:8px 4px;font-weight:650;color:var(--sub)}
 .tabs button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px #0002}
+.project-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 10px;font-size:12px}.project-nav span{font-weight:700}.project-nav a{color:var(--accent);text-decoration:none}.project-nav a:hover{text-decoration:underline}
 .meta{display:flex;justify-content:space-between;align-items:center;margin-top:9px;font-size:13px;color:var(--sub)}
 .bar{height:5px;background:var(--line);border-radius:5px;margin-top:6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
 .filters{display:flex;gap:6px;margin-top:9px;overflow-x:auto}
@@ -50,6 +51,7 @@ details{padding:6px 14px 0}summary{font-size:13px;color:var(--sub);cursor:pointe
 </head>
 <body>
 <div class="top">
+  <nav class="project-nav" aria-label="작업 공간"><span>자기암시 게시 보드</span><a href="sajupinggye/">사주핑계 제작·레퍼런스 →</a></nav>
   <div class="tabs" id="tabs"><button data-l="ko">🇰🇷 한국어</button><button data-l="ja">🇯🇵 日本語</button><button data-l="en">🇺🇸 English</button></div>
   <div class="meta"><span id="acct"></span><span id="prog"></span></div>
   <div class="bar"><i id="barfill"></i></div>
