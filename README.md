@@ -14,19 +14,22 @@
 기존 GitHub Pages의 [`/sajupinggye/`](https://hyeoks-100-apps.github.io/selfsuggestion-posts/sajupinggye/)에서 한국어·일본어·영어 캐러셀을 편집하고 PNG·ZIP·캡션으로 내보낸다. 기존 자기암시 데이터·이미지·체크 기록은 그대로 쓴다.
 
 - `sajupinggye/drafts/{ko,ja,en}-100.json`: 언어별100개, 총300게시물·900슬라이드의 재작화용 초안. 각 게시물에 표지 질문, 명리 개념을 일상에 빗댄 해설, 실제 앱 기능 소개, 캡션·태그4개, 한국어 그림 메모가 있다. 세 언어는 같은 범주의 탐색 순서로 묶었으며 **각 지역에 맞춘 독립 주제**다. 번역 대조본이 아니다.
-- `python3 scripts/build-saju-drafts.py`: 수량·ID·범주·필수 원고·고유 표지·태그·길이를 검증하고 `campaigns-300.json`을 만든다. 새 모음의100개 항목을 언어별로 전환해 총300개 원고를 탐색한다. 제목·주제 검색과11개 범주 필터를 지원한다. ‘300개 초안 받기’는 원본300개를 언어별Markdown3개+전체JSON+이미지 레퍼런스JSON의 ZIP으로 내보낸다. Markdown에는 각 원고의 이미지 출처·선정 이유·재작화 방향도 담는다.
+- `python3 scripts/build-saju-drafts.py`: 수량·ID·범주·필수 원고·고유 표지·태그·길이를 검증하고 `campaigns-300.json`을 만든다. 새 모음의100개 항목을 언어별로 전환해 총300개 원고를 탐색한다. 제목·본문·캡션 검색과11개 범주 필터를 지원한다. ‘편집한 원고 받기’는 새 초안·이전 모음·내 복제 기획의 **현재 편집본**을 언어별Markdown3개+전체JSON+이미지 레퍼런스JSON의 ZIP으로 내보낸다. 원본 파일을 덮어쓰지 않는다.
+- ‘모든 장의 원고·캡션 편집’은 현재 언어의 작은 제목·제목·본문·덧말·인스타 캡션·태그·그림 메모를 한 창에서 수정하고 자동 저장한다. 본문과 캡션은 독립 필드다. 기존3장·5장 모두 지원하며, 작은 제목이 없는 과거 수정본은 원본 작은 제목을 이어받는다.
 - 기존 `campaigns-v2.json`의33기획과 `campaigns.json`의6개·5장 기획은 ‘이전 원고 모음’에 보존한다. 개인 편집·복제·게시 체크도 유지한다. 새 초안은 검토 후 게시한다.
 - 게시물은 **큰 질문과 이미지 → 짧은 사주 해설 → 사주핑계 소개** 3장이다. 서간·밤의 기록·인연 템플릿, 피드1080×1350·스토리1080×1920 정지 이미지로 출력한다. 기획별 ZIP은 선택 언어의PNG·caption.txt·metadata.json을 담는다.
 - 배경 사진: JPG·PNG·WebP20MB까지 직접 올린다. 출력용JPEG(긴 변1920px이하·2MiB이하)로 바꾸고 파일 메타데이터를 제거한다. 장·언어·기획마다 가로/세로 위치,1~3배 확대, 종이색 덮기(0~95%)를 조절한다. 같은 사진을 게시물 전체 장에 적용하거나 한 장만 기본 그림으로 되돌릴 수 있다. 복제 기획에도 사진과 구도를 이어받는다.
-- 원고·참조·수동 게시 기록은 `spg_ig_studio_v3` localStorage, 사진은 같은 브라우저의IndexedDB에만 저장한다. 서버에 사진을 업로드하지 않는다. v1/v2 원문 저장 키는 유지하고 v3로 읽어온다. v1/v2/v3 JSON 백업을 지원하며, v3 백업은 참조 중인 사진을 중복 없이 포함한다. 같은 사진 ID의 내용은 바꾸지 않으며, 저장본이 바뀐 오래된 탭은 최신 저장본을 덮지 않고 백업·새로고침을 안내한다. 쓰지 않는 사진 정리는 백업 메뉴에서 사용자가 직접 확인했을 때만 수행한다. 사진 포함 백업64MB·원고 저장본8MB·기획500개 한도이며, 브라우저의 실제 저장 한도에 걸리면 알린다. 기기 이동 전에는 JSON 백업을 받는다.
+- 원고·참조·수동 게시 기록은 `spg_ig_studio_v3` localStorage, 직접 올린 사진은 같은 브라우저의IndexedDB에만 저장한다. 서버에 사진을 업로드하지 않는다. v1/v2 원문 저장 키는 유지하고 v3로 읽어온다. v3 JSON 백업은 **내 사진 보관함 전체**를 담아 지금 쓰지 않는 사진도 복원한다. 같은 사진 ID의 내용은 바꾸지 않으며, 저장본이 바뀐 오래된 탭은 최신 저장본을 덮지 않고 백업·새로고침을 안내한다. 사진 포함 백업64MB·원고 저장본8MB·기획500개 한도다. 쓰지 않는 사진 정리는 백업 후 직접 확인했을 때만 실행한다.
 - `sajupinggye/references.json`: 실제Instagram 게시물12건과 매거진·서비스 디자인6건의 관찰·출처·적용 원칙. 경쟁사 이미지·원문은 포함하지 않는다.
 - `sajupinggye/visual-research/{family,romance,life}.json`: 웹에서 확인한104개 이미지(영화·드라마55, 사진·화보43, 일러스트·회화6)의 원본 주소와 출처, 한국어 참고 메모. `python3 scripts/build-saju-visuals.py`로 URL·중복·출처·300개 원고 연결을 검사하고 `visual-references.json`을 만든다. 모든 원고에 언어별 질문을 고려한 선정 이유와 재작화 방향이 있다.
-- ‘이미지 레퍼런스’ 탭(`#visuals`)에서 언어·원고별 후보, 전체 이미지 검색·유형·11개 주제 필터, 큰 이미지·출처 링크를 제공한다. 원본 이미지는 외부 출처에서 표시하며 파일을 저장소에 복사하거나 포스터에 자동 합성하지 않는다. 원고를 복제해도 원래 이미지 연결을 보존한다. 새로 그린 배경은 기존 사진 업로드로 적용한다. 원고별ZIP의 `metadata.json`에도 연결된 이미지 출처와 메모가 담긴다.
+- 원고별 추천은 최대3개다. 추천 썸네일·104장 이미지 라이브러리·확대 화면의 ‘이 사진 쓰기’로 선택한 원고·언어·장에 적용한다. ‘내 사진 보관함’에서 이전 사진을 다시 고르거나 새 사진을 올릴 수 있다. 위치·확대·종이색 덮기는 장별로 조절한다. 원고를 복제해도 참조 연결과 사진을 보존한다.
+- `assets/references/`와 `visual-assets.json`은 편집용104장(원본 바이트 약30MiB)과 출처·MIME·SHA256 기록이다. 원본과 출처 링크를 보존한다. `python3 scripts/cache-saju-visual-assets.py`로 갱신하고, 같은 출처에서 불러와 외부사이트의CORS차단 없이Canvas로 출력한다. 사용자가 사진을 고를 때 기존 업로드 처리로 브라우저 안에 보관한다.
+- 상단 ‘앱 원고 검수’는 이Mac의 `http://localhost:4747/dev/review`로 연결한다. 별도 private 앱 저장소에서 제공하며, 운영 앱의 유료 원고를 이 공개Pages저장소에 복사하지 않는다.
 - 무료 유입 목적지는 `https://saju.teamhyeok.com/`, 한국 이름 추천은 `/naming`이다. 스토어 링크가 준비되기 전에는 프로필 링크의 웹·앱 안내로 연결한다. 시험·자녀·직장 전용 개인 리포트 등 제공하지 않는 기능은 광고하지 않는다.
 - 실제 게시 관리 서비스는 [insta.teamhyeok.com](https://insta.teamhyeok.com/#/)이며 정본은 private `hyeoks-100-apps/insta-board`다. 천안WindowsPC의Docker로 운영한다. 이Pages저장소는 제작 원본과 예비 게시 보드다. 내려받은PNG·캡션은 실제 게시 보드에 등록할 수 있다. 자동 게시·예약·DM은 제공하지 않는다.
 - `renderer.js`: 같은 출처의 이미지·폰트를 준비한 후Canvas로 출력한다. 기본 아트워크는 기존ImageGen원본이며 `assets/artwork-prompts.json`에 프롬프트를 보관한다. 앱 로고·아이콘은 사주핑계 원본이다. full-CJK폰트 약33MiB와 출처·라이선스는 `assets/fonts/`에 있다.
 - `backgrounds.js`: 사진 형식 검사·축소·IndexedDB 저장·복원·최대12개 디코딩 캐시를 담당한다. 외부URL·SVG는 사진 백업으로 허용하지 않는다.
-- 검증: `node --test tests/studio-state.test.cjs`; 문법은 `node --check`로studio.js/renderer.js/backgrounds.js/visuals.js를 확인한다. 이미지 연결 자료는 `python3 scripts/build-saju-visuals.py`로 검증한다.
+- 검증: `node --test tests/*.test.cjs`; 문법은 `node --check`로studio.js/renderer.js/backgrounds.js/visuals.js를 확인한다. 이미지 연결 자료는 `python3 scripts/build-saju-visuals.py`로 검증한다.
 
 로컬 확인: `python3 -m http.server 4760 --bind 127.0.0.1` 실행 후 `http://127.0.0.1:4760/sajupinggye/`에 접속한다.
 

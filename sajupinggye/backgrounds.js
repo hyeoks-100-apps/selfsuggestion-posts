@@ -89,6 +89,26 @@
       request.onerror = () => reject(new Error('사진을 읽지 못했어. 다시 열어 줘.'));
     });
   }
+  async function storedPhotos(withData = false, maxBytes = 64 * 1024 * 1024) {
+    const db = await openDatabase(), result = [];
+    let bytes = 0;
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction('images', 'readonly');
+      const request = tx.objectStore('images').openCursor();
+      request.onerror = () => reject(new Error('사진 보관함을 읽지 못했어. 다시 열어 줘.'));
+      request.onsuccess = () => {
+        const cursor = request.result;
+        if (!cursor) { resolve(result); return; }
+        const value = cursor.value;
+        if (withData) {
+          bytes += value.dataUrl.length + value.name.length + 200;
+          if (bytes > maxBytes) { reject(new Error('사진 보관함 백업이 64MB를 넘어가. 사진을 따로 보관한 뒤 안 쓰는 사진을 정리해 줘.')); return; }
+          result.push(value);
+        } else result.push({ id: value.id, name: value.name, width: value.width, height: value.height });
+        cursor.continue();
+      };
+    });
+  }
   function decode(url) {
     return new Promise((resolve, reject) => {
       const image = new Image();
@@ -172,5 +192,5 @@
     }
     await putAll(assets);
   }
-  window.SajuBackgrounds = { readSetting, readAssets, prepare, putAll, image, collect, restore, requiredIds, prune };
+  window.SajuBackgrounds = { readSetting, readAssets, prepare, putAll, get, list: () => storedPhotos(false), collectAll: maxBytes => storedPhotos(true, maxBytes), image, collect, restore, requiredIds, prune };
 })();

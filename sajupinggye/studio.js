@@ -34,11 +34,15 @@
   let dirty = false;
   let lastSavedRaw = null;
   let storageConflict = false;
+  let pendingUploadTarget;
+  let photoRows = [], photoPage = 0, photoSearch = '', photoRenderToken = 0;
+  let fullOpener;
 
   function message(text, error = false) {
     const needsBackup = (storageFailed || storageConflict) && !error;
     $('save-status').textContent = text + (needsBackup ? ' · 자동 저장은 실패했어. JSON 백업을 받아 둬.' : '');
     $('save-status').classList.toggle('error', error || needsBackup);
+    if ($('full-editor-dialog').open) { $('full-status').textContent = $('save-status').textContent; $('full-status').classList.toggle('error', error || needsBackup); }
   }
 
   function text(value, label, max, allowEmpty = true) {
@@ -152,8 +156,8 @@
         ...(edit.topic === undefined ? {} : { topic: text(edit.topic, '현지 주제', LIMITS.topic) }),
         ...(edit.imageBrief === undefined ? {} : { imageBrief: text(edit.imageBrief, '그림 메모', 1200) }),
         slides: edit.slides.map(slide => {
-          exactKeys(slide, ['title', 'body', 'note'], '슬라이드 수정');
-          return { title: text(slide.title, '제목', LIMITS.title), body: text(slide.body, '본문', LIMITS.body), note: text(slide.note, '덧말', LIMITS.note) };
+          exactKeys(slide, ['eyebrow', 'title', 'body', 'note'], '슬라이드 수정');
+          return { ...(slide.eyebrow === undefined ? {} : { eyebrow: text(slide.eyebrow, '작은 제목', LIMITS.eyebrow) }), title: text(slide.title, '제목', LIMITS.title), body: text(slide.body, '본문', LIMITS.body), note: text(slide.note, '덧말', LIMITS.note) };
         })
       };
     }
@@ -193,7 +197,7 @@
     const key = pairKey();
     if (!own(state.edits, key)) {
       const source = localeContent();
-      state.edits[key] = { topic: topicOf(selectedCampaign()), imageBrief: source.imageBrief || '', label: source.label, caption: source.caption, hashtags: [...source.hashtags], hashtagText: source.hashtags.join(' '), slides: source.slides.map(({ title, body, note }) => ({ title, body, note })) };
+      state.edits[key] = { topic: topicOf(selectedCampaign()), imageBrief: source.imageBrief || '', label: source.label, caption: source.caption, hashtags: [...source.hashtags], hashtagText: source.hashtags.join(' '), slides: source.slides.map(({ eyebrow, title, body, note }) => ({ eyebrow, title, body, note })) };
     }
     return state.edits[key];
   }
@@ -295,10 +299,11 @@
     $('content-label').textContent = `${state.settings.locale.toUpperCase()} · ${slide.eyebrow}`;
     $('edit-topic').value = topicOf(selectedCampaign());
     $('edit-label').value = content.label;
-    for (const field of ['title', 'body', 'note']) $('edit-' + field).value = slide[field];
+    for (const field of ['eyebrow', 'title', 'body', 'note']) $('edit-' + field).value = slide[field];
     $('edit-caption').value = content.caption;
     $('edit-image-brief').value = content.imageBrief || '';
-    window.SajuVisuals?.setContext({ campaignId: state.settings.campaignId, referenceCampaignId: content.visualSourceId, locale: state.settings.locale, label: content.label, labels: Object.fromEntries(LOCALES.map(locale => [locale, localeContent(selectedCampaign(), locale).label])), imageBrief: content.imageBrief || '' });
+    window.SajuVisuals?.setContext({ campaignId: state.settings.campaignId, referenceCampaignId: content.visualSourceId, locale: state.settings.locale, slideIndex: state.settings.slideIndex, label: content.label, labels: Object.fromEntries(LOCALES.map(locale => [locale, localeContent(selectedCampaign(), locale).label])), imageBrief: content.imageBrief || '' });
+    renderRecommendations();
     renderBackgroundControls();
     $('edit-hashtags').value = state.edits[pairKey()] ? state.edits[pairKey()].hashtagText : content.hashtags.join(' ');
     $('edit-label').lang = state.settings.locale;
@@ -342,7 +347,7 @@
     const tags = parseTags($('edit-hashtags').value);
     edit.hashtagText = $('edit-hashtags').value;
     if (tags.length <= MAX_TAGS && tags.every(tag => tag.length <= 80)) edit.hashtags = tags;
-    edit.slides[state.settings.slideIndex] = { title: $('edit-title').value, body: $('edit-body').value, note: $('edit-note').value };
+    edit.slides[state.settings.slideIndex] = { eyebrow: $('edit-eyebrow').value, title: $('edit-title').value, body: $('edit-body').value, note: $('edit-note').value };
     edit.topic = $('edit-topic').value;
   }
 
@@ -465,7 +470,7 @@
   function matchesFilter(campaign) {
     const categoryMatches = categoryFilter === 'custom' ? state.campaigns.some(item => item.id === campaign.id) : categoryFilter === 'all' || campaign.category === categoryFilter;
     const source = localeContent(campaign);
-    const searchable = [source.label, topicOf(campaign), ...source.slides.map(slide => slide.title)].join(' ').toLocaleLowerCase();
+    const searchable = [source.label, topicOf(campaign), source.caption, ...source.slides.flatMap(slide => [slide.eyebrow, slide.title, slide.body, slide.note])].join(' ').toLocaleLowerCase();
     return inCollection(campaign) && categoryMatches && (!searchTerm || searchable.includes(searchTerm));
   }
 
@@ -507,9 +512,125 @@
     $('background-all').disabled = busy || !background;
   }
 
-  async function uploadBackground(file) {
+  function currentTarget() { return { campaignId: state.settings.campaignId, locale: state.settings.locale, slideIndex: state.settings.slideIndex }; }
+  function checkPhotoTarget(target = currentTarget()) {
+    const item = campaigns().find(c => c.id === target.campaignId);
+    if (!item || !LOCALES.includes(target.locale) || !Number.isInteger(target.slideIndex) || target.slideIndex < 0 || target.slideIndex >= item.locales[target.locale].slides.length) throw new Error('사진을 적용할 원고와 장을 다시 골라 줘.');
+    if (busy) throw new Error('저장이 끝나면 사진을 골라 줘.');
+    if (storageConflict || localStorage.getItem(STORE_KEY) !== lastSavedRaw) throw new Error('다른 탭의 저장본이 바뀌었어. 이 탭을 백업하고 새로고침해 줘.');
+    return { ...target };
+  }
+  function selectPhotoTarget(target) {
+    commitEditor();
+    Object.assign(state.settings, target);
+    collectionFilter = target.campaignId.startsWith('draft-') ? 'drafts' : 'all'; categoryFilter = 'all'; searchTerm = ''; $('campaign-search').value = '';
+    if ($('photo-library-dialog').open) $('photo-library-dialog').close();
+    renderAll(); showTab('studio');
+  }
+  function openUpload(target = currentTarget()) {
+    try { pendingUploadTarget = checkPhotoTarget(target); $('background-file').value = ''; $('background-file').click(); }
+    catch (error) { message(error.message, true); }
+  }
+  async function applyStoredPhoto(id, target = currentTarget()) {
+    target = checkPhotoTarget(target);
+    await window.SajuBackgrounds.get(id);
+    // Recheck after asynchronous reads so an old tab never changes a newer workspace.
+    checkPhotoTarget(target); selectPhotoTarget(target);
+    setBackground({ assetId: id, x: 50, y: 50, zoom: 1, wash: target.slideIndex === 0 ? 0 : 85 });
+    renderBackgroundControls(); requestPreview(); saveNow(); message('고른 사진을 이 장에 적용했어. 위치와 확대를 조절해 봐.');
+  }
+  async function applyReference(ref, target = currentTarget()) {
+    target = checkPhotoTarget(target);
+    selectPhotoTarget(target);
+    setBusy(true, '라이브러리 사진을 적용하는 중…');
+    try {
+      await window.SajuVisuals.assetsReady;
+      const cached = window.SajuVisuals.assetFor(ref.id);
+      const name = `${ref.id}@${cached?.sha256?.slice(0, 10) || 'source'} · ${ref.title}`.slice(0, 180);
+      let asset = (await window.SajuBackgrounds.list()).find(photo => photo.name === name);
+      if (!asset) {
+        const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 15000);
+        let blob;
+        try {
+          const response = await fetch(window.SajuVisuals.assetUrlFor(ref.id) || ref.imageUrl, { signal: controller.signal, credentials: 'omit' });
+          if (!response.ok) throw new Error('사진을 가져오지 못했어.');
+          blob = await response.blob();
+        } catch (_) { const error = new Error('사진을 가져오지 못했어. 잠시 뒤 다시 시도하거나 저장한 사진을 올려 줘.'); error.code = 'REFERENCE_FETCH_FAILED'; throw error; }
+        finally { clearTimeout(timer); }
+        asset = await window.SajuBackgrounds.prepare(new File([blob], name, { type: cached?.type || blob.type }));
+        await window.SajuBackgrounds.putAll([asset]);
+      }
+      setBackground({ assetId: asset.id, x: 50, y: 50, zoom: 1, wash: target.slideIndex === 0 ? 0 : 85 });
+      saveNow(); message('라이브러리 사진을 적용했어. 내 사진 보관함에서도 다시 고를 수 있어.');
+    } catch (error) { message(error.message, true); throw error; }
+    finally { setBusy(false); renderBackgroundControls(); requestPreview(); }
+  }
+  function renderRecommendations() {
+    if (!state) return;
+    const content = localeContent(), refs = window.SajuVisuals?.entryFor(content.visualSourceId || state.settings.campaignId, state.settings.locale)?.references || [];
+    const fragment = document.createDocumentFragment();
+    for (const ref of refs.slice(0, 3)) {
+      const button = document.createElement('button'); button.type = 'button'; button.className = 'recommended-photo'; button.setAttribute('aria-label', `${ref.title} 배경으로 쓰기`); button.title = ref.title;
+      const image = document.createElement('img'); image.src = window.SajuVisuals?.assetUrlFor(ref.id) || ref.thumbnailUrl || ref.imageUrl; image.alt = ref.title; image.loading = 'lazy'; image.referrerPolicy = 'no-referrer';
+      button.append(image); button.addEventListener('click', () => applyReference(ref, currentTarget()).catch(() => {})); fragment.append(button);
+    }
+    $('recommended-photos').replaceChildren(fragment); $('recommended-photos').hidden = !refs.length;
+  }
+  async function renderPhotoLibrary() {
+    const token = ++photoRenderToken, filtered = photoRows.filter(p => !photoSearch || p.name.toLocaleLowerCase().includes(photoSearch));
+    photoPage = Math.max(0, Math.min(photoPage, Math.ceil(filtered.length / 12) - 1));
+    $('photo-library-status').textContent = filtered.length ? `${filtered.length}개 사진 · 고르면 현재 장의 배경으로 적용돼.` : '아직 사진이 없어. 직접 올리거나 이미지 라이브러리에서 골라 봐.';
+    $('photo-library-page').textContent = `${photoPage + 1} / ${Math.max(1, Math.ceil(filtered.length / 12))}`;
+    $('photo-library-prev').disabled = photoPage === 0; $('photo-library-next').disabled = (photoPage + 1) * 12 >= filtered.length;
+    const fragment = document.createDocumentFragment();
+    for (const photo of filtered.slice(photoPage * 12, photoPage * 12 + 12)) {
+      const button = document.createElement('button'); button.type = 'button'; button.className = 'saved-photo'; button.setAttribute('aria-label', `${photo.name} 사진 쓰기`);
+      const image = document.createElement('img'); image.alt = photo.name; image.loading = 'lazy'; const title = document.createElement('span'); title.textContent = photo.name;
+      button.append(image, title); button.addEventListener('click', () => applyStoredPhoto(photo.id).catch(error => { $('photo-library-status').textContent = error.message; })); fragment.append(button);
+      window.SajuBackgrounds.get(photo.id).then(asset => { if (token === photoRenderToken) image.src = asset.dataUrl; }).catch(() => { if (token === photoRenderToken) title.textContent += ' · 다시 올려 줘'; });
+    }
+    $('photo-library-grid').replaceChildren(fragment);
+  }
+  async function openPhotoLibrary() {
+    if (busy) return;
+    $('photo-library-target').textContent = `${localeContent().label} · ${state.settings.locale.toUpperCase()} · ${state.settings.slideIndex + 1}번째 장`;
+    $('photo-library-status').textContent = '사진을 불러오는 중…'; $('photo-library-grid').replaceChildren();
+    $('photo-library-dialog').showModal(); $('photo-library-close').focus();
+    try { photoRows = (await window.SajuBackgrounds.list()).sort((a, b) => a.name.localeCompare(b.name)); photoPage = 0; await renderPhotoLibrary(); }
+    catch (error) { $('photo-library-status').textContent = error.message; }
+  }
+  function openFullEditor() {
+    if (busy) return;
+    commitEditor(); saveNow(); const content = localeContent(); fullOpener = document.activeElement;
+    $('full-context').textContent = `${state.settings.locale.toUpperCase()} · ${content.label} · ${content.slides.length}장`;
+    const fragment = document.createDocumentFragment();
+    const field = (container, key, value, label, max, index) => {
+      const id = `full-${index ?? 'post'}-${key}`, l = document.createElement('label'); l.htmlFor = id; l.textContent = label;
+      const input = document.createElement('textarea'); input.id = id; input.value = value; input.maxLength = max; input.rows = key === 'body' || key === 'caption' ? 5 : 2; input.lang = state.settings.locale; input.dataset.fullField = key; if (index !== undefined) input.dataset.slide = String(index); container.append(l, input);
+    };
+    const meta = document.createElement('section'); meta.className = 'full-post-fields';
+    field(meta, 'topic', topicOf(selectedCampaign()), '주제', LIMITS.topic); field(meta, 'label', content.label, '기획 이름', LIMITS.label); fragment.append(meta);
+    content.slides.forEach((slide, index) => {
+      const section = document.createElement('section'); section.className = 'full-slide-fields'; const h = document.createElement('h3'); h.textContent = `${index + 1}번째 장 · ${index === 0 ? '제목과 이미지' : index === content.slides.length - 1 ? '앱 소개' : '사주 해설'}`; section.append(h);
+      for (const [key, label] of [['eyebrow', '작은 제목'], ['title', '제목'], ['body', '본문'], ['note', '덧말']]) field(section, key, slide[key], label, LIMITS[key], index); fragment.append(section);
+    });
+    const caption = document.createElement('section'); caption.className = 'full-post-fields';
+    field(caption, 'caption', content.caption, '인스타 캡션', LIMITS.caption); field(caption, 'hashtags', state.edits[pairKey()]?.hashtagText ?? content.hashtags.join(' '), '해시태그 · 최대 5개', 2400); field(caption, 'imageBrief', content.imageBrief || '', '재작화 메모', 1200); fragment.append(caption);
+    $('full-editor-fields').replaceChildren(fragment); $('full-status').textContent = $('save-status').textContent; $('full-editor-dialog').showModal(); $('full-close').focus();
+  }
+  function editFullManuscript(event) {
+    const input = event.target.closest('[data-full-field]'); if (!input) return;
+    const edit = ensureEdit(), field = input.dataset.fullField;
+    if (input.dataset.slide !== undefined) edit.slides[Number(input.dataset.slide)][field] = input.value;
+    else if (field === 'hashtags') { edit.hashtagText = input.value; const tags = parseTags(input.value); if (tags.length <= MAX_TAGS && tags.every(t => t.length <= 80)) edit.hashtags = tags; }
+    else edit[field] = input.value;
+    renderEditor(); renderCampaigns(); requestPreview(); saveSoon();
+  }
+
+  async function uploadBackground(file, target = currentTarget()) {
     if (!file || busy) return;
     try {
+      target = checkPhotoTarget(target); selectPhotoTarget(target);
       setBusy(true, '사진을 다듬어 이 브라우저에 저장하는 중…');
       const asset = await window.SajuBackgrounds.prepare(file);
       await window.SajuBackgrounds.putAll([asset]);
@@ -520,9 +641,16 @@
   }
 
   function bindBackgroundEvents() {
-    $('quick-background-upload').addEventListener('click', () => $('background-file').click());
-    $('background-upload').addEventListener('click', () => $('background-file').click());
-    $('background-file').addEventListener('change', () => uploadBackground($('background-file').files[0]));
+    $('quick-background-upload').addEventListener('click', () => openPhotoLibrary());
+    $('background-upload').addEventListener('click', () => openUpload());
+    $('background-file').addEventListener('change', () => { const target = pendingUploadTarget || currentTarget(); pendingUploadTarget = null; uploadBackground($('background-file').files[0], target); });
+    $('open-photo-library').addEventListener('click', openPhotoLibrary);
+    $('photo-library-close').addEventListener('click', () => $('photo-library-dialog').close());
+    $('photo-library-dialog').addEventListener('close', () => { ++photoRenderToken; $('photo-library-grid').replaceChildren(); $('open-photo-library').focus({ preventScroll: true }); });
+    $('photo-library-search').addEventListener('input', () => { photoSearch = $('photo-library-search').value.trim().toLocaleLowerCase(); photoPage = 0; renderPhotoLibrary(); });
+    $('photo-library-prev').addEventListener('click', () => { --photoPage; renderPhotoLibrary(); }); $('photo-library-next').addEventListener('click', () => { ++photoPage; renderPhotoLibrary(); });
+    $('photo-library-upload').addEventListener('click', () => { $('photo-library-dialog').close(); openUpload(); });
+    $('photo-library-web').addEventListener('click', () => { $('photo-library-dialog').close(); window.SajuVisuals?.showLibrary(); showTab('visuals'); });
     for (const key of ['x', 'y', 'zoom', 'wash']) $('background-' + key).addEventListener('input', () => {
       const background = currentBackground(); if (!background) return;
       background[key] = Number($('background-' + key).value); renderBackgroundControls(); requestPreview(); saveSoon();
@@ -539,23 +667,26 @@
   async function exportDrafts() {
     if (busy || !draftCatalog) return;
     try {
-      setBusy(true, '300개 초안과 이미지 레퍼런스를 묶는 중…');
+      commitEditor(); saveNow();
+      setBusy(true, '편집한 원고와 이미지 레퍼런스를 묶는 중…');
       await window.SajuVisuals?.ready;
       const encoder = new TextEncoder(), files = [];
+      const editedCampaigns = campaigns().map(campaign => ({ ...clone(campaign), locales: Object.fromEntries(LOCALES.map(locale => [locale, localeContent(campaign, locale)])) }));
+      const editedCatalog = { version: 3, brand: catalog.brand, campaigns: editedCampaigns };
       for (const locale of LOCALES) {
-        const heading = { ko: '한국어 100개 초안', ja: '日本語 100本の下書き', en: '100 English post drafts' }[locale];
-        const sections = draftCatalog.campaigns.map((campaign, index) => {
+        const heading = { ko: '한국어 편집 원고', ja: '日本語の編集原稿', en: 'Edited English post drafts' }[locale];
+        const sections = editedCampaigns.map((campaign, index) => {
           const content = campaign.locales[locale];
           const slides = content.slides.map((slide, page) => `### ${page + 1}. ${slide.title}\n\n${slide.eyebrow}\n\n${slide.body}\n\n${slide.note}`).join('\n\n');
-          return `## ${String(index + 1).padStart(3, '0')}. ${content.label}\n\n그림 메모: ${content.imageBrief || ''}\n\n${slides}\n\n### Caption\n\n${captionText(content)}${window.SajuVisuals?.markdownFor(campaign.id, locale) || ''}`;
+          return `## ${String(index + 1).padStart(3, '0')}. ${content.label}\n\n그림 메모: ${content.imageBrief || ''}\n\n${slides}\n\n### Caption\n\n${captionText(content)}${window.SajuVisuals?.markdownFor(content.visualSourceId || campaign.id, locale) || ''}`;
         });
-        files.push({ name: `${locale}-100-drafts.md`, bytes: encoder.encode(`# ${heading}\n\n게시물당 3장 · 재작화와 문구 편집용 초안\n\n${sections.join('\n\n---\n\n')}\n`) });
+        files.push({ name: `${locale}-edited-drafts.md`, bytes: encoder.encode(`# ${heading}\n\n${editedCampaigns.length}개 기획 · 새 초안·이전 모음·내 기획의 현재 편집본\n\n${sections.join('\n\n---\n\n')}\n`) });
       }
-      files.push({ name: 'all-300-drafts.json', bytes: encoder.encode(JSON.stringify(draftCatalog, null, 2)) });
+      files.push({ name: 'all-edited-drafts.json', bytes: encoder.encode(JSON.stringify(editedCatalog, null, 2)) });
       const visualBundle = window.SajuVisuals?.bundle();
       if (visualBundle) files.push({ name: 'visual-references.json', bytes: encoder.encode(JSON.stringify(visualBundle, null, 2)) });
-      downloadBlob(makeZip(files), 'sajupinggye-300-content-drafts.zip');
-      message(visualBundle ? '300개 초안과 이미지 출처·재작화 메모를 함께 내려받았어.' : '300개 초안을 내려받았어. 이미지 목록은 불러오지 못해 이번 ZIP에서 빠졌어.');
+      downloadBlob(makeZip(files), 'sajupinggye-edited-content.zip');
+      message(visualBundle ? '모든 모음과 내 기획의 편집본·캡션·이미지 메모를 내려받았어.' : '편집 원고를 내려받았어. 이미지 목록은 불러오지 못해 이번 ZIP에서 빠졌어.');
     } catch (error) { message(error.message, true); }
     finally { setBusy(false); requestPreview(); }
   }
@@ -710,7 +841,7 @@
     if (busy) return;
     try {
       commitEditor(); setBusy(true, '사진과 문구를 백업하는 중…');
-      const value = { ...envelope(), exportedAt: new Date().toISOString(), assets: await window.SajuBackgrounds.collect(state.backgrounds) };
+      const value = { ...envelope(), exportedAt: new Date().toISOString(), assets: await window.SajuBackgrounds.collectAll(MAX_IMAGE_BACKUP_BYTES) };
       readBackup(value);
       const json = JSON.stringify(value, null, 2);
       if (byteLength(json) > MAX_IMAGE_BACKUP_BYTES) throw new Error('사진 포함 백업이 64MB를 넘어가. 필요한 기획을 나눠 보관해 줘.');
@@ -779,6 +910,10 @@
     $('collection-filter').addEventListener('change', () => { collectionFilter = $('collection-filter').value; categoryFilter = 'all'; applyFilters(); });
     $('campaign-search').addEventListener('input', () => { searchTerm = $('campaign-search').value.trim().toLocaleLowerCase(); applyFilters(); });
     bindBackgroundEvents();
+    $('open-full-editor').addEventListener('click', openFullEditor);
+    $('full-editor-fields').addEventListener('input', editFullManuscript);
+    for (const id of ['full-close', 'full-done']) $(id).addEventListener('click', () => $('full-editor-dialog').close());
+    $('full-editor-dialog').addEventListener('close', () => { saveNow(); (fullOpener?.isConnected ? fullOpener : $('open-full-editor')).focus({ preventScroll: true }); });
     $('open-visuals').addEventListener('click', () => { window.SajuVisuals?.showCurrent(); showTab('visuals'); $('tab-visuals').focus(); });
     $('export-drafts').addEventListener('click', exportDrafts);
     $('prune-photos').addEventListener('click', prunePhotos);
@@ -788,15 +923,15 @@
     $('previous-slide').addEventListener('click', () => selectSlide(state.settings.slideIndex - 1));
     $('next-slide').addEventListener('click', () => selectSlide(state.settings.slideIndex + 1));
     document.querySelector('.slide-navigation').addEventListener('keydown', event => { if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return; event.preventDefault(); selectSlide(state.settings.slideIndex + (event.key === 'ArrowRight' ? 1 : -1)); $('slide-buttons').querySelector('[aria-current="true"]').focus(); });
-    for (const field of ['topic', 'label', 'title', 'body', 'note', 'caption', 'hashtags', 'image-brief']) {
+    for (const field of ['topic', 'label', 'eyebrow', 'title', 'body', 'note', 'caption', 'hashtags', 'image-brief']) {
       $('edit-' + field).addEventListener('input', () => {
         commitEditor(); updateCounts();
         if (field === 'topic' || field === 'label') renderCampaigns();
-        if (['title', 'body', 'note'].includes(field)) requestPreview();
+        if (['eyebrow', 'title', 'body', 'note'].includes(field)) requestPreview();
         saveSoon();
       });
     }
-    $('reset-slide').addEventListener('click', () => { const index = state.settings.slideIndex, slide = selectedCampaign().locales[state.settings.locale].slides[index]; ensureEdit().slides[index] = { title: slide.title, body: slide.body, note: slide.note }; renderEditor(); requestPreview(); saveSoon(); });
+    $('reset-slide').addEventListener('click', () => { const index = state.settings.slideIndex, slide = selectedCampaign().locales[state.settings.locale].slides[index]; ensureEdit().slides[index] = { eyebrow: slide.eyebrow, title: slide.title, body: slide.body, note: slide.note }; renderEditor(); requestPreview(); saveSoon(); });
     $('posted-check').addEventListener('change', () => { if ($('posted-check').checked) state.posted[pairKey()] = new Date().toISOString(); else delete state.posted[pairKey()]; renderCampaigns(); renderEditor(); saveSoon(); });
     $('duplicate-campaign').addEventListener('click', duplicateCampaign);
     $('export-png').addEventListener('click', () => exportImages(false));
@@ -810,7 +945,7 @@
     window.addEventListener('storage', event => {
       if (event.key !== STORE_KEY || !state || event.newValue === lastSavedRaw) return;
       clearTimeout(saveTimer);
-      if (dirty || busy || !event.newValue) {
+      if (dirty || busy || $('full-editor-dialog').open || $('photo-library-dialog').open || !event.newValue) {
         storageConflict = true;
         message('다른 탭에서 작업이 바뀌었어. 이 탭의 원고는 JSON 백업을 받은 뒤 새로고침해 줘. 최신 저장본은 덮어쓰지 않을게.', true);
         return;
@@ -839,7 +974,8 @@
       draftCatalog = readCatalog(drafts);
       catalog = readCatalog({ ...current, campaigns: [...draftCatalog.campaigns, ...current.campaigns, ...legacy.campaigns] });
       state = initialState();
-      window.SajuVisuals?.init({ campaigns: draftCatalog.campaigns, onEdit: (id, locale) => { if (busy) return; commitEditor(); state.settings.campaignId = id; state.settings.locale = locale; state.settings.slideIndex = 0; collectionFilter = id.startsWith('draft-') ? 'drafts' : 'all'; categoryFilter = 'all'; searchTerm = ''; $('campaign-search').value = ''; renderAll(); saveSoon(); showTab('studio'); $('workspace').focus(); } });
+      window.SajuVisuals?.init({ campaigns: draftCatalog.campaigns, onApplyReference: applyReference, onUpload: openUpload, onEdit: (id, locale) => { if (busy) return; commitEditor(); state.settings.campaignId = id; state.settings.locale = locale; state.settings.slideIndex = 0; collectionFilter = id.startsWith('draft-') ? 'drafts' : 'all'; categoryFilter = 'all'; searchTerm = ''; $('campaign-search').value = ''; renderAll(); saveSoon(); showTab('studio'); $('workspace').focus(); } });
+      window.SajuVisuals?.ready.then(() => { if (state) renderRecommendations(); });
       let restored = false, warning = '';
       try {
         const currentRaw = localStorage.getItem(STORE_KEY);

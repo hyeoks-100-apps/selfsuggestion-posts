@@ -63,7 +63,7 @@ def build():
             actual.add(pair)
             pairs.add(pair)
             ids = item['referenceIds']
-            assert isinstance(ids, list) and 1 <= len(ids) <= 5 and len(set(ids)) == len(ids) and set(ids) <= local_ids, f'{pair}: reference IDs'
+            assert isinstance(ids, list) and 1 <= len(ids) <= 3 and len(set(ids)) == len(ids) and set(ids) <= local_ids, f'{pair}: reference IDs'
             assert text(item['reason']) and text(item['redrawDirection']), f'{pair}: missing direction'
             draft = campaigns[pair[0]]
             locale = draft['locales'][pair[1]]

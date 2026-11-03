@@ -7,11 +7,11 @@
   <meta name="theme-color" content="#ffffff">
   <title>사주핑계 · Editorial studio</title>
   <link rel="stylesheet" href="fonts.css?v=1">
-  <link rel="stylesheet" href="studio.css?v=8">
-  <script src="backgrounds.js?v=1" defer></script>
+  <link rel="stylesheet" href="studio.css?v=9">
+  <script src="backgrounds.js?v=2" defer></script>
   <script src="renderer.js?v=6" defer></script>
-  <script src="visuals.js?v=1" defer></script>
-  <script src="studio.js?v=7" defer></script>
+  <script src="visuals.js?v=2" defer></script>
+  <script src="studio.js?v=8" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#workspace">작업 영역으로 건너뛰기</a>
@@ -20,6 +20,7 @@
     <nav class="header-links" aria-label="서비스 링크">
       <a href="https://insta.teamhyeok.com/#/" target="_blank" rel="noopener noreferrer">자기암시 게시 보드 <span aria-hidden="true">↗</span></a>
       <a href="https://saju.teamhyeok.com/" target="_blank" rel="noopener noreferrer">무료 성향 풀이 <span aria-hidden="true">↗</span></a>
+      <a href="http://localhost:4747/dev/review" target="_blank" rel="noopener noreferrer" title="이 Mac에서 여는 앱 원고 검수실">앱 원고 검수 <span aria-hidden="true">↗</span></a>
     </nav>
   </header>
 
@@ -56,11 +57,11 @@
           <div id="campaign-list" class="campaign-list"></div>
           <p id="search-empty" class="small-muted" hidden>맞는 원고가 없어. 검색어나 분류를 바꿔 봐.</p>
           <div class="library-footer">
-            <button type="button" id="export-drafts" class="button quiet" title="원본 300개 원고·캡션·그림 메모를 Markdown과 JSON으로 받기">300개 초안 받기 <span aria-hidden="true">↓</span></button>
+            <button type="button" id="export-drafts" class="button quiet" title="새 초안·이전 모음·내 기획의 현재 편집본·캡션·그림 메모를 모두 받기">편집한 원고 받기 <span aria-hidden="true">↓</span></button>
             <button type="button" id="duplicate-campaign" class="button duplicate-button"><span aria-hidden="true">＋</span> 이 기획 복제</button>
             <details class="library-tools">
               <summary>백업과 보관</summary>
-              <p>원고와 게시 기록은 이 브라우저에 저장돼. 다른 기기로 옮길 때는 사진이 포함된 JSON 백업을 받아 둬.</p>
+              <p>원고와 게시 기록은 이 브라우저에 저장돼. JSON 백업에는 내 사진 보관함도 함께 담겨.</p>
               <div class="backup-actions">
                 <button type="button" id="export-backup" class="button quiet">JSON 백업 받기 <span aria-hidden="true">↓</span></button>
                 <button type="button" id="import-backup" class="button quiet">백업 불러오기 <span aria-hidden="true">↑</span></button>
@@ -89,7 +90,7 @@
               <button type="button" id="previous-slide" class="arrow-button" aria-label="이전 슬라이드">←</button>
               <div id="slide-buttons" class="slide-buttons" role="group" aria-label="슬라이드 선택"></div>
               <button type="button" id="next-slide" class="arrow-button" aria-label="다음 슬라이드">→</button>
-              <button type="button" id="quick-background-upload" class="quick-photo">사진 바꾸기 ↑</button>
+              <button type="button" id="quick-background-upload" class="quick-photo">사진 고르기</button>
             </div>
             <p id="preview-message" class="preview-message" role="status" aria-live="polite"></p>
           </div>
@@ -105,10 +106,13 @@
         <aside class="editor-panel" aria-labelledby="editor-heading">
           <div class="panel-heading"><h2 id="editor-heading">원고</h2><span id="slide-label" class="small-muted">01 / 03</span></div>
           <p id="content-label" class="editor-context"></p>
+          <button type="button" id="open-full-editor" class="button secondary full-editor-open">모든 장의 원고·캡션 편집 ↗</button>
           <details class="inspector-section background-section" id="background-section" open>
             <summary>배경 사진 <span id="background-page" class="small-muted">1번째 장</span></summary>
             <div class="background-editor">
               <button type="button" id="open-visuals" class="button secondary">이 주제에 맞는 이미지 보기 ↗</button>
+              <div id="recommended-photos" class="recommended-photos" aria-label="이 원고의 추천 사진 최대 3개"></div>
+              <button type="button" id="open-photo-library" class="button secondary">내 사진 보관함에서 고르기</button>
               <button type="button" id="background-upload" class="button secondary">내 사진 올리기 ↑</button>
               <input id="background-file" type="file" accept="image/jpeg,image/png,image/webp" hidden>
               <p id="background-name" class="small-muted">기본 그림을 쓰고 있어.</p>
@@ -134,6 +138,7 @@
             </div>
           </details>
           <div class="editor-fields">
+            <label for="edit-eyebrow">작은 제목</label><input id="edit-eyebrow" type="text" maxlength="180">
             <label for="edit-title">제목 <span id="title-count" class="field-count"></span></label>
             <textarea id="edit-title" rows="2" maxlength="180" spellcheck="false"></textarea>
             <label for="edit-body">본문 <span id="body-count" class="field-count"></span></label>
@@ -159,6 +164,19 @@
         </aside>
       </div>
     </section>
+    <dialog id="full-editor-dialog" class="editing-dialog" aria-labelledby="full-editor-heading">
+      <header class="editing-dialog-header"><div><p id="full-context" class="step"></p><h2 id="full-editor-heading">원고 전체 편집</h2></div><button type="button" id="full-close" class="dialog-close" aria-label="원고 편집 닫기">×</button></header>
+      <p class="small-muted">입력하면 이 브라우저에 자동 저장돼. 본문과 인스타 캡션은 각각 수정할 수 있어.</p>
+      <div id="full-editor-fields" class="full-editor-fields"></div>
+      <footer class="editing-dialog-footer"><p id="full-status" role="status"></p><button type="button" id="full-done" class="button primary">편집 마치기</button></footer>
+    </dialog>
+    <dialog id="photo-library-dialog" class="editing-dialog" aria-labelledby="photo-library-heading">
+      <header class="editing-dialog-header"><div><p class="step">MY PHOTOGRAPHS</p><h2 id="photo-library-heading">내 사진 보관함</h2></div><button type="button" id="photo-library-close" class="dialog-close" aria-label="사진 보관함 닫기">×</button></header>
+      <p id="photo-library-target" class="small-muted"></p>
+      <div class="photo-library-tools"><label><span class="visually-hidden">보관한 사진 검색</span><input type="search" id="photo-library-search" placeholder="사진 이름 검색" maxlength="180"></label><button id="photo-library-upload" class="button secondary" type="button">새 사진 올리기 ↑</button><button id="photo-library-web" class="text-button" type="button">104장 이미지 라이브러리 ↗</button></div>
+      <p id="photo-library-status" class="small-muted" role="status"></p><div id="photo-library-grid" class="photo-library-grid"></div>
+      <div class="photo-library-pages"><button type="button" id="photo-library-prev" class="button secondary">이전</button><span id="photo-library-page"></span><button type="button" id="photo-library-next" class="button secondary">다음</button></div>
+    </dialog>
 
     <section id="visuals-panel" class="visuals-panel" role="tabpanel" aria-labelledby="tab-visuals" hidden>
       <header class="visual-heading">
