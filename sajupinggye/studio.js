@@ -10,8 +10,6 @@
   const MAX_TAGS = 5;
   const MAX_CAPTION = 2200;
   const LIMITS = { title: 180, body: 1400, note: 360, eyebrow: 180, caption: 10000, label: 160, topic: 100 };
-  const SERIF = '"Noto Serif CJK KR","Noto Serif CJK JP","AppleMyungjo","Hiragino Mincho ProN","Yu Mincho","Batang",Georgia,serif';
-  const SANS = '-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Hiragino Kaku Gothic ProN","Yu Gothic","Malgun Gothic",sans-serif';
   const $ = id => document.getElementById(id);
   const own = (object, key) => Object.prototype.hasOwnProperty.call(object, key);
   const plain = value => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -356,14 +354,18 @@
         const card = element('article', 'reference-card');
         card.append(element('span', 'reference-account', displayValue(item.account)), element('h3', '', displayValue(item.title)));
         const details = element('dl', 'reference-details');
-        for (const [key, label] of [['format', '형식'], ['observed', '관찰'], ['cta', '다음 행동'], ['apply', '적용']]) {
+        const rows = region.id === 'design' ? [['format', '형식'], ['observed', '관찰'], ['apply', '적용']] : [['format', '형식'], ['observed', '관찰'], ['cta', '다음 행동'], ['apply', '적용']];
+        for (const [key, label] of rows) {
           details.append(element('dt', '', label), element('dd', '', displayValue(item[key]) || '확인 기록 없음'));
         }
         card.append(details);
         card.append(element('p', 'verification', `확인 수준 · ${displayValue(item.verification) || '별도 확인 필요'}`));
         const links = element('div', 'reference-links');
-        appendLink(links, '계정 원문 ↗', item.url);
-        appendLink(links, '게시물 원문 ↗', item.postUrl);
+        if (region.id === 'design') appendLink(links, '공식 화면 ↗', item.url);
+        else {
+          appendLink(links, '계정 원문 ↗', item.url);
+          appendLink(links, '게시물 원문 ↗', item.postUrl);
+        }
         card.append(links); cards.append(card);
       }
       section.append(cards); regions.append(section);
@@ -385,135 +387,8 @@
     }
   }
 
-  // Keep every renderer local: no external fonts, photos, image APIs or HTML templates.
-  function font(context, size, serif = false, weight = 400) { context.font = `${weight} ${size}px ${serif ? SERIF : SANS}`; }
-
-  function wordUnits(value, locale) {
-    if (globalThis.Intl && typeof Intl.Segmenter === 'function') return [...new Intl.Segmenter(locale, { granularity: 'word' }).segment(value)].map(item => item.segment);
-    return value.match(/\s+|[A-Za-z0-9À-ž]+(?:['’\-][A-Za-z0-9À-ž]+)*|[^\s]/gu) || [];
-  }
-
-  function wrapLines(context, value, width, locale) {
-    const lines = [];
-    for (const paragraph of value.split('\n')) {
-      let line = '';
-      const queue = wordUnits(paragraph, locale);
-      while (queue.length) {
-        const unit = queue.shift();
-        if (!/^\s+$/u.test(unit) && context.measureText(unit).width > width && Array.from(unit).length > 1) { queue.unshift(...Array.from(unit)); continue; }
-        if (!line && /^\s+$/u.test(unit)) continue;
-        if (context.measureText(line + unit).width <= width) { line += unit; continue; }
-        if (/^\s+$/u.test(unit)) { if (line) lines.push(line.trimEnd()); line = ''; continue; }
-        if (!line && Array.from(unit).length > 1) { queue.unshift(...Array.from(unit)); continue; }
-        if (line) {
-          // Carry a preceding character with Japanese closing punctuation; avoid a dangling opening mark.
-          let carry = '';
-          const closing = /^[、。，．？！：；）\]」』】〉》”’]/u.test(unit);
-          const opening = /[（\[「『【〈《“‘]$/u.test(line);
-          if (closing || opening) { const letters = Array.from(line.trimEnd()); carry = letters.pop() || ''; line = letters.join(''); }
-          if (line) lines.push(line.trimEnd());
-          line = carry;
-          queue.unshift(unit);
-        } else { lines.push(unit); }
-      }
-      lines.push(line.trimEnd());
-    }
-    return lines;
-  }
-
-  function fitText(context, value, box, options) {
-    const { max, min, leading, serif = false, weight = 400, locale } = options;
-    let result;
-    for (let size = max; size >= min; size--) {
-      font(context, size, serif, weight);
-      const lines = value ? wrapLines(context, value, box.width, locale) : [];
-      const lineHeight = size * leading;
-      const height = lines.length ? (lines.length - 1) * lineHeight + size * 1.15 : 0;
-      result = { size, lines, lineHeight, height, box, serif, weight, fits: height <= box.height && lines.every(line => context.measureText(line).width <= box.width + .1) };
-      if (result.fits) break;
-    }
-    return result;
-  }
-
-  function drawText(context, fitted, color) {
-    const { box, size, lines, lineHeight, serif, weight } = fitted;
-    context.save(); context.beginPath(); context.rect(box.x, box.y - 3, box.width + 2, box.height + 5); context.clip();
-    font(context, size, serif, weight); context.fillStyle = color; context.textBaseline = 'top';
-    lines.forEach((line, index) => context.fillText(line, box.x, box.y + index * lineHeight));
-    context.restore();
-  }
-
-  function motif(context, template, W, H, palette) {
-    context.save();
-    if (template === 'hanji') {
-      context.strokeStyle = palette.accent; context.globalAlpha = .055; context.lineWidth = 1;
-      for (let y = 17; y < H; y += 19) { context.beginPath(); context.moveTo(0, y); context.lineTo(W, y + ((y % 4) - 2) * .6); context.stroke(); }
-      for (let x = 13; x < W; x += 31) { context.beginPath(); context.moveTo(x, 0); context.lineTo(x + 3, H); context.stroke(); }
-      context.globalAlpha = .35; context.strokeRect(40, 40, W - 80, H - 80); context.globalAlpha = .13; context.strokeRect(49, 49, W - 98, H - 98);
-    }
-    if (template === 'muk') {
-      context.strokeStyle = palette.accent; context.globalAlpha = .18; context.lineWidth = 1.5;
-      for (let radius = 340; radius <= 480; radius += 46) { context.beginPath(); context.arc(W + 20, H * .46, radius, 0, Math.PI * 2); context.stroke(); }
-      context.globalAlpha = .08; context.fillStyle = palette.accent;
-      for (let row = 0; row < 36; row++) for (let col = 0; col < 24; col++) { context.beginPath(); context.arc(31 + col * 47 + (row % 2) * 13, 30 + row * 57, 1.1, 0, Math.PI * 2); context.fill(); }
-    }
-    if (template === 'inyeon') {
-      context.strokeStyle = palette.accent; context.lineWidth = 2; context.globalAlpha = .17;
-      for (const [x, y, r] of [[W - 66, H * .43, 300], [W - 145, H * .53, 325], [W - 30, H * .62, 250]]) { context.beginPath(); context.arc(x, y, r, 0, Math.PI * 2); context.stroke(); }
-      context.beginPath(); context.moveTo(46, H - 350); context.bezierCurveTo(170, H - 450, 270, H - 270, W - 45, H - 405); context.stroke();
-    }
-    const center = { x: W - 160, y: H * .51 }, radius = 192;
-    context.globalAlpha = template === 'muk' ? .055 : .05; context.strokeStyle = palette.ink; context.fillStyle = palette.ink; context.lineWidth = 1;
-    context.beginPath(); context.arc(center.x, center.y, radius, 0, Math.PI * 2); context.stroke();
-    ['木', '火', '土', '金', '水'].forEach((symbol, index) => {
-      const angle = -Math.PI / 2 + index * Math.PI * 2 / 5;
-      const x = center.x + Math.cos(angle) * radius, y = center.y + Math.sin(angle) * radius;
-      context.beginPath(); context.arc(x, y, 23, 0, Math.PI * 2); context.stroke();
-      font(context, 23, true); context.textAlign = 'center'; context.textBaseline = 'middle'; context.fillText(symbol, x, y);
-    });
-    context.restore();
-  }
-
   function drawPoster(canvas, slide, options) {
-    const W = 1080, H = options.format === 'story' ? 1920 : 1350;
-    canvas.width = W; canvas.height = H;
-    const context = canvas.getContext('2d');
-    if (!context) throw new Error('이 브라우저에서 Canvas를 열지 못했어. 최신 브라우저로 다시 열어 줘.');
-    const palettes = {
-      hanji: { paper: '#f5efdf', ink: '#193d32', muted: '#6d7564', accent: '#a27e43' },
-      muk: { paper: '#14362d', ink: '#f5f0df', muted: '#c1c9b7', accent: '#c5a66b' },
-      inyeon: { paper: '#e9eddf', ink: '#264a38', muted: '#6b785e', accent: '#a0824c' }
-    };
-    const palette = palettes[options.template];
-    context.fillStyle = palette.paper; context.fillRect(0, 0, W, H);
-    motif(context, options.template, W, H, palette);
-    context.textBaseline = 'top'; context.textAlign = 'left';
-    context.strokeStyle = palette.accent; context.lineWidth = 1.4;
-    context.beginPath(); context.arc(118, 112, 25, 0, Math.PI * 2); context.stroke();
-    context.fillStyle = palette.accent; font(context, 25, true); context.textAlign = 'center'; context.textBaseline = 'middle'; context.fillText('木', 118, 112);
-    context.textAlign = 'left'; context.textBaseline = 'top'; font(context, 31, true, 500); context.fillStyle = palette.ink;
-    context.fillText(options.locale === 'ko' ? catalog.brand.name : catalog.brand.englishName, 162, 91);
-    font(context, 15, false, 600); context.fillStyle = palette.muted; context.fillText('A LITTLE EXCUSE TO KNOW YOURSELF', 99, 159);
-    const issues = [];
-    const contentX = 100, contentWidth = 880, eyebrowTop = H === 1350 ? 252 : 344;
-    const eyebrow = fitText(context, slide.eyebrow, { x: contentX, y: eyebrowTop, width: contentWidth, height: 75 }, { max: 24, min: 19, leading: 1.4, weight: 500, locale: options.locale });
-    const titleTop = eyebrowTop + Math.max(eyebrow.height, 28) + 32;
-    const title = fitText(context, slide.title, { x: contentX, y: titleTop, width: contentWidth, height: H === 1350 ? 310 : 470 }, { max: options.template === 'muk' ? 80 : 78, min: 44, leading: 1.34, serif: true, weight: 500, locale: options.locale });
-    const bodyTop = titleTop + Math.min(title.height, title.box.height) + 58;
-    const body = fitText(context, slide.body, { x: contentX, y: bodyTop, width: 850, height: Math.max(0, H - 355 - bodyTop) }, { max: 43, min: 30, leading: 1.75, locale: options.locale });
-    const note = fitText(context, slide.note, { x: contentX, y: H - 260, width: contentWidth, height: 95 }, { max: 26, min: 22, leading: 1.55, locale: options.locale });
-    for (const [label, block] of [['작은 제목', eyebrow], ['제목', title], ['본문', body], ['덧말', note]]) if (!block.fits) issues.push(`${label}이 이미지 영역을 넘어가. 문장이나 줄바꿈을 조금 줄여 줘.`);
-    if (!slide.title.trim()) issues.push('이미지 제목을 한 문장 넣어 줘.');
-    drawText(context, eyebrow, palette.accent); drawText(context, title, palette.ink); drawText(context, body, palette.ink); drawText(context, note, palette.muted);
-    context.strokeStyle = palette.accent; context.globalAlpha = .48; context.lineWidth = 1; context.beginPath(); context.moveTo(100, H - 132); context.lineTo(980, H - 132); context.stroke(); context.globalAlpha = 1;
-    const footer = { ko: '무료 성향 풀이', ja: '無料で、自分の傾向を知る', en: 'Get your free Saju reading' }[options.locale];
-    const footerBlock = fitText(context, footer, { x: 100, y: H - 102, width: 640, height: 40 }, { max: 23, min: 18, leading: 1.2, locale: options.locale });
-    drawText(context, footerBlock, palette.ink);
-    font(context, 16); context.fillStyle = palette.muted;
-    context.fillText(new URL(catalog.brand.site).hostname, 100, H - 66);
-    font(context, 22); context.textAlign = 'right'; context.fillStyle = palette.accent; context.fillText(`${String(options.slideIndex + 1).padStart(2, '0')} / 05`, 978, H - 94);
-    context.textAlign = 'left';
-    return issues;
+    return window.SajuPoster.draw(canvas, slide, options, catalog.brand);
   }
 
   function requestPreview() {
@@ -528,7 +403,7 @@
 
   async function renderPreview(token) {
     try {
-      if (document.fonts) await document.fonts.ready;
+      await window.SajuPoster.ready;
       if (token !== previewToken || busy) return;
       const options = { ...state.settings };
       const content = localeContent();
@@ -579,7 +454,7 @@
       if (allSlides) checkPublishContent();
       const options = { ...state.settings }, content = localeContent(), campaign = selectedCampaign();
       setBusy(true, allSlides ? '현재 언어의 다섯 장을 만드는 중…' : 'PNG 이미지를 만드는 중…');
-      if (document.fonts) await document.fonts.ready;
+      await window.SajuPoster.ready;
       const indexes = allSlides ? [0, 1, 2, 3, 4] : [options.slideIndex];
       const rendered = [];
       // Validate every requested slide before downloading anything.

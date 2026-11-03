@@ -1,7 +1,7 @@
 {
   "checkedAt": "2026-11-03",
   "positioning": {
-    "summary": "한국 사주의 낯선 분위기는 한지·먹·오행으로 전하고, 이야기는 짝사랑·연락·둘의 속도처럼 익숙한 장면에서 시작한다. 사주핑계의 제안이며, 국가 전체의 취향이나 성과를 확정한 결론은 아니다.",
+    "summary": "관계에 대한 일상적인 질문에서 시작해, 한국 사주의 여운을 담는 짧은 매거진. 실제 게시물과 편집 디자인에서 가져올 원칙을 모았어.",
     "marketEvidence": [
       {
         "label": "Pew Research Center · 2025-05-21 발표",
@@ -25,6 +25,79 @@
     ]
   },
   "regions": [
+    {
+      "id": "design",
+      "label": "매거진과 서비스 디자인",
+      "summary": "2026-11-03 공식 화면을 브라우저에서 직접 열어 확인했다. 아래는 화면 관찰과 사주핑계에 적용한 편집 원칙이며, 성과나 원본의 정확한 CSS 수치를 측정한 자료는 아니다.",
+      "items": [
+        {
+          "account": "Kinfolk",
+          "url": "https://www.kinfolk.com/",
+          "postUrl": "https://www.kinfolk.com/",
+          "title": "한 가지 이미지와 제목에 집중",
+          "format": "공식 웹사이트 화면",
+          "observed": "흰 바탕의 넓은 여백 속 표지와 큰 세리프 제목. 다음 화면은 사진을 전면에 두고 빈 공간에 글을 배치한다.",
+          "cta": "제목·이미지·본문의 읽는 순서를 디자인 관점에서 확인했다.",
+          "apply": "표지는 큰 질문과 수묵화 한 장으로 구성하고, 편집기 UI는 절제한다.",
+          "verification": "공식 화면과 스크린샷 직접 확인. 이미지·로고·문구를 복제하지 않았다."
+        },
+        {
+          "account": "Monocle",
+          "url": "https://monocle.com/",
+          "postUrl": "https://monocle.com/",
+          "title": "편집 정보와 본문의 크기 대비",
+          "format": "공식 웹사이트 화면",
+          "observed": "큰 제호, 가는 구획선, 작은 분야 라벨, 큰 기사 제목 순서가 분명하다.",
+          "cta": "제목·이미지·본문의 읽는 순서를 디자인 관점에서 확인했다.",
+          "apply": "제호·연재명·페이지를 고정하고 질문을 가장 크게 읽히게 한다.",
+          "verification": "공식 화면과 스크린샷 직접 확인. 이미지·로고·문구를 복제하지 않았다."
+        },
+        {
+          "account": "GINZA",
+          "url": "https://ginzamag.com/categories/horoscope/607079",
+          "postUrl": "https://ginzamag.com/categories/horoscope/607079",
+          "title": "표지와 읽는 페이지의 역할 구분",
+          "format": "공식 웹사이트 화면",
+          "observed": "홈은 큰 사진과 흰 제목, 운세 특집은 흰 바탕과 굵은 제목으로 구분한다. 별자리 선택에는 실물 도자기 사진을 쓴다.",
+          "cta": "제목·이미지·본문의 읽는 순서를 디자인 관점에서 확인했다.",
+          "apply": "표지는 이미지 중심, 내지는 문장 중심으로 다섯 장의 리듬을 만든다.",
+          "verification": "공식 화면과 스크린샷 직접 확인. 이미지·로고·문구를 복제하지 않았다."
+        },
+        {
+          "account": "Magazine B",
+          "url": "https://magazine-b.com/product/magazine-b/425/",
+          "postUrl": "https://magazine-b.com/product/magazine-b/425/",
+          "title": "장식보다 정렬과 비율",
+          "format": "공식 웹사이트 화면",
+          "observed": "100호 표지의 큰 B와 작은 발행 정보, 내지의 명확한 열 정렬과 넓은 바깥 여백을 확인했다.",
+          "cta": "제목·이미지·본문의 읽는 순서를 디자인 관점에서 확인했다.",
+          "apply": "같은 상자를 반복하지 않고 제목·이미지의 비중을 장마다 바꾼다.",
+          "verification": "공식 화면과 스크린샷 직접 확인. 이미지·로고·문구를 복제하지 않았다."
+        },
+        {
+          "account": "しいたけ占い",
+          "url": "https://shiitakeuranai.jp/weekly-horoscope/2026-11-02/aries/",
+          "postUrl": "https://shiitakeuranai.jp/weekly-horoscope/2026-11-02/aries/",
+          "title": "친근한 그림과 읽기 편한 본문",
+          "format": "공식 웹사이트 화면",
+          "observed": "회백색 바탕 속 흰 읽기 영역에 굵은 제목·날짜·손그림 하나·본문이 이어진다.",
+          "cta": "제목·이미지·본문의 읽는 순서를 디자인 관점에서 확인했다.",
+          "apply": "삽화는 한 장면에 집중하고, 본문을 작게 줄여 채우지 않는다.",
+          "verification": "공식 화면과 스크린샷 직접 확인. 이미지·로고·문구를 복제하지 않았다."
+        },
+        {
+          "account": "Moonly",
+          "url": "https://moonly.app/",
+          "postUrl": "https://moonly.app/",
+          "title": "상징 하나에 시각적인 무게",
+          "format": "공식 웹사이트 화면",
+          "observed": "큰 사진과 제목, 짙은 바탕의 기능 영역에 완성도 높은 상징 하나씩을 배치한다.",
+          "cta": "제목·이미지·본문의 읽는 순서를 디자인 관점에서 확인했다.",
+          "apply": "세 템플릿에 서로 다른 원본 아트워크를 사용한다.",
+          "verification": "공식 화면과 스크린샷 직접 확인. 이미지·로고·문구를 복제하지 않았다."
+        }
+      ]
+    },
     {
       "id": "ko",
       "label": "한국",

@@ -1,0 +1,16 @@
+/* Full-CJK self-hosted Noto fonts. See README.md and the adjacent OFL files. */
+@font-face {
+  font-family: 'Studio Serif';
+  src: url('./studio-serif-cjk-v1.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Studio Sans';
+  src: url('./studio-sans-cjk-v1.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+}
