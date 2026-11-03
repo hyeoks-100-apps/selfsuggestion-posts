@@ -1,0 +1,3277 @@
+{
+  "version": 2,
+  "brand": {
+    "name": "사주핑계",
+    "englishName": "SajuPinggye",
+    "site": "https://saju.teamhyeok.com/"
+  },
+  "campaigns": [
+    {
+      "id": "v2-exam-pressure",
+      "topic": "수능·시험",
+      "category": "exam",
+      "artwork": "muk",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "실력은 있는데 왜 떨릴까?",
+          "caption": "시험지만 받으면 아는 것도 멀어지는 기분, 너만 그런 건 아니야.\n\n음양은 움직임과 고요함이 함께 있어야 한다는 관점이야. 막판에 더 밀어붙이기만 하면 익힌 걸 꺼낼 여유가 줄 수 있지. 새 문제를 늘리기보다 풀던 문제로 몸의 속도를 낮춰봐. 아는 것을 차분히 꺼내는 연습도 준비의 한 부분이야.\n\n사주핑계에서 네 기질과 강점부터 살펴봐. 오늘의 핑계로 숨 돌릴 틈도 챙기자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#수능",
+            "#시험기간"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "실력은 있는데 왜 떨릴까?",
+              "body": "시험지만 받으면 아는 것도 멀어지는 기분, 너만 그런 건 아니야.",
+              "note": "도사의 시험 수첩 · 01"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "긴장도 풀어야 힘을 써",
+              "body": "음양은 움직임과 고요함이 함께 있어야 한다는 관점이야. 막판에 더 밀어붙이기만 하면 익힌 걸 꺼낼 여유가 줄 수 있지. 새 문제를 늘리기보다 풀던 문제로 몸의 속도를 낮춰봐. 아는 것을 차분히 꺼내는 연습도 준비의 한 부분이야.",
+              "note": "익숙한 문제로 호흡부터 늦춰봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "흔들릴 땐, 나부터 보자",
+              "body": "사주핑계에서 네 기질과 강점부터 살펴봐. 오늘의 핑계로 숨 돌릴 틈도 챙기자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "実力はあるのに緊張するのはなぜ？",
+          "caption": "問題用紙を開いた瞬間、覚えたことが遠くなる。そんな日もあるよ。\n\n陰陽では、動く力と静まる力を一緒に見るんだ。直前まで詰め込むより、解ける問題で呼吸を整えてみて。覚えたことを落ち着いて取り出す練習も、試験の準備になるよ。\n\nサジュピンゲで自分の傾向を読んでみて。「今日のいいわけ」も、ひと息つくきっかけに。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#受験",
+            "#試験勉強"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "実力はあるのに緊張するのはなぜ？",
+              "body": "問題用紙を開いた瞬間、覚えたことが遠くなる。そんな日もあるよ。",
+              "note": "受験を考えるサジュ帖 · 01"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "力を出すには、緩める時間も",
+              "body": "陰陽では、動く力と静まる力を一緒に見るんだ。直前まで詰め込むより、解ける問題で呼吸を整えてみて。覚えたことを落ち着いて取り出す練習も、試験の準備になるよ。",
+              "note": "解ける問題で、呼吸を整えよう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "揺れる日は、自分を知るところから",
+              "body": "サジュピンゲで自分の傾向を読んでみて。「今日のいいわけ」も、ひと息つくきっかけに。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Why freeze when you know it?",
+          "caption": "The paper lands on your desk. Suddenly, everything you studied feels far away.\n\nYin and yang describe rest alongside action. Try a familiar problem and slow your breathing before adding new material. Practising how to bring back what you know is part of preparation, too.\n\nExplore your tendencies in SajuPinggye. Today’s excuse can offer a small moment to breathe, too.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#ExamSeason",
+            "#StudyHabits"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Why freeze when you know it?",
+              "body": "The paper lands on your desk. Suddenly, everything you studied feels far away.",
+              "note": "Saju Notes · Exams · 01"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Make room for what you know",
+              "body": "Yin and yang describe rest alongside action. Try a familiar problem and slow your breathing before adding new material. Practising how to bring back what you know is part of preparation, too.",
+              "note": "Start with a familiar question and a slower breath."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Find your own starting point",
+              "body": "Explore your tendencies in SajuPinggye. Today’s excuse can offer a small moment to breathe, too.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-exam-routine",
+      "topic": "수능·시험",
+      "category": "exam",
+      "artwork": "hanji",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "막판 공부, 더 넣어야 할까?",
+          "caption": "책은 계속 보는데 머리에 남는 게 줄었다면, 방식부터 바꿔보자.\n\n명리에서 인성은 배우고 받아들이는 쪽, 식상은 밖으로 표현하는 쪽으로 읽어. 공부에 빗대면 읽기와 설명하기의 차이야. 오늘은 책을 덮고 한 단원을 네 말로 말해봐. 어디가 비었는지 더 잘 보일 거야.\n\n사주핑계에서 네 기질과 강점부터 살펴봐. 오늘의 핑계로 숨 돌릴 틈도 챙기자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#수능",
+            "#시험기간"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "막판 공부, 더 넣어야 할까?",
+              "body": "책은 계속 보는데 머리에 남는 게 줄었다면, 방식부터 바꿔보자.",
+              "note": "도사의 시험 수첩 · 02"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "읽는 힘과 꺼내는 힘",
+              "body": "명리에서 인성은 배우고 받아들이는 쪽, 식상은 밖으로 표현하는 쪽으로 읽어. 공부에 빗대면 읽기와 설명하기의 차이야. 오늘은 책을 덮고 한 단원을 네 말로 말해봐. 어디가 비었는지 더 잘 보일 거야.",
+              "note": "오늘 배운 걸 네 말로 설명해봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "흔들릴 땐, 나부터 보자",
+              "body": "사주핑계에서 네 기질과 강점부터 살펴봐. 오늘의 핑계로 숨 돌릴 틈도 챙기자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "直前期、まだ詰め込む？",
+          "caption": "読んでいるのに頭に残らないなら、覚え方を少し変えてみよう。\n\n四柱推命の印星は学びを受け取る側、食傷は表に出す側として読むよ。勉強なら、読む時間と説明する時間。今日は本を閉じて一つ説明してみて。曖昧な部分を見つける手がかりになる。\n\nサジュピンゲで自分の傾向を読んでみて。「今日のいいわけ」も、ひと息つくきっかけに。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#受験",
+            "#試験勉強"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "直前期、まだ詰め込む？",
+              "body": "読んでいるのに頭に残らないなら、覚え方を少し変えてみよう。",
+              "note": "受験を考えるサジュ帖 · 02"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "読むこと、言葉にすること",
+              "body": "四柱推命の印星は学びを受け取る側、食傷は表に出す側として読むよ。勉強なら、読む時間と説明する時間。今日は本を閉じて一つ説明してみて。曖昧な部分を見つける手がかりになる。",
+              "note": "本を閉じて、自分の言葉にしてみて"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "揺れる日は、自分を知るところから",
+              "body": "サジュピンゲで自分の傾向を読んでみて。「今日のいいわけ」も、ひと息つくきっかけに。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "More study, or a new approach?",
+          "caption": "If another page will not stick, adding more pages may not be the answer.\n\nIn Saju, the resource stars relate to taking in knowledge; output stars relate to expression. Think reading versus explaining. Close the book and teach one idea aloud. The gaps you notice can guide your next revision.\n\nExplore your tendencies in SajuPinggye. Today’s excuse can offer a small moment to breathe, too.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#ExamSeason",
+            "#StudyHabits"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "More study, or a new approach?",
+              "body": "If another page will not stick, adding more pages may not be the answer.",
+              "note": "Saju Notes · Exams · 02"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Practise bringing it back out",
+              "body": "In Saju, the resource stars relate to taking in knowledge; output stars relate to expression. Think reading versus explaining. Close the book and teach one idea aloud. The gaps you notice can guide your next revision.",
+              "note": "Close the book. Explain one thing in your own words."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Find your own starting point",
+              "body": "Explore your tendencies in SajuPinggye. Today’s excuse can offer a small moment to breathe, too.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-exam-parent",
+      "topic": "수능·시험",
+      "category": "exam",
+      "artwork": "inyeon",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "수능 앞둔 아이, 무슨 말 할까?",
+          "caption": "힘내라는 말도 무겁게 들릴 때가 있어. 지금 필요한 도움부터 보자.\n\n오행의 상생은 다음 힘이 자라도록 돕는 관계야. 응원도 내가 주고 싶은 말보다 아이가 받기 편한 방식이어야 닿겠지. 오늘은 공부 얘기 전에 밥, 잠, 조용한 시간 중 뭐가 필요한지 물어봐. 성적보다 먼저 챙길 바탕이야.\n\n사주핑계에서 네 기질과 강점부터 살펴봐. 오늘의 핑계로 숨 돌릴 틈도 챙기자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#수능",
+            "#시험기간"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "수능 앞둔 아이, 무슨 말 할까?",
+              "body": "힘내라는 말도 무겁게 들릴 때가 있어. 지금 필요한 도움부터 보자.",
+              "note": "도사의 시험 수첩 · 03"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "도움도 맞는 방식이 있어",
+              "body": "오행의 상생은 다음 힘이 자라도록 돕는 관계야. 응원도 내가 주고 싶은 말보다 아이가 받기 편한 방식이어야 닿겠지. 오늘은 공부 얘기 전에 밥, 잠, 조용한 시간 중 뭐가 필요한지 물어봐. 성적보다 먼저 챙길 바탕이야.",
+              "note": "힘내라는 말보다 필요한 걸 물어봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "흔들릴 땐, 나부터 보자",
+              "body": "사주핑계에서 네 기질과 강점부터 살펴봐. 오늘의 핑계로 숨 돌릴 틈도 챙기자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "受験前の子に、何を言えばいい？",
+          "caption": "励ましたい言葉が重くなる日もある。今ほしい助けを聞いてみよう。\n\n五行の相生は、次の力を育てる関係。励ましも、伝える側の満足より相手が受け取りやすい形が大事だよ。食事、睡眠、一人の時間。今日は何が必要か聞いてみよう。点数より先に整えたい土台もある。\n\nサジュピンゲで自分の傾向を読んでみて。「今日のいいわけ」も、ひと息つくきっかけに。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#受験",
+            "#試験勉強"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "受験前の子に、何を言えばいい？",
+              "body": "励ましたい言葉が重くなる日もある。今ほしい助けを聞いてみよう。",
+              "note": "受験を考えるサジュ帖 · 03"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "支え方も、相手に合わせて",
+              "body": "五行の相生は、次の力を育てる関係。励ましも、伝える側の満足より相手が受け取りやすい形が大事だよ。食事、睡眠、一人の時間。今日は何が必要か聞いてみよう。点数より先に整えたい土台もある。",
+              "note": "励ます前に、ほしい助けを聞こう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "揺れる日は、自分を知るところから",
+              "body": "サジュピンゲで自分の傾向を読んでみて。「今日のいいわけ」も、ひと息つくきっかけに。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Before exams, what helps?",
+          "caption": "Encouragement can feel heavy, too. Ask what kind of support would actually help.\n\nThe five elements include a cycle of nourishment: one supports the next. Use that as a prompt to ask, rather than assume. A meal, sleep or quiet company may help more than another reminder about marks.\n\nExplore your tendencies in SajuPinggye. Today’s excuse can offer a small moment to breathe, too.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#ExamSeason",
+            "#StudyHabits"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Before exams, what helps?",
+              "body": "Encouragement can feel heavy, too. Ask what kind of support would actually help.",
+              "note": "Saju Notes · Exams · 03"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Support has to be received",
+              "body": "The five elements include a cycle of nourishment: one supports the next. Use that as a prompt to ask, rather than assume. A meal, sleep or quiet company may help more than another reminder about marks.",
+              "note": "Ask what would help before offering more encouragement."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Find your own starting point",
+              "body": "Explore your tendencies in SajuPinggye. Today’s excuse can offer a small moment to breathe, too.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-child-pace",
+      "topic": "자녀·재능·진로",
+      "category": "child",
+      "artwork": "hanji",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "우리 아이만 느린 걸까?",
+          "caption": "남의 아이 속도에 맞추다 보면, 내 아이가 자라는 장면을 놓치기 쉬워.\n\n오행에서 목은 뻗어가는 힘, 토는 자리를 잡는 힘에 비유해. 빨리 시도하는 모습만 성장인 건 아니야. 같은 걸 반복하며 익숙해지는 시간도 보자. 아이가 편해하는 환경에서 어제보다 쉬워진 일이 뭔지 살펴봐.\n\n사주핑계에서 네 기질부터 알아봐. 내 기대와 말하는 방식을 돌아보는 시작이 될 거야.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#자녀교육",
+            "#진로고민"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "우리 아이만 느린 걸까?",
+              "body": "남의 아이 속도에 맞추다 보면, 내 아이가 자라는 장면을 놓치기 쉬워.",
+              "note": "도사의 부모 수첩 · 01"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "자라는 속도는 하나가 아니야",
+              "body": "오행에서 목은 뻗어가는 힘, 토는 자리를 잡는 힘에 비유해. 빨리 시도하는 모습만 성장인 건 아니야. 같은 걸 반복하며 익숙해지는 시간도 보자. 아이가 편해하는 환경에서 어제보다 쉬워진 일이 뭔지 살펴봐.",
+              "note": "비교 대신 작아진 어려움을 찾아봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "아이 보기 전, 나부터",
+              "body": "사주핑계에서 네 기질부터 알아봐. 내 기대와 말하는 방식을 돌아보는 시작이 될 거야.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "うちの子だけ、遅いのかな？",
+          "caption": "比べるほど、その子なりに伸びているところが見えにくくなる。\n\n五行の木は伸びる力、土は足場を整える力に重ねて読めるよ。すぐ挑戦する姿も、繰り返して慣れていく姿も成長なんだ。その子が安心できる環境で、前より楽にできるようになったことを探してみよう。\n\nまずはサジュピンゲで自分の傾向を知ってみよう。期待のかけ方や言葉を、振り返る入口に。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#子育て",
+            "#進路の悩み"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "うちの子だけ、遅いのかな？",
+              "body": "比べるほど、その子なりに伸びているところが見えにくくなる。",
+              "note": "子育てを考えるサジュ帖 · 01"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "伸びること、根づくこと",
+              "body": "五行の木は伸びる力、土は足場を整える力に重ねて読めるよ。すぐ挑戦する姿も、繰り返して慣れていく姿も成長なんだ。その子が安心できる環境で、前より楽にできるようになったことを探してみよう。",
+              "note": "比べるより、昨日より楽なことを探そう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "子どもを見る前に、自分のことも",
+              "body": "まずはサジュピンゲで自分の傾向を知ってみよう。期待のかけ方や言葉を、振り返る入口に。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Is my child falling behind?",
+          "caption": "Comparing their pace can make their own progress harder to notice.\n\nWood suggests reaching outward; Earth suggests building a base. Both offer useful images for learning. Notice what improves with repetition, not just what comes quickly. Look for small changes in a setting where your child feels at ease.\n\nExplore your own tendencies in SajuPinggye. Use them to reflect on the hopes and habits you bring to parenting.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Parenting",
+            "#GrowingUp"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Is my child falling behind?",
+              "body": "Comparing their pace can make their own progress harder to notice.",
+              "note": "Saju Notes · Parenting · 01"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Growth is not one speed",
+              "body": "Wood suggests reaching outward; Earth suggests building a base. Both offer useful images for learning. Notice what improves with repetition, not just what comes quickly. Look for small changes in a setting where your child feels at ease.",
+              "note": "Look for what has become easier, even a little."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Start with your own perspective",
+              "body": "Explore your own tendencies in SajuPinggye. Use them to reflect on the hopes and habits you bring to parenting.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-child-interest",
+      "topic": "자녀·재능·진로",
+      "category": "child",
+      "artwork": "inyeon",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "좋아하는 걸 시켜도 될까?",
+          "caption": "좋아하는 것과 잘하는 것 사이에서, 부모 마음도 자꾸 흔들리지.\n\n명리의 식상은 표현과 만들어내기, 인성은 배움과 흡수에 닿아 있어. 흥미도 배우고 만들어보는 시간을 거쳐야 구체적이 되지. 결과부터 묻기보다 스스로 다시 해보고 싶은 활동이 뭔지 보자. 작은 시도 속에서 좋아하는 이유를 더 알아가면 돼.\n\n사주핑계에서 네 기질부터 알아봐. 내 기대와 말하는 방식을 돌아보는 시작이 될 거야.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#자녀교육",
+            "#진로고민"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "좋아하는 걸 시켜도 될까?",
+              "body": "좋아하는 것과 잘하는 것 사이에서, 부모 마음도 자꾸 흔들리지.",
+              "note": "도사의 부모 수첩 · 02"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "재능은 해보는 동안 드러나",
+              "body": "명리의 식상은 표현과 만들어내기, 인성은 배움과 흡수에 닿아 있어. 흥미도 배우고 만들어보는 시간을 거쳐야 구체적이 되지. 결과부터 묻기보다 스스로 다시 해보고 싶은 활동이 뭔지 보자. 작은 시도 속에서 좋아하는 이유를 더 알아가면 돼.",
+              "note": "다시 해보고 싶은 마음을 봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "아이 보기 전, 나부터",
+              "body": "사주핑계에서 네 기질부터 알아봐. 내 기대와 말하는 방식을 돌아보는 시작이 될 거야.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "好きなこと、続けさせていい？",
+          "caption": "好きと得意が違って見えると、大人も迷ってしまうよね。\n\n食傷は表現や創作、印星は学びや吸収として読むんだ。興味も、学んで作ってみる時間の中で形になるよ。結果を急ぐより、自分からもう一度やりたがることを見てみよう。小さく試す中で、好きな理由も見えてくる。\n\nまずはサジュピンゲで自分の傾向を知ってみよう。期待のかけ方や言葉を、振り返る入口に。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#子育て",
+            "#進路の悩み"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "好きなこと、続けさせていい？",
+              "body": "好きと得意が違って見えると、大人も迷ってしまうよね。",
+              "note": "子育てを考えるサジュ帖 · 02"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "やってみる中で見えること",
+              "body": "食傷は表現や創作、印星は学びや吸収として読むんだ。興味も、学んで作ってみる時間の中で形になるよ。結果を急ぐより、自分からもう一度やりたがることを見てみよう。小さく試す中で、好きな理由も見えてくる。",
+              "note": "もう一度やりたい気持ちを見てみよう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "子どもを見る前に、自分のことも",
+              "body": "まずはサジュピンゲで自分の傾向を知ってみよう。期待のかけ方や言葉を、振り返る入口に。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Should they follow what they love?",
+          "caption": "Enjoying something and being good at it do not always arrive together.\n\nOutput stars speak to expression and making; resource stars to learning and absorbing. Give an interest room for both. Notice what your child chooses to try again. Small experiments can show what they enjoy about the activity.\n\nExplore your own tendencies in SajuPinggye. Use them to reflect on the hopes and habits you bring to parenting.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Parenting",
+            "#GrowingUp"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Should they follow what they love?",
+              "body": "Enjoying something and being good at it do not always arrive together.",
+              "note": "Saju Notes · Parenting · 02"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Let interest become experience",
+              "body": "Output stars speak to expression and making; resource stars to learning and absorbing. Give an interest room for both. Notice what your child chooses to try again. Small experiments can show what they enjoy about the activity.",
+              "note": "Notice what they choose to try again."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Start with your own perspective",
+              "body": "Explore your own tendencies in SajuPinggye. Use them to reflect on the hopes and habits you bring to parenting.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-child-choice",
+      "topic": "자녀·재능·진로",
+      "category": "child",
+      "artwork": "muk",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "아이 진로, 내 꿈은 아닐까?",
+          "caption": "잘되길 바라는 마음이 어느새 정답을 정해놓고 있을 수도 있어.\n\n명리에서 관성은 규칙과 책임, 식상은 자기 표현을 뜻해. 진로에도 현실 기준과 아이 목소리가 함께 필요해. 내가 바라는 직업 말고 아이가 해보고 싶은 하루를 먼저 물어봐. 경험을 넓혀보며 대답을 바꿔가도 괜찮아.\n\n사주핑계에서 네 기질부터 알아봐. 내 기대와 말하는 방식을 돌아보는 시작이 될 거야.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#자녀교육",
+            "#진로고민"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "아이 진로, 내 꿈은 아닐까?",
+              "body": "잘되길 바라는 마음이 어느새 정답을 정해놓고 있을 수도 있어.",
+              "note": "도사의 부모 수첩 · 03"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "기준과 목소리를 같이 보자",
+              "body": "명리에서 관성은 규칙과 책임, 식상은 자기 표현을 뜻해. 진로에도 현실 기준과 아이 목소리가 함께 필요해. 내가 바라는 직업 말고 아이가 해보고 싶은 하루를 먼저 물어봐. 경험을 넓혀보며 대답을 바꿔가도 괜찮아.",
+              "note": "직업보다 원하는 하루를 물어봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "아이 보기 전, 나부터",
+              "body": "사주핑계에서 네 기질부터 알아봐. 내 기대와 말하는 방식을 돌아보는 시작이 될 거야.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "その進路、親の夢になってない？",
+          "caption": "幸せを願う気持ちが、いつの間にか答えを決めていることもある。\n\n官星は規則や責任、食傷は自分を表す力として読むよ。進路にも現実的な条件と本人の声が必要なんだ。職業名を選ぶ前に、どんな一日を過ごしたいか聞いてみて。経験しながら答えが変わっても大丈夫。\n\nまずはサジュピンゲで自分の傾向を知ってみよう。期待のかけ方や言葉を、振り返る入口に。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#子育て",
+            "#進路の悩み"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "その進路、親の夢になってない？",
+              "body": "幸せを願う気持ちが、いつの間にか答えを決めていることもある。",
+              "note": "子育てを考えるサジュ帖 · 03"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "基準と本人の声、どちらも",
+              "body": "官星は規則や責任、食傷は自分を表す力として読むよ。進路にも現実的な条件と本人の声が必要なんだ。職業名を選ぶ前に、どんな一日を過ごしたいか聞いてみて。経験しながら答えが変わっても大丈夫。",
+              "note": "職業名より、過ごしたい一日を聞こう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "子どもを見る前に、自分のことも",
+              "body": "まずはサジュピンゲで自分の傾向を知ってみよう。期待のかけ方や言葉を、振り返る入口に。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Whose dream is this career plan?",
+          "caption": "Wanting the best can quietly turn into choosing the answer for them.\n\nIn Saju, authority stars concern rules and responsibility; output stars concern expression. A career needs practical limits and a personal voice. Ask what kind of day they would like to have before asking for a job title.\n\nExplore your own tendencies in SajuPinggye. Use them to reflect on the hopes and habits you bring to parenting.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Parenting",
+            "#GrowingUp"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Whose dream is this career plan?",
+              "body": "Wanting the best can quietly turn into choosing the answer for them.",
+              "note": "Saju Notes · Parenting · 03"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Leave room for their own voice",
+              "body": "In Saju, authority stars concern rules and responsibility; output stars concern expression. A career needs practical limits and a personal voice. Ask what kind of day they would like to have before asking for a job title.",
+              "note": "Ask about the day they want, before the job title."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Start with your own perspective",
+              "body": "Explore your own tendencies in SajuPinggye. Use them to reflect on the hopes and habits you bring to parenting.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-crush-kind",
+      "topic": "짝사랑·썸",
+      "category": "crush",
+      "artwork": "inyeon",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "다정한 거야, 좋아하는 거야?",
+          "caption": "나한테 웃어준 한 장면을 자꾸 돌려보고 있다면, 이것도 같이 보자.\n\n음양은 드러내는 방식과 안으로 모으는 방식을 함께 보는 틀이야. 친절한 표현이 곧 연애 감정이라는 뜻은 아니지. 웃는 얼굴과 함께 시간을 내고 약속을 지키는지도 보자. 한 장면보다 여러 날의 말과 행동을 함께 살펴보면 덜 흔들릴 거야.\n\n네 기질을 먼저 읽고, 앱의 연애와 궁합 풀이로 두 사람의 다른 점도 살펴봐.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#짝사랑",
+            "#썸"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "다정한 거야, 좋아하는 거야?",
+              "body": "나한테 웃어준 한 장면을 자꾸 돌려보고 있다면, 이것도 같이 보자.",
+              "note": "도사의 썸 수첩 · 01"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "표현 하나로 마음을 정하진 마",
+              "body": "음양은 드러내는 방식과 안으로 모으는 방식을 함께 보는 틀이야. 친절한 표현이 곧 연애 감정이라는 뜻은 아니지. 웃는 얼굴과 함께 시간을 내고 약속을 지키는지도 보자. 한 장면보다 여러 날의 말과 행동을 함께 살펴보면 덜 흔들릴 거야.",
+              "note": "웃음보다 시간과 약속을 봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "네 연애 방식부터 보자",
+              "body": "네 기질을 먼저 읽고, 앱의 연애와 궁합 풀이로 두 사람의 다른 점도 살펴봐.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "優しいだけ？それとも脈あり？",
+          "caption": "あの笑顔を何度も思い返すなら、ほかの場面も見てみよう。\n\n陰陽には、外に表す面と内にためる面を見る考え方があるよ。親しみやすさだけでなく、時間を作るか約束を守るかも見てみよう。一つの笑顔を繰り返し考えるより、何日かの言葉と行動を並べると、少し落ち着いて見られるよ。\n\n自分の傾向を知ったら、アプリの恋愛と相性の読み解きへ。ふたりの違いを考えるきっかけにしてみて。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#片思い",
+            "#恋の悩み"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "優しいだけ？それとも脈あり？",
+              "body": "あの笑顔を何度も思い返すなら、ほかの場面も見てみよう。",
+              "note": "占い師の恋の手帖 · 01"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "一つの表情で決めなくていい",
+              "body": "陰陽には、外に表す面と内にためる面を見る考え方があるよ。親しみやすさだけでなく、時間を作るか約束を守るかも見てみよう。一つの笑顔を繰り返し考えるより、何日かの言葉と行動を並べると、少し落ち着いて見られるよ。",
+              "note": "笑顔だけでなく、時間と約束も見よう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "まず、自分の恋の傾向から",
+              "body": "自分の傾向を知ったら、アプリの恋愛と相性の読み解きへ。ふたりの違いを考えるきっかけにしてみて。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Kind, or interested?",
+          "caption": "That smile is on repeat in your head. What happens outside that one moment?\n\nYin and yang offer a way to consider different styles of expression. Look for time, effort and follow-through alongside warmth. A few days of words and actions give you more to consider than replaying one lovely moment.\n\nStart with your own tendencies, then explore love and compatibility readings in the app. Give the differences some words.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Crush",
+            "#Dating"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Kind, or interested?",
+              "body": "That smile is on repeat in your head. What happens outside that one moment?",
+              "note": "Saju Notes · Crushes · 01"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Look beyond the warm moment",
+              "body": "Yin and yang offer a way to consider different styles of expression. Look for time, effort and follow-through alongside warmth. A few days of words and actions give you more to consider than replaying one lovely moment.",
+              "note": "Look for time and follow-through, as well as warmth."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Get to know your side of love",
+              "body": "Start with your own tendencies, then explore love and compatibility readings in the app. Give the differences some words.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-crush-message",
+      "topic": "짝사랑·썸",
+      "category": "crush",
+      "artwork": "muk",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "답장은 오는데 왜 안 만날까?",
+          "caption": "대화는 이어지는데 다음 약속은 없어. 혼자 관계를 밀고 있진 않니?\n\n오행은 서로 돕는 상생과 조절하는 상극을 함께 봐. 관계도 대화가 편한 것과 실제로 맞춰가는 건 다를 수 있어. 막연히 기다리기보다 가능한 날짜를 한번 물어봐. 답장 속도보다 약속을 정하는 태도를 살펴보자.\n\n네 기질을 먼저 읽고, 앱의 연애와 궁합 풀이로 두 사람의 다른 점도 살펴봐.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#짝사랑",
+            "#썸"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "답장은 오는데 왜 안 만날까?",
+              "body": "대화는 이어지는데 다음 약속은 없어. 혼자 관계를 밀고 있진 않니?",
+              "note": "도사의 썸 수첩 · 02"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "이어지는 말과 움직이는 관계",
+              "body": "오행은 서로 돕는 상생과 조절하는 상극을 함께 봐. 관계도 대화가 편한 것과 실제로 맞춰가는 건 다를 수 있어. 막연히 기다리기보다 가능한 날짜를 한번 물어봐. 답장 속도보다 약속을 정하는 태도를 살펴보자.",
+              "note": "대화 다음엔 구체적인 날짜 하나"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "네 연애 방식부터 보자",
+              "body": "네 기질을 먼저 읽고, 앱의 연애와 궁합 풀이로 두 사람의 다른 점도 살펴봐.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "返信は来るのに、会えないのはなぜ？",
+          "caption": "会話は続く。でも次の約束はない。一人で進めようとしていない？\n\n五行には、支え合う相生と調整し合う相剋があるよ。話しやすさと、予定を合わせる力は別のこともあるんだ。一度、具体的な日を提案してみて。返信の速さより、約束に向き合う姿勢を見よう。\n\n自分の傾向を知ったら、アプリの恋愛と相性の読み解きへ。ふたりの違いを考えるきっかけにしてみて。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#片思い",
+            "#恋の悩み"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "返信は来るのに、会えないのはなぜ？",
+              "body": "会話は続く。でも次の約束はない。一人で進めようとしていない？",
+              "note": "占い師の恋の手帖 · 02"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "会話と関係は、同じではない",
+              "body": "五行には、支え合う相生と調整し合う相剋があるよ。話しやすさと、予定を合わせる力は別のこともあるんだ。一度、具体的な日を提案してみて。返信の速さより、約束に向き合う姿勢を見よう。",
+              "note": "会話の次は、具体的な日を一つ"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "まず、自分の恋の傾向から",
+              "body": "自分の傾向を知ったら、アプリの恋愛と相性の読み解きへ。ふたりの違いを考えるきっかけにしてみて。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "They reply. Why no plans?",
+          "caption": "The conversation keeps going. The next date never seems to happen.\n\nThe elements describe support and restraint, not just easy agreement. A good chat and shared effort are different things. Suggest a specific day once, then notice how they respond to making a real plan.\n\nStart with your own tendencies, then explore love and compatibility readings in the app. Give the differences some words.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Crush",
+            "#Dating"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "They reply. Why no plans?",
+              "body": "The conversation keeps going. The next date never seems to happen.",
+              "note": "Saju Notes · Crushes · 02"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "A chat is not the whole relationship",
+              "body": "The elements describe support and restraint, not just easy agreement. A good chat and shared effort are different things. Suggest a specific day once, then notice how they respond to making a real plan.",
+              "note": "Try one specific invitation, then notice the response."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Get to know your side of love",
+              "body": "Start with your own tendencies, then explore love and compatibility readings in the app. Give the differences some words.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-crush-first",
+      "topic": "짝사랑·썸",
+      "category": "crush",
+      "artwork": "hanji",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "또 내가 먼저 연락해도 될까?",
+          "caption": "보내고 싶은 말보다 자존심이 먼저 켜지는 밤, 네 마음부터 보자.\n\n명리에서 식상은 표현, 인성은 받아들이고 생각하는 힘으로 읽어. 먼저 말하고 싶은 마음과 신중해지는 마음이 같이 있는 거야. 가벼운 안부 한 번은 괜찮지만 계속 너만 이어가야 한다면 멈춰봐. 반응할 공간도 서로에게 필요해.\n\n네 기질을 먼저 읽고, 앱의 연애와 궁합 풀이로 두 사람의 다른 점도 살펴봐.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#짝사랑",
+            "#썸"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "또 내가 먼저 연락해도 될까?",
+              "body": "보내고 싶은 말보다 자존심이 먼저 켜지는 밤, 네 마음부터 보자.",
+              "note": "도사의 썸 수첩 · 03"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "표현과 기다림의 균형",
+              "body": "명리에서 식상은 표현, 인성은 받아들이고 생각하는 힘으로 읽어. 먼저 말하고 싶은 마음과 신중해지는 마음이 같이 있는 거야. 가벼운 안부 한 번은 괜찮지만 계속 너만 이어가야 한다면 멈춰봐. 반응할 공간도 서로에게 필요해.",
+              "note": "안부 한 번, 반응할 공간도 한 번"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "네 연애 방식부터 보자",
+              "body": "네 기질을 먼저 읽고, 앱의 연애와 궁합 풀이로 두 사람의 다른 점도 살펴봐.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "また自分から連絡してもいい？",
+          "caption": "送りたい。でも追いかけていると思われたくない。そんな夜はある？\n\n食傷は表現、印星は受け取って考える力として読むよ。話したい気持ちと慎重になる気持ちは同居するんだ。軽く一度声をかけるのはいい。でも毎回一人でつなぐなら、少し待ってみよう。返す余地も必要だからね。\n\n自分の傾向を知ったら、アプリの恋愛と相性の読み解きへ。ふたりの違いを考えるきっかけにしてみて。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#片思い",
+            "#恋の悩み"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "また自分から連絡してもいい？",
+              "body": "送りたい。でも追いかけていると思われたくない。そんな夜はある？",
+              "note": "占い師の恋の手帖 · 03"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "伝えること、待つこと",
+              "body": "食傷は表現、印星は受け取って考える力として読むよ。話したい気持ちと慎重になる気持ちは同居するんだ。軽く一度声をかけるのはいい。でも毎回一人でつなぐなら、少し待ってみよう。返す余地も必要だからね。",
+              "note": "一度声をかけたら、返す余地も残そう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "まず、自分の恋の傾向から",
+              "body": "自分の傾向を知ったら、アプリの恋愛と相性の読み解きへ。ふたりの違いを考えるきっかけにしてみて。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Should you text first again?",
+          "caption": "You want to say hello. You also want to know they would choose to, too.\n\nOutput stars relate to expression; resource stars to reflection. Both have a place here. One simple message can be enough. If you are always carrying the conversation, pause and leave room for the other person to choose to respond.\n\nStart with your own tendencies, then explore love and compatibility readings in the app. Give the differences some words.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Crush",
+            "#Dating"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Should you text first again?",
+              "body": "You want to say hello. You also want to know they would choose to, too.",
+              "note": "Saju Notes · Crushes · 03"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Leave space for a reply",
+              "body": "Output stars relate to expression; resource stars to reflection. Both have a place here. One simple message can be enough. If you are always carrying the conversation, pause and leave room for the other person to choose to respond.",
+              "note": "Send a simple hello. Leave room for their reply."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Get to know your side of love",
+              "body": "Start with your own tendencies, then explore love and compatibility readings in the app. Give the differences some words.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-reunion-repeat",
+      "topic": "재회·이별",
+      "category": "reunion",
+      "artwork": "muk",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "다시 만나도 또 헤어질까?",
+          "caption": "보고 싶은 마음은 돌아왔는데, 헤어진 이유도 그대로라면 어떨까?\n\n오행의 상생과 상극은 돕는 힘과 조절하는 힘을 함께 보는 개념이야. 끌림이 커도 다투는 방식까지 저절로 바뀌진 않지. 다시 만날지 정하기 전에 지난 갈등을 어떻게 다르게 풀 건지 이야기해봐. 재회 자체보다 반복을 줄일 약속이 중요해.\n\n성향과 연애 풀이로 네 반복을 돌아봐. 관계의 선택은 네가 천천히 해도 돼.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#재회",
+            "#이별"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "다시 만나도 또 헤어질까?",
+              "body": "보고 싶은 마음은 돌아왔는데, 헤어진 이유도 그대로라면 어떨까?",
+              "note": "도사의 이별 수첩 · 01"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "그리움보다 바뀐 걸 보자",
+              "body": "오행의 상생과 상극은 돕는 힘과 조절하는 힘을 함께 보는 개념이야. 끌림이 커도 다투는 방식까지 저절로 바뀌진 않지. 다시 만날지 정하기 전에 지난 갈등을 어떻게 다르게 풀 건지 이야기해봐. 재회 자체보다 반복을 줄일 약속이 중요해.",
+              "note": "다시 만날 이유보다 달라질 방식을"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "이번엔 너를 먼저 보자",
+              "body": "성향과 연애 풀이로 네 반복을 돌아봐. 관계의 선택은 네가 천천히 해도 돼.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "復縁しても、また別れる？",
+          "caption": "会いたさは戻った。でも、別れた理由は変わっているかな。\n\n五行の相生と相剋は、支える力と調整する力を見る考え方。惹かれ合うだけでは、けんかの仕方まで変わらないんだ。戻る前に、同じ問題が起きたらどう話すか確かめよう。再会より、その後の違いが大事だよ。\n\n性格と恋愛の読み解きで、自分の繰り返す傾向を見てみよう。これからの関係は、急いで決めなくていい。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#復縁",
+            "#別れ"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "復縁しても、また別れる？",
+              "body": "会いたさは戻った。でも、別れた理由は変わっているかな。",
+              "note": "別れと再会のサジュ帖 · 01"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "懐かしさより、変化を見よう",
+              "body": "五行の相生と相剋は、支える力と調整する力を見る考え方。惹かれ合うだけでは、けんかの仕方まで変わらないんだ。戻る前に、同じ問題が起きたらどう話すか確かめよう。再会より、その後の違いが大事だよ。",
+              "note": "戻る理由より、変えられることを話そう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "今度は、自分の気持ちから",
+              "body": "性格と恋愛の読み解きで、自分の繰り返す傾向を見てみよう。これからの関係は、急いで決めなくていい。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Back together. What would change?",
+          "caption": "You miss them again. Has the reason you broke up changed, too?\n\nThe elements include support and restraint. Attraction does not remove the need to work through conflict. Before returning, talk about what would happen differently when the old problem appears. Reconnection alone is not the change.\n\nExplore personality and love readings in SajuPinggye. Reflect on your patterns, then take your time with the decision.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Breakup",
+            "#RelationshipPatterns"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Back together. What would change?",
+              "body": "You miss them again. Has the reason you broke up changed, too?",
+              "note": "Saju Notes · After Love · 01"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Look for change, not just longing",
+              "body": "The elements include support and restraint. Attraction does not remove the need to work through conflict. Before returning, talk about what would happen differently when the old problem appears. Reconnection alone is not the change.",
+              "note": "Talk about what would change, before getting back together."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Come back to yourself first",
+              "body": "Explore personality and love readings in SajuPinggye. Reflect on your patterns, then take your time with the decision.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-reunion-missing",
+      "topic": "재회·이별",
+      "category": "reunion",
+      "artwork": "hanji",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "그리운 건 그 사람일까?",
+          "caption": "그 사람보다 함께하던 내 하루가 그리울 때도 있어. 천천히 나눠보자.\n\n명리의 인성은 받아들이고 쌓아두는 힘이라 배움과 기억에 비유할 수 있어. 익숙한 일상이 사라지면 기억이 자꾸 빈자리를 채우려 하지. 보고 싶은 장면과 힘들었던 장면을 함께 적어봐. 그리움 하나로 재회를 결정할 필요는 없어.\n\n성향과 연애 풀이로 네 반복을 돌아봐. 관계의 선택은 네가 천천히 해도 돼.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#재회",
+            "#이별"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "그리운 건 그 사람일까?",
+              "body": "그 사람보다 함께하던 내 하루가 그리울 때도 있어. 천천히 나눠보자.",
+              "note": "도사의 이별 수첩 · 02"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "익숙한 마음에도 이름이 있어",
+              "body": "명리의 인성은 받아들이고 쌓아두는 힘이라 배움과 기억에 비유할 수 있어. 익숙한 일상이 사라지면 기억이 자꾸 빈자리를 채우려 하지. 보고 싶은 장면과 힘들었던 장면을 함께 적어봐. 그리움 하나로 재회를 결정할 필요는 없어.",
+              "note": "좋았던 일과 힘들었던 일을 함께"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "이번엔 너를 먼저 보자",
+              "body": "성향과 연애 풀이로 네 반복을 돌아봐. 관계의 선택은 네가 천천히 해도 돼.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "恋しいのは、あの人だけ？",
+          "caption": "一緒にいた頃の毎日を、恋しく思っているのかもしれない。\n\n印星は受け取り、蓄える力として読むから、学びや記憶にも重ねられるよ。慣れた日常がなくなると、思い出で隙間を埋めたくなる。楽しかった場面とつらかった場面を両方書こう。恋しさだけで戻らなくていい。\n\n性格と恋愛の読み解きで、自分の繰り返す傾向を見てみよう。これからの関係は、急いで決めなくていい。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#復縁",
+            "#別れ"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "恋しいのは、あの人だけ？",
+              "body": "一緒にいた頃の毎日を、恋しく思っているのかもしれない。",
+              "note": "別れと再会のサジュ帖 · 02"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "思い出と今の願いを分けよう",
+              "body": "印星は受け取り、蓄える力として読むから、学びや記憶にも重ねられるよ。慣れた日常がなくなると、思い出で隙間を埋めたくなる。楽しかった場面とつらかった場面を両方書こう。恋しさだけで戻らなくていい。",
+              "note": "楽しかったことも、つらかったことも"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "今度は、自分の気持ちから",
+              "body": "性格と恋愛の読み解きで、自分の繰り返す傾向を見てみよう。これからの関係は、急いで決めなくていい。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Miss them, or your old life?",
+          "caption": "Sometimes the missing part is a routine, a place, or who you were together.\n\nResource stars relate to receiving and keeping: a useful image for memory. An empty routine can make old moments feel louder. Write down what you miss and what hurt. Longing does not have to make the decision for you.\n\nExplore personality and love readings in SajuPinggye. Reflect on your patterns, then take your time with the decision.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Breakup",
+            "#RelationshipPatterns"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Miss them, or your old life?",
+              "body": "Sometimes the missing part is a routine, a place, or who you were together.",
+              "note": "Saju Notes · After Love · 02"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Give the memory some context",
+              "body": "Resource stars relate to receiving and keeping: a useful image for memory. An empty routine can make old moments feel louder. Write down what you miss and what hurt. Longing does not have to make the decision for you.",
+              "note": "Write down the good memories and the difficult ones."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Come back to yourself first",
+              "body": "Explore personality and love readings in SajuPinggye. Reflect on your patterns, then take your time with the decision.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-reunion-contact",
+      "topic": "재회·이별",
+      "category": "reunion",
+      "artwork": "inyeon",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "전 애인에게 연락해도 될까?",
+          "caption": "심심한 건지, 할 말이 남은 건지. 보내기 전에 한 번만 구분해보자.\n\n음양은 행동과 멈춤을 함께 놓고 보는 틀이야. 마음이 급한 날에도 멈춰서 살필 시간은 필요하지. 연락의 목적을 한 줄로 써보고 하루 뒤에도 같은지 봐. 다시 대화할 수 있는 사이인지, 상대가 남긴 의사까지 함께 떠올려보자.\n\n성향과 연애 풀이로 네 반복을 돌아봐. 관계의 선택은 네가 천천히 해도 돼.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#재회",
+            "#이별"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "전 애인에게 연락해도 될까?",
+              "body": "심심한 건지, 할 말이 남은 건지. 보내기 전에 한 번만 구분해보자.",
+              "note": "도사의 이별 수첩 · 03"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "멈춤도 선택이 될 수 있어",
+              "body": "음양은 행동과 멈춤을 함께 놓고 보는 틀이야. 마음이 급한 날에도 멈춰서 살필 시간은 필요하지. 연락의 목적을 한 줄로 써보고 하루 뒤에도 같은지 봐. 다시 대화할 수 있는 사이인지, 상대가 남긴 의사까지 함께 떠올려보자.",
+              "note": "보내고 싶은 이유부터 한 줄 적어봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "이번엔 너를 먼저 보자",
+              "body": "성향과 연애 풀이로 네 반복을 돌아봐. 관계의 선택은 네가 천천히 해도 돼.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "元恋人に連絡してもいい？",
+          "caption": "寂しいのか、伝えたいことがあるのか。送る前に分けてみよう。\n\n陰陽では、動くことと静まることを一緒に見るんだ。気持ちが急ぐ日も、考える時間を取ってみよう。連絡したい理由を一行書いて、翌日も同じか見てみて。相手が前に伝えた気持ちも、一緒に思い出してみようね。\n\n性格と恋愛の読み解きで、自分の繰り返す傾向を見てみよう。これからの関係は、急いで決めなくていい。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#復縁",
+            "#別れ"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "元恋人に連絡してもいい？",
+              "body": "寂しいのか、伝えたいことがあるのか。送る前に分けてみよう。",
+              "note": "別れと再会のサジュ帖 · 03"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "動かない選択もあるよ",
+              "body": "陰陽では、動くことと静まることを一緒に見るんだ。気持ちが急ぐ日も、考える時間を取ってみよう。連絡したい理由を一行書いて、翌日も同じか見てみて。相手が前に伝えた気持ちも、一緒に思い出してみようね。",
+              "note": "送りたい理由を、まず一行書いてみて"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "今度は、自分の気持ちから",
+              "body": "性格と恋愛の読み解きで、自分の繰り返す傾向を見てみよう。これからの関係は、急いで決めなくていい。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Should you message your ex?",
+          "caption": "Is there something to say, or is tonight just especially lonely?\n\nYin and yang make room for stillness as well as action. Write down why you want contact, then check tomorrow. Consider what you hope to say alongside what the other person has already told you about staying in touch.\n\nExplore personality and love readings in SajuPinggye. Reflect on your patterns, then take your time with the decision.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Breakup",
+            "#RelationshipPatterns"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Should you message your ex?",
+              "body": "Is there something to say, or is tonight just especially lonely?",
+              "note": "Saju Notes · After Love · 03"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "A pause is a choice, too",
+              "body": "Yin and yang make room for stillness as well as action. Write down why you want contact, then check tomorrow. Consider what you hope to say alongside what the other person has already told you about staying in touch.",
+              "note": "Write down why you want contact. Read it again tomorrow."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Come back to yourself first",
+              "body": "Explore personality and love readings in SajuPinggye. Reflect on your patterns, then take your time with the decision.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-marriage-daily",
+      "topic": "결혼·배우자",
+      "category": "marriage",
+      "artwork": "inyeon",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "연애 궁합 좋으면 결혼도 좋을까?",
+          "caption": "데이트는 잘 맞는데 생활은 어떨까. 같이 사는 하루도 그려보자.\n\n명리에서 재성은 다루는 자원, 관성은 책임과 규칙을 보는 개념이야. 결혼에 빗대면 돈 쓰는 방식과 약속을 지키는 방식도 함께 봐야겠지. 좋은 데이트 다음엔 생활비, 집안일, 쉬는 시간 얘기도 해봐. 현실의 대화가 궁합을 더 구체적으로 보여줘.\n\n앱의 궁합 풀이로 두 사람의 성향을 살펴봐. 생활의 차이를 대화할 질문으로 가져가자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#결혼고민",
+            "#궁합"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "연애 궁합 좋으면 결혼도 좋을까?",
+              "body": "데이트는 잘 맞는데 생활은 어떨까. 같이 사는 하루도 그려보자.",
+              "note": "도사의 결혼 수첩 · 01"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "설렘 밖의 궁합도 있어",
+              "body": "명리에서 재성은 다루는 자원, 관성은 책임과 규칙을 보는 개념이야. 결혼에 빗대면 돈 쓰는 방식과 약속을 지키는 방식도 함께 봐야겠지. 좋은 데이트 다음엔 생활비, 집안일, 쉬는 시간 얘기도 해봐. 현실의 대화가 궁합을 더 구체적으로 보여줘.",
+              "note": "데이트 다음엔 집안일 얘기도 해봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "둘의 일상을 들여다보자",
+              "body": "앱의 궁합 풀이로 두 사람의 성향을 살펴봐. 생활의 차이를 대화할 질문으로 가져가자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "恋愛の相性がよければ結婚も？",
+          "caption": "デートは楽しい。では、一緒に暮らす毎日はどうだろう。\n\n財星は扱う資源、官星は責任や規則を見る考え方だよ。結婚なら、お金や約束の扱い方にも目を向けたいね。生活費、家事、一人の時間。日常の話をしてみると、相性という言葉がぐっと具体的になる。\n\nアプリの相性の読み解きで、ふたりの傾向を見てみて。暮らしの違いを、話し合うための問いにしよう。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#結婚の悩み",
+            "#相性"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "恋愛の相性がよければ結婚も？",
+              "body": "デートは楽しい。では、一緒に暮らす毎日はどうだろう。",
+              "note": "ふたりの暮らしを考える帖 · 01"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "ときめきの外にも相性がある",
+              "body": "財星は扱う資源、官星は責任や規則を見る考え方だよ。結婚なら、お金や約束の扱い方にも目を向けたいね。生活費、家事、一人の時間。日常の話をしてみると、相性という言葉がぐっと具体的になる。",
+              "note": "デートの次は、家事の話もしてみよう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "ふたりの毎日を、話してみよう",
+              "body": "アプリの相性の読み解きで、ふたりの傾向を見てみて。暮らしの違いを、話し合うための問いにしよう。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Good dates. Good marriage, too?",
+          "caption": "You love your time together. What would an ordinary Tuesday look like?\n\nWealth stars concern resources; authority stars concern duties and rules. For a shared home, think money, chores and keeping agreements. Enjoy the dates, then talk about the ordinary days. Those conversations make compatibility more concrete.\n\nExplore compatibility in the app. Use the differences as starting points for conversations about your everyday life.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Marriage",
+            "#Compatibility"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Good dates. Good marriage, too?",
+              "body": "You love your time together. What would an ordinary Tuesday look like?",
+              "note": "Saju Notes · Marriage · 01"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Compatibility includes daily life",
+              "body": "Wealth stars concern resources; authority stars concern duties and rules. For a shared home, think money, chores and keeping agreements. Enjoy the dates, then talk about the ordinary days. Those conversations make compatibility more concrete.",
+              "note": "After the date, talk about an ordinary day at home."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Make room for the daily questions",
+              "body": "Explore compatibility in the app. Use the differences as starting points for conversations about your everyday life.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-marriage-pace",
+      "topic": "결혼·배우자",
+      "category": "marriage",
+      "artwork": "hanji",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "결혼 얘기만 하면 왜 피할까?",
+          "caption": "한쪽은 날짜를 생각하고, 한쪽은 아직 준비를 말하고 있니?\n\n목은 뻗어가는 힘, 토는 기반을 잡는 힘에 비유할 수 있어. 더 나아가고 싶은 사람과 먼저 안정시키고 싶은 사람의 속도가 다를 수 있지. 사랑의 크기부터 재기보다 돈, 일, 주거 중 어떤 준비가 필요한지 구체적으로 물어봐.\n\n앱의 궁합 풀이로 두 사람의 성향을 살펴봐. 생활의 차이를 대화할 질문으로 가져가자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#결혼고민",
+            "#궁합"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "결혼 얘기만 하면 왜 피할까?",
+              "body": "한쪽은 날짜를 생각하고, 한쪽은 아직 준비를 말하고 있니?",
+              "note": "도사의 결혼 수첩 · 02"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "같은 마음도 속도는 달라",
+              "body": "목은 뻗어가는 힘, 토는 기반을 잡는 힘에 비유할 수 있어. 더 나아가고 싶은 사람과 먼저 안정시키고 싶은 사람의 속도가 다를 수 있지. 사랑의 크기부터 재기보다 돈, 일, 주거 중 어떤 준비가 필요한지 구체적으로 물어봐.",
+              "note": "준비가 뭔지 구체적으로 물어봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "둘의 일상을 들여다보자",
+              "body": "앱의 궁합 풀이로 두 사람의 성향을 살펴봐. 생활의 차이를 대화할 질문으로 가져가자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "結婚の話になると、避けられる？",
+          "caption": "日取りを考える人と、まだ準備中の人。足並みはそろっている？\n\n木は広がる力、土は足場を整える力に重ねられるよ。進みたい側と、まず安定させたい側では速度が違うこともある。愛情の大きさを測る前に、お金、仕事、住まいの何が気になるのか聞いてみよう。\n\nアプリの相性の読み解きで、ふたりの傾向を見てみて。暮らしの違いを、話し合うための問いにしよう。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#結婚の悩み",
+            "#相性"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "結婚の話になると、避けられる？",
+              "body": "日取りを考える人と、まだ準備中の人。足並みはそろっている？",
+              "note": "ふたりの暮らしを考える帖 · 02"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "気持ちと速度は別の話",
+              "body": "木は広がる力、土は足場を整える力に重ねられるよ。進みたい側と、まず安定させたい側では速度が違うこともある。愛情の大きさを測る前に、お金、仕事、住まいの何が気になるのか聞いてみよう。",
+              "note": "準備とは何か、具体的に聞いてみよう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "ふたりの毎日を、話してみよう",
+              "body": "アプリの相性の読み解きで、ふたりの傾向を見てみて。暮らしの違いを、話し合うための問いにしよう。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Why avoid the marriage talk?",
+          "caption": "One of you is thinking about dates. The other still talks about being ready.\n\nWood suggests expansion; Earth suggests a secure base. They make useful images for different paces. Ask what preparation means: money, work, a home, or something else. A slower answer does not tell you the whole reason.\n\nExplore compatibility in the app. Use the differences as starting points for conversations about your everyday life.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Marriage",
+            "#Compatibility"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Why avoid the marriage talk?",
+              "body": "One of you is thinking about dates. The other still talks about being ready.",
+              "note": "Saju Notes · Marriage · 02"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Ask what ready would look like",
+              "body": "Wood suggests expansion; Earth suggests a secure base. They make useful images for different paces. Ask what preparation means: money, work, a home, or something else. A slower answer does not tell you the whole reason.",
+              "note": "Ask what being ready would actually involve."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Make room for the daily questions",
+              "body": "Explore compatibility in the app. Use the differences as starting points for conversations about your everyday life.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-marriage-pick",
+      "topic": "결혼·배우자",
+      "category": "marriage",
+      "artwork": "muk",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "설레는 사람, 편한 사람 누굴까?",
+          "caption": "가슴 뛰는 쪽과 오래 편한 쪽이 다르면, 선택이 더 어려워지지.\n\n오행의 상생은 돕고 키우는 관계, 상극은 지나침을 조절하는 관계야. 비슷해서 편한 순간도, 달라서 배우는 순간도 있지. 누가 더 운명적인지보다 갈등 뒤에 대화가 되는지 봐. 결혼의 편안함은 의견이 달라도 안전하게 말할 수 있는 데서 자라.\n\n앱의 궁합 풀이로 두 사람의 성향을 살펴봐. 생활의 차이를 대화할 질문으로 가져가자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#결혼고민",
+            "#궁합"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "설레는 사람, 편한 사람 누굴까?",
+              "body": "가슴 뛰는 쪽과 오래 편한 쪽이 다르면, 선택이 더 어려워지지.",
+              "note": "도사의 결혼 수첩 · 03"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "끌림과 조율을 따로 보자",
+              "body": "오행의 상생은 돕고 키우는 관계, 상극은 지나침을 조절하는 관계야. 비슷해서 편한 순간도, 달라서 배우는 순간도 있지. 누가 더 운명적인지보다 갈등 뒤에 대화가 되는지 봐. 결혼의 편안함은 의견이 달라도 안전하게 말할 수 있는 데서 자라.",
+              "note": "의견이 다를 때의 대화를 봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "둘의 일상을 들여다보자",
+              "body": "앱의 궁합 풀이로 두 사람의 성향을 살펴봐. 생활의 차이를 대화할 질문으로 가져가자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "ときめく人、落ち着く人。どっち？",
+          "caption": "胸が高鳴る相手と、長く安心できる相手が違うと迷うよね。\n\n相生は育て合う関係、相剋は行きすぎを調整する関係として読むよ。似ていて楽なことも、違うから学べることもある。運命らしさより、意見が違うときに話せるかを見よう。安心は、その積み重ねでも育つんだ。\n\nアプリの相性の読み解きで、ふたりの傾向を見てみて。暮らしの違いを、話し合うための問いにしよう。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#結婚の悩み",
+            "#相性"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "ときめく人、落ち着く人。どっち？",
+              "body": "胸が高鳴る相手と、長く安心できる相手が違うと迷うよね。",
+              "note": "ふたりの暮らしを考える帖 · 03"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "惹かれること、歩み寄ること",
+              "body": "相生は育て合う関係、相剋は行きすぎを調整する関係として読むよ。似ていて楽なことも、違うから学べることもある。運命らしさより、意見が違うときに話せるかを見よう。安心は、その積み重ねでも育つんだ。",
+              "note": "意見が違う日の会話を見てみよう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "ふたりの毎日を、話してみよう",
+              "body": "アプリの相性の読み解きで、ふたりの傾向を見てみて。暮らしの違いを、話し合うための問いにしよう。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Chemistry or comfort?",
+          "caption": "The person who excites you and the person who feels safe may not be the same.\n\nThe five elements include nourishment and restraint. Difference can teach you something, but it still needs care. Notice whether you can disagree, speak freely and repair a hurt. Lasting comfort grows through those moments, too.\n\nExplore compatibility in the app. Use the differences as starting points for conversations about your everyday life.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Marriage",
+            "#Compatibility"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Chemistry or comfort?",
+              "body": "The person who excites you and the person who feels safe may not be the same.",
+              "note": "Saju Notes · Marriage · 03"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Notice how differences are handled",
+              "body": "The five elements include nourishment and restraint. Difference can teach you something, but it still needs care. Notice whether you can disagree, speak freely and repair a hurt. Lasting comfort grows through those moments, too.",
+              "note": "Notice how you talk when you disagree."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Make room for the daily questions",
+              "body": "Explore compatibility in the app. Use the differences as starting points for conversations about your everyday life.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-family-talk",
+      "topic": "부부·가족",
+      "category": "family",
+      "artwork": "inyeon",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "가족인데 왜 말이 안 통할까?",
+          "caption": "걱정해서 한 말이 잔소리가 되고, 잠깐 침묵한 게 무관심이 되지.\n\n음양은 밖으로 드러내는 면과 안으로 모으는 면을 함께 보는 관점이야. 바로 말해야 풀리는 사람도, 생각할 시간이 필요한 사람도 있지. 지금 답해달라는 말 대신 언제 얘기하면 좋을지 물어봐. 가족이어도 대화의 속도는 맞춰가야 해.\n\n사주핑계에서 네 기질부터 살펴봐. 가족과 다른 점을 설명할 말을 찾아보자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#가족관계",
+            "#부부대화"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "가족인데 왜 말이 안 통할까?",
+              "body": "걱정해서 한 말이 잔소리가 되고, 잠깐 침묵한 게 무관심이 되지.",
+              "note": "도사의 가족 수첩 · 01"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "말의 크기보다 받는 방식을 봐",
+              "body": "음양은 밖으로 드러내는 면과 안으로 모으는 면을 함께 보는 관점이야. 바로 말해야 풀리는 사람도, 생각할 시간이 필요한 사람도 있지. 지금 답해달라는 말 대신 언제 얘기하면 좋을지 물어봐. 가족이어도 대화의 속도는 맞춰가야 해.",
+              "note": "답을 재촉하기보다 대화할 시간을"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "가까운 사이, 나부터 보자",
+              "body": "사주핑계에서 네 기질부터 살펴봐. 가족과 다른 점을 설명할 말을 찾아보자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "家族なのに、どうして伝わらない？",
+          "caption": "心配が口出しになり、考える沈黙が無関心に見えることもある。\n\n陰陽では、外へ表す面と内へためる面を一緒に見るよ。すぐ話すと落ち着く人も、考える時間がほしい人もいる。今すぐ答えを求めるより、いつなら話せるか聞いてみて。家族でも会話の速度は合わせていくものなんだ。\n\nサジュピンゲで自分の傾向を読んでみよう。家族との違いを、責めずに話す言葉を探してみて。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#家族",
+            "#夫婦の会話"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "家族なのに、どうして伝わらない？",
+              "body": "心配が口出しになり、考える沈黙が無関心に見えることもある。",
+              "note": "家族のためのサジュ帖 · 01"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "話す量より、受け取り方",
+              "body": "陰陽では、外へ表す面と内へためる面を一緒に見るよ。すぐ話すと落ち着く人も、考える時間がほしい人もいる。今すぐ答えを求めるより、いつなら話せるか聞いてみて。家族でも会話の速度は合わせていくものなんだ。",
+              "note": "返事を急がず、話せる時間を聞こう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "近い関係ほど、自分のことも",
+              "body": "サジュピンゲで自分の傾向を読んでみよう。家族との違いを、責めずに話す言葉を探してみて。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Why is family so hard to talk to?",
+          "caption": "Concern sounds like criticism. A quiet moment gets read as not caring.\n\nYin and yang describe outward expression and inward attention. Some people talk to think; others need time first. Ask when you can talk, rather than demanding a reply now. Being family does not mean sharing the same pace.\n\nExplore your tendencies in SajuPinggye. Find a few words for the differences, so the next conversation can begin more gently.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Family",
+            "#Communication"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Why is family so hard to talk to?",
+              "body": "Concern sounds like criticism. A quiet moment gets read as not caring.",
+              "note": "Saju Notes · Family · 01"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Ask for a time, not an instant answer",
+              "body": "Yin and yang describe outward expression and inward attention. Some people talk to think; others need time first. Ask when you can talk, rather than demanding a reply now. Being family does not mean sharing the same pace.",
+              "note": "Ask when you can talk, rather than pushing for an answer."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Understand your part in the pattern",
+              "body": "Explore your tendencies in SajuPinggye. Find a few words for the differences, so the next conversation can begin more gently.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-family-money",
+      "topic": "부부·가족",
+      "category": "family",
+      "artwork": "hanji",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "부부인데 돈 생각은 왜 다를까?",
+          "caption": "한쪽은 모아야 안심하고, 한쪽은 써야 지금을 사는 기분이라면?\n\n재성 가운데 정재는 일정하게 관리하는 자원, 편재는 넓게 움직이는 자원으로 읽어. 누구는 절약형, 누구는 낭비형이라고 단정할 이야기는 아니야. 생활비와 저축 기준을 먼저 맞추고 각자 설명 없이 쓸 돈도 정해봐. 다른 방식이 싸움이 되지 않게 말이야.\n\n사주핑계에서 네 기질부터 살펴봐. 가족과 다른 점을 설명할 말을 찾아보자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#가족관계",
+            "#부부대화"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "부부인데 돈 생각은 왜 다를까?",
+              "body": "한쪽은 모아야 안심하고, 한쪽은 써야 지금을 사는 기분이라면?",
+              "note": "도사의 가족 수첩 · 02"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "돈에도 지키기와 움직이기가 있어",
+              "body": "재성 가운데 정재는 일정하게 관리하는 자원, 편재는 넓게 움직이는 자원으로 읽어. 누구는 절약형, 누구는 낭비형이라고 단정할 이야기는 아니야. 생활비와 저축 기준을 먼저 맞추고 각자 설명 없이 쓸 돈도 정해봐. 다른 방식이 싸움이 되지 않게 말이야.",
+              "note": "공동 규칙과 각자 쓸 돈을 정해봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "가까운 사이, 나부터 보자",
+              "body": "사주핑계에서 네 기질부터 살펴봐. 가족과 다른 점을 설명할 말을 찾아보자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "夫婦なのに、お金の感覚が違う？",
+          "caption": "貯めると安心する人と、使って今を楽しみたい人。どちらもいる。\n\n財星のうち正財は一定に管理する資源、偏財は広く動かす資源として読むよ。節約家と浪費家に分ける話ではないんだ。生活費と貯蓄の基準を決めて、互いに自由に使える額も話そう。違いを責める前にルールを作ってみて。\n\nサジュピンゲで自分の傾向を読んでみよう。家族との違いを、責めずに話す言葉を探してみて。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#家族",
+            "#夫婦の会話"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "夫婦なのに、お金の感覚が違う？",
+              "body": "貯めると安心する人と、使って今を楽しみたい人。どちらもいる。",
+              "note": "家族のためのサジュ帖 · 02"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "守るお金、動かすお金",
+              "body": "財星のうち正財は一定に管理する資源、偏財は広く動かす資源として読むよ。節約家と浪費家に分ける話ではないんだ。生活費と貯蓄の基準を決めて、互いに自由に使える額も話そう。違いを責める前にルールを作ってみて。",
+              "note": "共通のルールと、自由なお金を決めよう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "近い関係ほど、自分のことも",
+              "body": "サジュピンゲで自分の傾向を読んでみよう。家族との違いを、責めずに話す言葉を探してみて。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Same home, different money habits?",
+          "caption": "One feels safe saving. The other wants room to enjoy life now.\n\nDirect wealth suggests steady management; indirect wealth suggests resources in wider circulation. Neither means good or bad with money. Agree on shared costs and savings, then consider an amount each person can spend freely.\n\nExplore your tendencies in SajuPinggye. Find a few words for the differences, so the next conversation can begin more gently.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Family",
+            "#Communication"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Same home, different money habits?",
+              "body": "One feels safe saving. The other wants room to enjoy life now.",
+              "note": "Saju Notes · Family · 02"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Make space for two approaches",
+              "body": "Direct wealth suggests steady management; indirect wealth suggests resources in wider circulation. Neither means good or bad with money. Agree on shared costs and savings, then consider an amount each person can spend freely.",
+              "note": "Agree on shared costs and room for personal spending."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Understand your part in the pattern",
+              "body": "Explore your tendencies in SajuPinggye. Find a few words for the differences, so the next conversation can begin more gently.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-family-parent",
+      "topic": "부부·가족",
+      "category": "family",
+      "artwork": "muk",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "부모 기대를 꼭 따라야 할까?",
+          "caption": "고마운 마음과 내 뜻대로 살고 싶은 마음이 같이 있어도 괜찮아.\n\n관성은 규칙과 책임, 식상은 자기 표현을 보는 개념이야. 기대를 소중히 여기는 마음과 내 길을 말하는 마음은 함께 있을 수 있어. 반대부터 하기보다 내가 고른 이유와 준비한 것을 설명해봐. 존중한다는 것과 같은 선택을 한다는 건 다른 일이야.\n\n사주핑계에서 네 기질부터 살펴봐. 가족과 다른 점을 설명할 말을 찾아보자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#가족관계",
+            "#부부대화"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "부모 기대를 꼭 따라야 할까?",
+              "body": "고마운 마음과 내 뜻대로 살고 싶은 마음이 같이 있어도 괜찮아.",
+              "note": "도사의 가족 수첩 · 03"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "기대와 내 목소리를 구분해",
+              "body": "관성은 규칙과 책임, 식상은 자기 표현을 보는 개념이야. 기대를 소중히 여기는 마음과 내 길을 말하는 마음은 함께 있을 수 있어. 반대부터 하기보다 내가 고른 이유와 준비한 것을 설명해봐. 존중한다는 것과 같은 선택을 한다는 건 다른 일이야.",
+              "note": "네 선택의 이유와 준비를 말해봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "가까운 사이, 나부터 보자",
+              "body": "사주핑계에서 네 기질부터 살펴봐. 가족과 다른 점을 설명할 말을 찾아보자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "親の期待には、応えるべき？",
+          "caption": "感謝している。でも自分で選びたい。その二つは一緒にあっていい。\n\n官星は規則や責任、食傷は自分を表す力として読むよ。期待を大切にすることと、自分の道を話すことは両立できるんだ。反対する前に、理由と準備を伝えてみよう。尊重することと、同じ選択をすることは別だからね。\n\nサジュピンゲで自分の傾向を読んでみよう。家族との違いを、責めずに話す言葉を探してみて。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#家族",
+            "#夫婦の会話"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "親の期待には、応えるべき？",
+              "body": "感謝している。でも自分で選びたい。その二つは一緒にあっていい。",
+              "note": "家族のためのサジュ帖 · 03"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "期待と自分の声を分けよう",
+              "body": "官星は規則や責任、食傷は自分を表す力として読むよ。期待を大切にすることと、自分の道を話すことは両立できるんだ。反対する前に、理由と準備を伝えてみよう。尊重することと、同じ選択をすることは別だからね。",
+              "note": "自分の理由と、準備していることを伝えよう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "近い関係ほど、自分のことも",
+              "body": "サジュピンゲで自分の傾向を読んでみよう。家族との違いを、責めずに話す言葉を探してみて。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Do you have to follow their hopes?",
+          "caption": "You can be grateful to your parents and still want a life you choose.\n\nAuthority stars concern responsibility; output stars concern expression. Both can matter in one decision. Explain your reasons and preparation, rather than only your refusal. Respecting someone does not require choosing the same path.\n\nExplore your tendencies in SajuPinggye. Find a few words for the differences, so the next conversation can begin more gently.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Family",
+            "#Communication"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Do you have to follow their hopes?",
+              "body": "You can be grateful to your parents and still want a life you choose.",
+              "note": "Saju Notes · Family · 03"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Respect can include your own answer",
+              "body": "Authority stars concern responsibility; output stars concern expression. Both can matter in one decision. Explain your reasons and preparation, rather than only your refusal. Respecting someone does not require choosing the same path.",
+              "note": "Explain the reasons and the preparation behind your choice."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Understand your part in the pattern",
+              "body": "Explore your tendencies in SajuPinggye. Find a few words for the differences, so the next conversation can begin more gently.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-career-quit",
+      "topic": "취업·이직·퇴사",
+      "category": "career",
+      "artwork": "muk",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "회사 문제야, 사람 문제야?",
+          "caption": "퇴사 검색하기 전에, 너를 지치게 한 장면부터 나눠서 적어보자.\n\n명리에서 관성은 역할과 조직의 기준, 비겁은 나와 같은 자리에 선 동료를 뜻해. 직장 고민도 업무 자체와 관계 문제를 나누면 더 잘 보여. 일을 바꿔야 하는지, 팀을 바꿔야 하는지, 먼저 쉬어야 하는지 현실 조건과 함께 따져보자.\n\n네 기질과 강점은 사주핑계에서 살펴봐. 오늘의 핑계로 잠깐 숨 돌릴 틈도 챙기자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#이직고민",
+            "#직장생활"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "회사 문제야, 사람 문제야?",
+              "body": "퇴사 검색하기 전에, 너를 지치게 한 장면부터 나눠서 적어보자.",
+              "note": "도사의 직장 수첩 · 01"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "일의 규칙과 사람은 따로 봐",
+              "body": "명리에서 관성은 역할과 조직의 기준, 비겁은 나와 같은 자리에 선 동료를 뜻해. 직장 고민도 업무 자체와 관계 문제를 나누면 더 잘 보여. 일을 바꿔야 하는지, 팀을 바꿔야 하는지, 먼저 쉬어야 하는지 현실 조건과 함께 따져보자.",
+              "note": "업무와 관계, 지친 이유를 나눠봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "네 강점부터 다시 보자",
+              "body": "네 기질과 강점은 사주핑계에서 살펴봐. 오늘의 핑계로 잠깐 숨 돌릴 틈도 챙기자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "嫌なのは会社？それとも人間関係？",
+          "caption": "退職を検索する前に、何に疲れたのか場面ごとに分けてみよう。\n\n官星は役割や組織の基準、比劫は自分と同じ立場の仲間を見る概念だよ。仕事そのものと人間関係を分けると、悩みが見えやすくなる。転職、異動、休息。必要なものを生活の条件と一緒に考えてみよう。\n\nサジュピンゲで自分の傾向を読んでみよう。「今日のいいわけ」も、気持ちを整えるきっかけに。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#転職",
+            "#仕事の悩み"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "嫌なのは会社？それとも人間関係？",
+              "body": "退職を検索する前に、何に疲れたのか場面ごとに分けてみよう。",
+              "note": "仕事を考えるサジュ帖 · 01"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "仕事の仕組みと人を分ける",
+              "body": "官星は役割や組織の基準、比劫は自分と同じ立場の仲間を見る概念だよ。仕事そのものと人間関係を分けると、悩みが見えやすくなる。転職、異動、休息。必要なものを生活の条件と一緒に考えてみよう。",
+              "note": "仕事と人間関係、疲れを分けてみよう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "自分の強みから、考え直そう",
+              "body": "サジュピンゲで自分の傾向を読んでみよう。「今日のいいわけ」も、気持ちを整えるきっかけに。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "The job, or the people?",
+          "caption": "Before another resignation search, list the moments that actually drain you.\n\nAuthority stars relate to roles and rules; companion stars to peers. Use that distinction to separate the work from the relationships. A new job, a different team and some rest solve different problems. Check the practical costs, too.\n\nExplore your tendencies in SajuPinggye. Take a moment with today’s excuse, then return to the choices in front of you.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#CareerChoices",
+            "#WorkLife"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "The job, or the people?",
+              "body": "Before another resignation search, list the moments that actually drain you.",
+              "note": "Saju Notes · Work · 01"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Separate the role from the room",
+              "body": "Authority stars relate to roles and rules; companion stars to peers. Use that distinction to separate the work from the relationships. A new job, a different team and some rest solve different problems. Check the practical costs, too.",
+              "note": "Separate the work itself from the people around it."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Begin with what you bring",
+              "body": "Explore your tendencies in SajuPinggye. Take a moment with today’s excuse, then return to the choices in front of you.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-career-change",
+      "topic": "취업·이직·퇴사",
+      "category": "career",
+      "artwork": "hanji",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "이직 제안, 지금 잡아도 될까?",
+          "caption": "좋은 기회 같다가도 익숙한 자리를 놓는 게 덜컥 무섭지.\n\n오행의 목은 뻗어감, 토는 기반을 만드는 이미지로 읽어. 이직도 새 가능성과 지금 가진 기반을 같이 봐야 해. 연봉 한 줄보다 맡을 일, 함께할 사람, 버틸 생활비를 적어보자. 그다음 지금 네가 꼭 지키고 싶은 기준 세 가지만 골라봐.\n\n네 기질과 강점은 사주핑계에서 살펴봐. 오늘의 핑계로 잠깐 숨 돌릴 틈도 챙기자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#이직고민",
+            "#직장생활"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "이직 제안, 지금 잡아도 될까?",
+              "body": "좋은 기회 같다가도 익숙한 자리를 놓는 게 덜컥 무섭지.",
+              "note": "도사의 직장 수첩 · 02"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "넓힐 것과 지킬 것을 적어봐",
+              "body": "오행의 목은 뻗어감, 토는 기반을 만드는 이미지로 읽어. 이직도 새 가능성과 지금 가진 기반을 같이 봐야 해. 연봉 한 줄보다 맡을 일, 함께할 사람, 버틸 생활비를 적어보자. 그다음 지금 네가 꼭 지키고 싶은 기준 세 가지만 골라봐.",
+              "note": "새 조건과 지킬 기준을 나란히"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "네 강점부터 다시 보자",
+              "body": "네 기질과 강점은 사주핑계에서 살펴봐. 오늘의 핑계로 잠깐 숨 돌릴 틈도 챙기자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "転職の誘い、今つかんでいい？",
+          "caption": "魅力はある。でも、慣れた場所を離れるのはやっぱり怖い。\n\n木は伸びる力、土は足場を作る力に重ねて読むよ。転職にも可能性と生活の土台が必要なんだ。年収だけでなく、役割、同僚、手元の資金も書き出そう。それから、自分が大事にしたい条件を三つ選んでみよう。\n\nサジュピンゲで自分の傾向を読んでみよう。「今日のいいわけ」も、気持ちを整えるきっかけに。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#転職",
+            "#仕事の悩み"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "転職の誘い、今つかんでいい？",
+              "body": "魅力はある。でも、慣れた場所を離れるのはやっぱり怖い。",
+              "note": "仕事を考えるサジュ帖 · 02"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "広げるもの、守りたいもの",
+              "body": "木は伸びる力、土は足場を作る力に重ねて読むよ。転職にも可能性と生活の土台が必要なんだ。年収だけでなく、役割、同僚、手元の資金も書き出そう。それから、自分が大事にしたい条件を三つ選んでみよう。",
+              "note": "新しい条件と、守りたい基準を並べよう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "自分の強みから、考え直そう",
+              "body": "サジュピンゲで自分の傾向を読んでみよう。「今日のいいわけ」も、気持ちを整えるきっかけに。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Is this the offer you should take?",
+          "caption": "A fresh start looks good. Leaving what you know still feels risky.\n\nWood suggests growth; Earth suggests a stable foundation. A move needs both. Look beyond salary to the role, the team and your financial buffer. Then choose three conditions you most want to protect in the next chapter.\n\nExplore your tendencies in SajuPinggye. Take a moment with today’s excuse, then return to the choices in front of you.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#CareerChoices",
+            "#WorkLife"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Is this the offer you should take?",
+              "body": "A fresh start looks good. Leaving what you know still feels risky.",
+              "note": "Saju Notes · Work · 02"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "List the opportunity and the base",
+              "body": "Wood suggests growth; Earth suggests a stable foundation. A move needs both. Look beyond salary to the role, the team and your financial buffer. Then choose three conditions you most want to protect in the next chapter.",
+              "note": "Put the new terms beside the things you need to protect."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Begin with what you bring",
+              "body": "Explore your tendencies in SajuPinggye. Take a moment with today’s excuse, then return to the choices in front of you.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-career-credit",
+      "topic": "취업·이직·퇴사",
+      "category": "career",
+      "artwork": "inyeon",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "열심히 하는데 왜 몰라줄까?",
+          "caption": "일은 늘었는데 인정은 제자리라면, 잘한 일을 보이게 하는 법도 보자.\n\n인성은 배우고 쌓는 힘, 식상은 밖으로 드러내는 힘으로 읽어. 실력이 쌓여도 전달되지 않으면 성과가 흐릿해질 수 있지. 이번 주 해결한 문제와 달라진 결과를 짧게 남겨봐. 더 많이 일하기 전에 이미 해낸 일을 설명할 말부터 챙기자.\n\n네 기질과 강점은 사주핑계에서 살펴봐. 오늘의 핑계로 잠깐 숨 돌릴 틈도 챙기자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#이직고민",
+            "#직장생활"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "열심히 하는데 왜 몰라줄까?",
+              "body": "일은 늘었는데 인정은 제자리라면, 잘한 일을 보이게 하는 법도 보자.",
+              "note": "도사의 직장 수첩 · 03"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "잘하는 힘과 알리는 힘",
+              "body": "인성은 배우고 쌓는 힘, 식상은 밖으로 드러내는 힘으로 읽어. 실력이 쌓여도 전달되지 않으면 성과가 흐릿해질 수 있지. 이번 주 해결한 문제와 달라진 결과를 짧게 남겨봐. 더 많이 일하기 전에 이미 해낸 일을 설명할 말부터 챙기자.",
+              "note": "해낸 일과 달라진 결과를 남겨봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "네 강점부터 다시 보자",
+              "body": "네 기질과 강점은 사주핑계에서 살펴봐. 오늘의 핑계로 잠깐 숨 돌릴 틈도 챙기자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "頑張っているのに、評価されない？",
+          "caption": "仕事は増えたのに評価は変わらない。成果の伝え方も見てみよう。\n\n印星は学んで蓄える力、食傷は外に表す力として読むよ。実力があっても、伝わらないと成果は見えにくいんだ。今週解決した問題と、その後の変化を短く残してみて。仕事を増やす前に、できたことを言葉にしよう。\n\nサジュピンゲで自分の傾向を読んでみよう。「今日のいいわけ」も、気持ちを整えるきっかけに。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#転職",
+            "#仕事の悩み"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "頑張っているのに、評価されない？",
+              "body": "仕事は増えたのに評価は変わらない。成果の伝え方も見てみよう。",
+              "note": "仕事を考えるサジュ帖 · 03"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "できること、伝わること",
+              "body": "印星は学んで蓄える力、食傷は外に表す力として読むよ。実力があっても、伝わらないと成果は見えにくいんだ。今週解決した問題と、その後の変化を短く残してみて。仕事を増やす前に、できたことを言葉にしよう。",
+              "note": "できたことと、その後の変化を残そう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "自分の強みから、考え直そう",
+              "body": "サジュピンゲで自分の傾向を読んでみよう。「今日のいいわけ」も、気持ちを整えるきっかけに。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Working hard. Still overlooked?",
+          "caption": "Your workload grew. The recognition did not. Can people see what changed?\n\nResource stars relate to learning and building; output stars to expression. Skill and visibility need different attention. Keep a short record of problems solved and results changed. You may need clearer words before you need more work.\n\nExplore your tendencies in SajuPinggye. Take a moment with today’s excuse, then return to the choices in front of you.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#CareerChoices",
+            "#WorkLife"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Working hard. Still overlooked?",
+              "body": "Your workload grew. The recognition did not. Can people see what changed?",
+              "note": "Saju Notes · Work · 03"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Make the work easier to see",
+              "body": "Resource stars relate to learning and building; output stars to expression. Skill and visibility need different attention. Keep a short record of problems solved and results changed. You may need clearer words before you need more work.",
+              "note": "Keep a short record of what you changed or solved."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Begin with what you bring",
+              "body": "Explore your tendencies in SajuPinggye. Take a moment with today’s excuse, then return to the choices in front of you.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-wealth-leak",
+      "topic": "재물·사업·동업",
+      "category": "wealth",
+      "artwork": "hanji",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "내 돈은 다 어디로 새는 걸까?",
+          "caption": "큰 건 안 샀는데 잔액이 줄었다면, 의지보다 흐름을 먼저 보자.\n\n명리의 재성은 내가 다루는 자원과 현실의 결과를 보는 개념이야. 돈을 끌어오는 능력과 쓰임을 정하는 습관은 다를 수 있지. 이번 달 지출을 생활, 관계, 기분 전환으로 나눠봐. 재물운 점수보다 어디서 반복되는지 아는 게 먼저야.\n\n앱의 재물 풀이로 돈을 대하는 네 성향을 살펴봐. 반복되는 습관부터 돌아보자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#재물운",
+            "#돈관리"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "내 돈은 다 어디로 새는 걸까?",
+              "body": "큰 건 안 샀는데 잔액이 줄었다면, 의지보다 흐름을 먼저 보자.",
+              "note": "도사의 돈 수첩 · 01"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "돈을 버는 일과 남기는 일",
+              "body": "명리의 재성은 내가 다루는 자원과 현실의 결과를 보는 개념이야. 돈을 끌어오는 능력과 쓰임을 정하는 습관은 다를 수 있지. 이번 달 지출을 생활, 관계, 기분 전환으로 나눠봐. 재물운 점수보다 어디서 반복되는지 아는 게 먼저야.",
+              "note": "생활·관계·위로, 지출을 나눠봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "돈을 대하는 나부터 보자",
+              "body": "앱의 재물 풀이로 돈을 대하는 네 성향을 살펴봐. 반복되는 습관부터 돌아보자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "大きな買い物もないのに、金欠？",
+          "caption": "気づくと残高が減っている。気合いより、まず流れを見てみよう。\n\n財星は扱う資源や現実の成果を見る概念だよ。お金を得ることと使い道を決めることは、別の習慣でもある。今月の支出を生活、付き合い、気分転換に分けてみて。運の点数より、繰り返す流れを知るところから始めよう。\n\nアプリの金運の読み解きから、お金との向き合い方を考えてみよう。繰り返す習慣を振り返るきっかけに。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#金運",
+            "#お金のこと"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "大きな買い物もないのに、金欠？",
+              "body": "気づくと残高が減っている。気合いより、まず流れを見てみよう。",
+              "note": "お金と仕事のサジュ帖 · 01"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "稼ぐことと、手元に残すこと",
+              "body": "財星は扱う資源や現実の成果を見る概念だよ。お金を得ることと使い道を決めることは、別の習慣でもある。今月の支出を生活、付き合い、気分転換に分けてみて。運の点数より、繰り返す流れを知るところから始めよう。",
+              "note": "生活、付き合い、気分転換に分けよう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "お金と向き合う、自分を知ろう",
+              "body": "アプリの金運の読み解きから、お金との向き合い方を考えてみよう。繰り返す習慣を振り返るきっかけに。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Where does all your money go?",
+          "caption": "No big purchases. A smaller balance anyway. Start with the pattern.\n\nWealth stars concern resources you handle and tangible results. Bringing money in and directing it are different habits. Sort this month’s spending into essentials, relationships and comfort. Notice the repeated choices before judging yourself.\n\nExplore the app’s wealth readings as a prompt to reflect on how you handle resources. Start with the habits you can notice.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#MoneyHabits",
+            "#SajuReading"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Where does all your money go?",
+              "body": "No big purchases. A smaller balance anyway. Start with the pattern.",
+              "note": "Saju Notes · Money · 01"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Earning and keeping are different",
+              "body": "Wealth stars concern resources you handle and tangible results. Bringing money in and directing it are different habits. Sort this month’s spending into essentials, relationships and comfort. Notice the repeated choices before judging yourself.",
+              "note": "Sort spending into essentials, relationships and comfort."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Understand your money habits",
+              "body": "Explore the app’s wealth readings as a prompt to reflect on how you handle resources. Start with the habits you can notice.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-wealth-partner",
+      "topic": "재물·사업·동업",
+      "category": "wealth",
+      "artwork": "inyeon",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "친구와 동업, 해도 괜찮을까?",
+          "caption": "같이 놀면 잘 맞는데 돈과 마감까지 같이 맡겨도 될까?\n\n비겁은 동료와 나란히 서는 관계, 재성은 함께 다루는 자원에 닿아 있어. 친밀함과 일의 합은 다른 이야기지. 투자금, 결정권, 수익 배분, 그만둘 조건을 먼저 문서로 남겨봐. 좋은 사이를 오래 지킬수록 또렷한 합의가 든든해.\n\n앱의 궁합 풀이로 두 사람의 성향을 살펴봐. 돈과 역할 이야기를 시작할 단서로 삼아보자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#재물운",
+            "#돈관리"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "친구와 동업, 해도 괜찮을까?",
+              "body": "같이 놀면 잘 맞는데 돈과 마감까지 같이 맡겨도 될까?",
+              "note": "도사의 돈 수첩 · 02"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "친한 사이에도 역할은 적어둬",
+              "body": "비겁은 동료와 나란히 서는 관계, 재성은 함께 다루는 자원에 닿아 있어. 친밀함과 일의 합은 다른 이야기지. 투자금, 결정권, 수익 배분, 그만둘 조건을 먼저 문서로 남겨봐. 좋은 사이를 오래 지킬수록 또렷한 합의가 든든해.",
+              "note": "친할수록 돈과 역할은 또렷하게"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "같이 일할 두 사람, 더 보자",
+              "body": "앱의 궁합 풀이로 두 사람의 성향을 살펴봐. 돈과 역할 이야기를 시작할 단서로 삼아보자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "仲のいい友だちと、起業していい？",
+          "caption": "一緒に遊ぶと楽しい。でもお金や締め切りも一緒に扱えるかな。\n\n比劫は仲間と並ぶ関係、財星は扱う資源を見る概念だよ。仲のよさと仕事の相性は分けて考えたいね。出資、決定権、利益の分け方、やめる条件を先に書こう。親しい関係を長く守るためにも、はっきりした合意が支えになる。\n\nアプリの相性の読み解きで、ふたりの傾向を見てみよう。お金と役割を話すための入口に。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#金運",
+            "#お金のこと"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "仲のいい友だちと、起業していい？",
+              "body": "一緒に遊ぶと楽しい。でもお金や締め切りも一緒に扱えるかな。",
+              "note": "お金と仕事のサジュ帖 · 02"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "親しさとは別に、役割を決めよう",
+              "body": "比劫は仲間と並ぶ関係、財星は扱う資源を見る概念だよ。仲のよさと仕事の相性は分けて考えたいね。出資、決定権、利益の分け方、やめる条件を先に書こう。親しい関係を長く守るためにも、はっきりした合意が支えになる。",
+              "note": "親しいからこそ、お金と役割を明確に"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "一緒に働く、ふたりを知ろう",
+              "body": "アプリの相性の読み解きで、ふたりの傾向を見てみよう。お金と役割を話すための入口に。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Good friends. Good partners?",
+          "caption": "You get along over dinner. What about money, deadlines and a hard decision?\n\nCompanion stars concern peers; wealth stars concern resources. Friendship and working together need different agreements. Write down investment, authority, profit shares and an exit plan. Clear terms help you take care of a good relationship.\n\nExplore compatibility in the app. Use it to start a conversation about your styles, then put the real agreements in writing.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#MoneyHabits",
+            "#SajuReading"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Good friends. Good partners?",
+              "body": "You get along over dinner. What about money, deadlines and a hard decision?",
+              "note": "Saju Notes · Money · 02"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Put the agreement in writing",
+              "body": "Companion stars concern peers; wealth stars concern resources. Friendship and working together need different agreements. Write down investment, authority, profit shares and an exit plan. Clear terms help you take care of a good relationship.",
+              "note": "Good friends still need clear roles and money agreements."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Know the people behind the plan",
+              "body": "Explore compatibility in the app. Use it to start a conversation about your styles, then put the real agreements in writing.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-wealth-side",
+      "topic": "재물·사업·동업",
+      "category": "wealth",
+      "artwork": "muk",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "부업, 나도 해보면 맞을까?",
+          "caption": "남이 잘 버는 방식 말고, 네가 꾸준히 할 수 있는 방식부터 보자.\n\n식상은 만들고 표현하는 힘, 재성은 현실의 자원과 결과로 읽어. 명리의 식상생재도 만든 것이 결과로 이어지는 관계를 말하지. 부업이라면 재능 하나보다 시간, 비용, 반복할 수 있는 양을 같이 적어봐. 작게 시도하며 실제로 드는 힘과 반응을 기록해보자.\n\n앱의 재물 풀이로 돈을 대하는 네 성향을 살펴봐. 반복되는 습관부터 돌아보자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#재물운",
+            "#돈관리"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "부업, 나도 해보면 맞을까?",
+              "body": "남이 잘 버는 방식 말고, 네가 꾸준히 할 수 있는 방식부터 보자.",
+              "note": "도사의 돈 수첩 · 03"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "만드는 힘과 남기는 구조",
+              "body": "식상은 만들고 표현하는 힘, 재성은 현실의 자원과 결과로 읽어. 명리의 식상생재도 만든 것이 결과로 이어지는 관계를 말하지. 부업이라면 재능 하나보다 시간, 비용, 반복할 수 있는 양을 같이 적어봐. 작게 시도하며 실제로 드는 힘과 반응을 기록해보자.",
+              "note": "시간과 비용부터 작게 시험해봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "돈을 대하는 나부터 보자",
+              "body": "앱의 재물 풀이로 돈을 대하는 네 성향을 살펴봐. 반복되는 습관부터 돌아보자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "副業、私にも向いているかな？",
+          "caption": "誰かが稼いだ方法より、自分が続けられる形から考えてみよう。\n\n食傷は創作や表現、財星は現実の資源や成果。食傷生財は、作ったものが成果へつながる関係を指すよ。副業なら才能だけでなく、時間、費用、続けられる量も書き出そう。小さく試して、かかる力と反応を記録してみて。\n\nアプリの金運の読み解きから、お金との向き合い方を考えてみよう。繰り返す習慣を振り返るきっかけに。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#金運",
+            "#お金のこと"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "副業、私にも向いているかな？",
+              "body": "誰かが稼いだ方法より、自分が続けられる形から考えてみよう。",
+              "note": "お金と仕事のサジュ帖 · 03"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "作る力と、続けられる仕組み",
+              "body": "食傷は創作や表現、財星は現実の資源や成果。食傷生財は、作ったものが成果へつながる関係を指すよ。副業なら才能だけでなく、時間、費用、続けられる量も書き出そう。小さく試して、かかる力と反応を記録してみて。",
+              "note": "時間と費用を見て、小さく試そう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "お金と向き合う、自分を知ろう",
+              "body": "アプリの金運の読み解きから、お金との向き合い方を考えてみよう。繰り返す習慣を振り返るきっかけに。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Would a side business suit you?",
+          "caption": "Someone else’s success story is not a schedule you have to live by.\n\nSaju describes output generating wealth: expression feeding tangible results. For a side project, map your time, costs and a repeatable workload alongside the idea. Try something small and record the effort it takes alongside the response.\n\nExplore the app’s wealth readings as a prompt to reflect on how you handle resources. Start with the habits you can notice.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#MoneyHabits",
+            "#SajuReading"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Would a side business suit you?",
+              "body": "Someone else’s success story is not a schedule you have to live by.",
+              "note": "Saju Notes · Money · 03"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Connect the making to the practical",
+              "body": "Saju describes output generating wealth: expression feeding tangible results. For a side project, map your time, costs and a repeatable workload alongside the idea. Try something small and record the effort it takes alongside the response.",
+              "note": "Test the time and cost before counting on the income."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Understand your money habits",
+              "body": "Explore the app’s wealth readings as a prompt to reflect on how you handle resources. Start with the habits you can notice.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-charm-quiet",
+      "topic": "매력·인복·귀인",
+      "category": "charm",
+      "artwork": "muk",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "조용한데 왜 자꾸 눈이 갈까?",
+          "caption": "분위기를 휘어잡지 않아도, 오래 기억에 남는 사람이 있지.\n\n명리의 도화는 특정 지지의 관계로 보는 신살 가운데 하나야. 사람의 시선을 모으는 매력과 친화력을 상징하곤 하지. 조용히 잘 듣는 태도와 말의 온도도 매력이 될 수 있어. 사람들이 편히 다가오는 네 장면을 떠올려봐. 너답게 남는 인상도 있을 거야.\n\n사주핑계에서 네 기질과 관계의 결을 살펴봐. 남에게 맞추기 전에 너부터 알아보자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#인간관계",
+            "#나를알기"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "조용한데 왜 자꾸 눈이 갈까?",
+              "body": "분위기를 휘어잡지 않아도, 오래 기억에 남는 사람이 있지.",
+              "note": "도사의 인연 수첩 · 01"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "매력을 한 가지로 정하진 마",
+              "body": "명리의 도화는 특정 지지의 관계로 보는 신살 가운데 하나야. 사람의 시선을 모으는 매력과 친화력을 상징하곤 하지. 조용히 잘 듣는 태도와 말의 온도도 매력이 될 수 있어. 사람들이 편히 다가오는 네 장면을 떠올려봐. 너답게 남는 인상도 있을 거야.",
+              "note": "네 옆에서 편해지는 장면을 찾아봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "네가 남기는 인상을 보자",
+              "body": "사주핑계에서 네 기질과 관계의 결을 살펴봐. 남에게 맞추기 전에 너부터 알아보자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "静かなのに、なぜか気になる人",
+          "caption": "目立つことをしなくても、ずっと印象に残る人はいるよね。\n\n桃花は、地支の特定の関係から読む神殺の一つ。人の目を引く魅力や親しみやすさを象徴するんだ。よく聞く姿勢や言葉の温かさも魅力になるよ。人が安心して近づいてくる、自分らしい場面を思い出してみよう。\n\nサジュピンゲで自分の傾向を読んでみよう。関係の中でどう振る舞うか、振り返るきっかけに。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#人間関係",
+            "#自分を知る"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "静かなのに、なぜか気になる人",
+              "body": "目立つことをしなくても、ずっと印象に残る人はいるよね。",
+              "note": "人付き合いのサジュ帖 · 01"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "魅力に一つの形はない",
+              "body": "桃花は、地支の特定の関係から読む神殺の一つ。人の目を引く魅力や親しみやすさを象徴するんだ。よく聞く姿勢や言葉の温かさも魅力になるよ。人が安心して近づいてくる、自分らしい場面を思い出してみよう。",
+              "note": "一緒にいて安心する場面を思い出そう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "人に合わせる前に、自分のことを",
+              "body": "サジュピンゲで自分の傾向を読んでみよう。関係の中でどう振る舞うか、振り返るきっかけに。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Quiet can be magnetic, too",
+          "caption": "Some people stay with you without ever trying to own the room.\n\nPeach Blossom is a symbolic marker read from relationships between earthly branches in Saju, associated with charm and attention. Listening well and making someone feel at ease can leave an impression, too. Notice the presence that feels like your own.\n\nExplore your tendencies in SajuPinggye. Notice what you bring to relationships before trying to become what others expect.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Relationships",
+            "#SelfReflection"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Quiet can be magnetic, too",
+              "body": "Some people stay with you without ever trying to own the room.",
+              "note": "Saju Notes · Connections · 01"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Attraction has more than one form",
+              "body": "Peach Blossom is a symbolic marker read from relationships between earthly branches in Saju, associated with charm and attention. Listening well and making someone feel at ease can leave an impression, too. Notice the presence that feels like your own.",
+              "note": "Notice the moments when people feel at ease with you."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Get to know your own presence",
+              "body": "Explore your tendencies in SajuPinggye. Notice what you bring to relationships before trying to become what others expect.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-charm-help",
+      "topic": "매력·인복·귀인",
+      "category": "charm",
+      "artwork": "hanji",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "내 귀인은 어떻게 알아볼까?",
+          "caption": "좋은 말만 해주는 사람과 진짜 나를 돕는 사람은 다를 수 있어.\n\n천을귀인은 천간과 지지의 관계에서 찾는 신살로, 도움받는 인연을 상징해. 그 도움을 알아보려면 상대의 행동에 눈길을 줘봐. 네 말을 듣고, 필요한 정보를 주고, 네 선택을 존중하는지 보자. 귀인이라는 이름보다 실제로 남은 도움을 기억해.\n\n사주핑계에서 네 기질과 관계의 결을 살펴봐. 남에게 맞추기 전에 너부터 알아보자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#인간관계",
+            "#나를알기"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "내 귀인은 어떻게 알아볼까?",
+              "body": "좋은 말만 해주는 사람과 진짜 나를 돕는 사람은 다를 수 있어.",
+              "note": "도사의 인연 수첩 · 02"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "도움은 행동으로 남아",
+              "body": "천을귀인은 천간과 지지의 관계에서 찾는 신살로, 도움받는 인연을 상징해. 그 도움을 알아보려면 상대의 행동에 눈길을 줘봐. 네 말을 듣고, 필요한 정보를 주고, 네 선택을 존중하는지 보자. 귀인이라는 이름보다 실제로 남은 도움을 기억해.",
+              "note": "칭찬보다 남겨준 도움을 기억해"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "네가 남기는 인상을 보자",
+              "body": "사주핑계에서 네 기질과 관계의 결을 살펴봐. 남에게 맞추기 전에 너부터 알아보자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "助けてくれる人、どう見分ける？",
+          "caption": "優しい言葉をくれる人と、本当に力になってくれる人は同じかな。\n\n天乙貴人は天干と地支の関係で読み、助けとなる縁を象徴する神殺だよ。その助けに気づくには、行動に目を向けてみよう。話を聞き、情報をくれ、選択を尊重してくれるか。呼び名より、実際に受け取った助けを覚えておこう。\n\nサジュピンゲで自分の傾向を読んでみよう。関係の中でどう振る舞うか、振り返るきっかけに。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#人間関係",
+            "#自分を知る"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "助けてくれる人、どう見分ける？",
+              "body": "優しい言葉をくれる人と、本当に力になってくれる人は同じかな。",
+              "note": "人付き合いのサジュ帖 · 02"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "助けは、行動に残るもの",
+              "body": "天乙貴人は天干と地支の関係で読み、助けとなる縁を象徴する神殺だよ。その助けに気づくには、行動に目を向けてみよう。話を聞き、情報をくれ、選択を尊重してくれるか。呼び名より、実際に受け取った助けを覚えておこう。",
+              "note": "褒め言葉より、残った助けを見てみよう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "人に合わせる前に、自分のことを",
+              "body": "サジュピンゲで自分の傾向を読んでみよう。関係の中でどう振る舞うか、振り返るきっかけに。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Who actually has your back?",
+          "caption": "Kind words feel good. Useful support also leaves room for your own choices.\n\nSaju’s Heavenly Nobleman is a symbolic marker based on stem-and-branch relationships, associated with support. Notice who listens, shares useful information and respects your decisions. The practical help they leave you with is worth remembering.\n\nExplore your tendencies in SajuPinggye. Notice what you bring to relationships before trying to become what others expect.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Relationships",
+            "#SelfReflection"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Who actually has your back?",
+              "body": "Kind words feel good. Useful support also leaves room for your own choices.",
+              "note": "Saju Notes · Connections · 02"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Notice the help, not the label",
+              "body": "Saju’s Heavenly Nobleman is a symbolic marker based on stem-and-branch relationships, associated with support. Notice who listens, shares useful information and respects your decisions. The practical help they leave you with is worth remembering.",
+              "note": "Remember the useful help, not just the flattering words."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Get to know your own presence",
+              "body": "Explore your tendencies in SajuPinggye. Notice what you bring to relationships before trying to become what others expect.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-charm-repeat",
+      "topic": "매력·인복·귀인",
+      "category": "charm",
+      "artwork": "inyeon",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "왜 나만 이런 사람을 만날까?",
+          "caption": "늘 들어주고 늘 지치는 관계라면, 인복보다 네 역할부터 살펴보자.\n\n명리의 비겁은 나와 같은 오행으로, 동료나 경쟁의 관계를 읽을 때 써. 친해지는 힘과 내 자리를 지키는 힘을 함께 떠올려보자. 또 부탁을 들어주기 전에 지금 여유가 있는지 확인해. 좋은 관계도 한쪽이 계속 소모되어야 유지되는 건 아니야.\n\n사주핑계에서 네 기질과 관계의 결을 살펴봐. 남에게 맞추기 전에 너부터 알아보자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#인간관계",
+            "#나를알기"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "왜 나만 이런 사람을 만날까?",
+              "body": "늘 들어주고 늘 지치는 관계라면, 인복보다 네 역할부터 살펴보자.",
+              "note": "도사의 인연 수첩 · 03"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "가까움에도 선이 필요해",
+              "body": "명리의 비겁은 나와 같은 오행으로, 동료나 경쟁의 관계를 읽을 때 써. 친해지는 힘과 내 자리를 지키는 힘을 함께 떠올려보자. 또 부탁을 들어주기 전에 지금 여유가 있는지 확인해. 좋은 관계도 한쪽이 계속 소모되어야 유지되는 건 아니야.",
+              "note": "다음 부탁엔 네 여유도 물어봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "네가 남기는 인상을 보자",
+              "body": "사주핑계에서 네 기질과 관계의 결을 살펴봐. 남에게 맞추기 전에 너부터 알아보자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "なぜ同じ関係で疲れるんだろう？",
+          "caption": "いつも聞き役で、帰るとぐったり。縁より先に役割を見てみよう。\n\n比劫は自分と同じ五行で、仲間や競争の関係を見るときに使うよ。近づく力と、自分の場所を守る力を一緒に考えてみよう。また頼まれる前に、今の余裕を確認してみて。一人だけが疲れ続けない関係を作っていこう。\n\nサジュピンゲで自分の傾向を読んでみよう。関係の中でどう振る舞うか、振り返るきっかけに。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#人間関係",
+            "#自分を知る"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "なぜ同じ関係で疲れるんだろう？",
+              "body": "いつも聞き役で、帰るとぐったり。縁より先に役割を見てみよう。",
+              "note": "人付き合いのサジュ帖 · 03"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "親しくても、境界はあっていい",
+              "body": "比劫は自分と同じ五行で、仲間や競争の関係を見るときに使うよ。近づく力と、自分の場所を守る力を一緒に考えてみよう。また頼まれる前に、今の余裕を確認してみて。一人だけが疲れ続けない関係を作っていこう。",
+              "note": "次のお願いには、自分の余裕も確かめよう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "人に合わせる前に、自分のことを",
+              "body": "サジュピンゲで自分の傾向を読んでみよう。関係の中でどう振る舞うか、振り返るきっかけに。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Another draining friendship?",
+          "caption": "You listen, agree and go home exhausted. Notice the role you keep taking.\n\nCompanion stars share the self’s element and can relate to peers and competition. Use that image to consider belonging alongside keeping your own space. Before saying yes again, check your capacity. A bond needs room for both people.\n\nExplore your tendencies in SajuPinggye. Notice what you bring to relationships before trying to become what others expect.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#Relationships",
+            "#SelfReflection"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Another draining friendship?",
+              "body": "You listen, agree and go home exhausted. Notice the role you keep taking.",
+              "note": "Saju Notes · Connections · 03"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Closeness can have boundaries",
+              "body": "Companion stars share the self’s element and can relate to peers and competition. Use that image to consider belonging alongside keeping your own space. Before saying yes again, check your capacity. A bond needs room for both people.",
+              "note": "Before saying yes again, check your own capacity."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Get to know your own presence",
+              "body": "Explore your tendencies in SajuPinggye. Notice what you bring to relationships before trying to become what others expect.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-year-reset",
+      "topic": "신년·전환기",
+      "category": "year",
+      "artwork": "hanji",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "올해 안 풀린 건 다 내 탓일까?",
+          "caption": "잘 안 된 장면만 모아 한 해의 너를 평가하지는 마.\n\n명리의 대운은 보통 십 년의 흐름, 세운은 한 해의 흐름을 보는 틀이야. 긴 시간과 짧은 시간을 나눠 보는 관점이지. 올해의 한 결과로 네 가능성을 끝내진 마. 계속 가져갈 습관 하나와 내려놓을 부담 하나를 골라보자.\n\n사주핑계에서 네 기질을 살펴봐. 오늘의 핑계도 곁에 두고 너에게 맞는 한 걸음부터 가자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#신년운세",
+            "#새로운시작"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "올해 안 풀린 건 다 내 탓일까?",
+              "body": "잘 안 된 장면만 모아 한 해의 너를 평가하지는 마.",
+              "note": "도사의 새 출발 수첩 · 01"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "한 해가 네 전부는 아니야",
+              "body": "명리의 대운은 보통 십 년의 흐름, 세운은 한 해의 흐름을 보는 틀이야. 긴 시간과 짧은 시간을 나눠 보는 관점이지. 올해의 한 결과로 네 가능성을 끝내진 마. 계속 가져갈 습관 하나와 내려놓을 부담 하나를 골라보자.",
+              "note": "챙길 습관 하나, 놓을 부담 하나"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "새 계획, 네 기질부터",
+              "body": "사주핑계에서 네 기질을 살펴봐. 오늘의 핑계도 곁에 두고 너에게 맞는 한 걸음부터 가자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "今年うまくいかなかったのは自分のせい？",
+          "caption": "つまずいた場面だけを集めて、一年の自分を決めなくていい。\n\n大運は通常十年、歳運は一年の流れを見る枠組みだよ。長い時間と短い時間を分けて考える視点なんだ。今年の一つの結果で可能性まで閉じなくていい。続けたい習慣と、手放したい負担を一つずつ選んでみよう。\n\nサジュピンゲで自分の傾向を知ろう。「今日のいいわけ」もそばに置いて、自分のペースで一歩ずつ。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#新年の運勢",
+            "#新しい一歩"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "今年うまくいかなかったのは自分のせい？",
+              "body": "つまずいた場面だけを集めて、一年の自分を決めなくていい。",
+              "note": "新しい一歩のサジュ帖 · 01"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "一年だけで、自分を決めない",
+              "body": "大運は通常十年、歳運は一年の流れを見る枠組みだよ。長い時間と短い時間を分けて考える視点なんだ。今年の一つの結果で可能性まで閉じなくていい。続けたい習慣と、手放したい負担を一つずつ選んでみよう。",
+              "note": "続ける習慣一つ、手放す負担一つ"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "次の一歩、自分の傾向から",
+              "body": "サジュピンゲで自分の傾向を知ろう。「今日のいいわけ」もそばに置いて、自分のペースで一歩ずつ。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Was this whole year your fault?",
+          "caption": "A list of what went wrong is not a complete account of who you were.\n\nSaju’s major cycles usually cover ten years; annual cycles look at one. They offer different timeframes for reflection. One result need not define your potential. Choose one habit to carry forward and one burden to put down.\n\nExplore your tendencies in SajuPinggye. Keep today’s excuse close and take the next step at a pace that feels like yours.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#NewChapter",
+            "#YearAhead"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Was this whole year your fault?",
+              "body": "A list of what went wrong is not a complete account of who you were.",
+              "note": "Saju Notes · New Chapters · 01"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "A year is not your whole story",
+              "body": "Saju’s major cycles usually cover ten years; annual cycles look at one. They offer different timeframes for reflection. One result need not define your potential. Choose one habit to carry forward and one burden to put down.",
+              "note": "Keep one helpful habit. Put down one unnecessary burden."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "A new chapter starts with you",
+              "body": "Explore your tendencies in SajuPinggye. Keep today’s excuse close and take the next step at a pace that feels like yours.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-year-new",
+      "topic": "신년·전환기",
+      "category": "year",
+      "artwork": "muk",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "내년엔 늘릴까, 줄일까?",
+          "caption": "새해 계획을 더 채우기 전에, 올해 너를 버티게 한 것부터 보자.\n\n오행의 목은 새로 뻗는 이미지, 금은 가르고 정리하는 이미지로 읽어. 목표를 세우는 힘만큼 끝낼 일을 고르는 힘도 필요하지. 새 계획 하나를 넣는다면 비울 약속 하나도 정해봐. 무엇을 더 할지보다 무엇에 힘을 남길지 생각하자.\n\n사주핑계에서 네 기질을 살펴봐. 오늘의 핑계도 곁에 두고 너에게 맞는 한 걸음부터 가자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#신년운세",
+            "#새로운시작"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "내년엔 늘릴까, 줄일까?",
+              "body": "새해 계획을 더 채우기 전에, 올해 너를 버티게 한 것부터 보자.",
+              "note": "도사의 새 출발 수첩 · 02"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "확장과 정리를 같이 보자",
+              "body": "오행의 목은 새로 뻗는 이미지, 금은 가르고 정리하는 이미지로 읽어. 목표를 세우는 힘만큼 끝낼 일을 고르는 힘도 필요하지. 새 계획 하나를 넣는다면 비울 약속 하나도 정해봐. 무엇을 더 할지보다 무엇에 힘을 남길지 생각하자.",
+              "note": "새 계획 하나엔 비울 약속 하나"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "새 계획, 네 기질부터",
+              "body": "사주핑계에서 네 기질을 살펴봐. 오늘의 핑계도 곁에 두고 너에게 맞는 한 걸음부터 가자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "来年は、増やす？減らす？",
+          "caption": "予定を埋める前に、今年の自分を支えたものを見てみよう。\n\n木は新しく伸びる姿、金は分けて整える姿に重ねて読むよ。目標を作る力と同じくらい、終えるものを選ぶ力も必要なんだ。予定を一つ増やすなら、手放す用事も一つ決めよう。大事なことに力を残すためにね。\n\nサジュピンゲで自分の傾向を知ろう。「今日のいいわけ」もそばに置いて、自分のペースで一歩ずつ。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#新年の運勢",
+            "#新しい一歩"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "来年は、増やす？減らす？",
+              "body": "予定を埋める前に、今年の自分を支えたものを見てみよう。",
+              "note": "新しい一歩のサジュ帖 · 02"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "広げる力、整理する力",
+              "body": "木は新しく伸びる姿、金は分けて整える姿に重ねて読むよ。目標を作る力と同じくらい、終えるものを選ぶ力も必要なんだ。予定を一つ増やすなら、手放す用事も一つ決めよう。大事なことに力を残すためにね。",
+              "note": "予定を増やすなら、手放す用事も一つ"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "次の一歩、自分の傾向から",
+              "body": "サジュピンゲで自分の傾向を知ろう。「今日のいいわけ」もそばに置いて、自分のペースで一歩ずつ。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Next year: more, or less?",
+          "caption": "Before you fill the calendar, notice what kept you going this year.\n\nWood suggests reaching outward; Metal suggests defining and trimming. A plan needs space as well as ambition. For each new commitment, consider one you can release. Keep some energy for the things you want to do well.\n\nExplore your tendencies in SajuPinggye. Keep today’s excuse close and take the next step at a pace that feels like yours.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#NewChapter",
+            "#YearAhead"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Next year: more, or less?",
+              "body": "Before you fill the calendar, notice what kept you going this year.",
+              "note": "Saju Notes · New Chapters · 02"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Plan what to stop, too",
+              "body": "Wood suggests reaching outward; Metal suggests defining and trimming. A plan needs space as well as ambition. For each new commitment, consider one you can release. Keep some energy for the things you want to do well.",
+              "note": "Make space for the new plan by releasing one commitment."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "A new chapter starts with you",
+              "body": "Explore your tendencies in SajuPinggye. Keep today’s excuse close and take the next step at a pace that feels like yours.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-year-start",
+      "topic": "신년·전환기",
+      "category": "year",
+      "artwork": "inyeon",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "지금 시작할까, 더 쉬어야 할까?",
+          "caption": "남들은 벌써 출발했다는데, 너만 멈춰 있는 기분이 드니?\n\n음양은 움직임과 쉼이 번갈아 자리를 갖는 관점이야. 쉬었다고 뒤처진 것도, 시작했다고 다 준비된 것도 아니지. 지금 필요한 게 회복인지 첫 시도인지 몸과 일정으로 확인해봐. 큰 결심 대신 이번 주에 가능한 한 걸음만 정해도 돼.\n\n사주핑계에서 네 기질을 살펴봐. 오늘의 핑계도 곁에 두고 너에게 맞는 한 걸음부터 가자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#신년운세",
+            "#새로운시작"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "지금 시작할까, 더 쉬어야 할까?",
+              "body": "남들은 벌써 출발했다는데, 너만 멈춰 있는 기분이 드니?",
+              "note": "도사의 새 출발 수첩 · 03"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "쉬는 리듬도 네 편이야",
+              "body": "음양은 움직임과 쉼이 번갈아 자리를 갖는 관점이야. 쉬었다고 뒤처진 것도, 시작했다고 다 준비된 것도 아니지. 지금 필요한 게 회복인지 첫 시도인지 몸과 일정으로 확인해봐. 큰 결심 대신 이번 주에 가능한 한 걸음만 정해도 돼.",
+              "note": "이번 주 가능한 한 걸음만 정하자"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "새 계획, 네 기질부터",
+              "body": "사주핑계에서 네 기질을 살펴봐. 오늘의 핑계도 곁에 두고 너에게 맞는 한 걸음부터 가자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "今、始める？もう少し休む？",
+          "caption": "周りが先へ進むほど、自分だけ止まっているように感じることもある。\n\n陰陽では、動くことと休むことがそれぞれの場を持つと考えるよ。休んだら遅れ、始めたら準備完了というわけではないんだ。今必要なのは回復か、小さな挑戦か。体調と予定を見て、今週できる一歩だけ決めてみよう。\n\nサジュピンゲで自分の傾向を知ろう。「今日のいいわけ」もそばに置いて、自分のペースで一歩ずつ。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#新年の運勢",
+            "#新しい一歩"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "今、始める？もう少し休む？",
+              "body": "周りが先へ進むほど、自分だけ止まっているように感じることもある。",
+              "note": "新しい一歩のサジュ帖 · 03"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "休む時間にも、役割がある",
+              "body": "陰陽では、動くことと休むことがそれぞれの場を持つと考えるよ。休んだら遅れ、始めたら準備完了というわけではないんだ。今必要なのは回復か、小さな挑戦か。体調と予定を見て、今週できる一歩だけ決めてみよう。",
+              "note": "今週できる一歩だけ、決めてみよう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "次の一歩、自分の傾向から",
+              "body": "サジュピンゲで自分の傾向を知ろう。「今日のいいわけ」もそばに置いて、自分のペースで一歩ずつ。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Start now, or rest a little?",
+          "caption": "Everyone seems to be moving. That does not mean you have missed your moment.\n\nYin and yang give rest and movement a place. Resting does not mean failing; starting does not mean being ready for everything. Check your energy and your actual week. One manageable step is enough to make a beginning.\n\nExplore your tendencies in SajuPinggye. Keep today’s excuse close and take the next step at a pace that feels like yours.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#NewChapter",
+            "#YearAhead"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Start now, or rest a little?",
+              "body": "Everyone seems to be moving. That does not mean you have missed your moment.",
+              "note": "Saju Notes · New Chapters · 03"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Choose a pace you can sustain",
+              "body": "Yin and yang give rest and movement a place. Resting does not mean failing; starting does not mean being ready for everything. Check your energy and your actual week. One manageable step is enough to make a beginning.",
+              "note": "Choose one step you can actually manage this week."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "A new chapter starts with you",
+              "body": "Explore your tendencies in SajuPinggye. Keep today’s excuse close and take the next step at a pace that feels like yours.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-naming-sound",
+      "topic": "작명·한국 이름",
+      "category": "naming",
+      "artwork": "hanji",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "이름 한 글자, 왜 다를까?",
+          "caption": "뜻은 비슷한데 불러보면 달라져. 이름은 소리로도 매일 만나니까.\n\n이름을 볼 때 음양이나 오행을 참고하는 방식이 있고, 소리와 한자의 분류는 학파마다 달라. 성씨와의 울림, 글자의 뜻, 매일 부를 때의 느낌을 나란히 보자. 성씨와 붙여 부르고 뜻을 설명하고 적어보기도 해봐. 오래 쓸 한국 이름이라면 과정도 중요해.\n\n성씨와 생년 정보를 바탕으로 한국 이름 후보를 만나봐. 뜻과 부르는 느낌도 함께 살펴보자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#작명",
+            "#한국이름"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "이름 한 글자, 왜 다를까?",
+              "body": "뜻은 비슷한데 불러보면 달라져. 이름은 소리로도 매일 만나니까.",
+              "note": "도사의 이름 수첩 · 01"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "좋은 뜻과 부르는 느낌",
+              "body": "이름을 볼 때 음양이나 오행을 참고하는 방식이 있고, 소리와 한자의 분류는 학파마다 달라. 성씨와의 울림, 글자의 뜻, 매일 부를 때의 느낌을 나란히 보자. 성씨와 붙여 부르고 뜻을 설명하고 적어보기도 해봐. 오래 쓸 한국 이름이라면 과정도 중요해.",
+              "note": "성씨와 붙여 불러보고 적어봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "너를 담는 한국 이름",
+              "body": "성씨와 생년 정보를 바탕으로 한국 이름 후보를 만나봐. 뜻과 부르는 느낌도 함께 살펴보자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "韓国の名前、一文字で印象が違う？",
+          "caption": "意味が似ていても、呼ぶと響きが変わる。毎日使う名前だからね。\n\n韓国の命名では陰陽や五行を参考にすることがあり、音や漢字の分類は流派で違うんだ。姓との響き、意味、毎日呼ぶ感覚を並べて考えてみよう。つなげて呼び、意味を説明し、書いてみる。長く使う名前だから、その感覚も大切にしよう。\n\n姓と出生情報をもとに、韓国の名前の候補を見てみよう。漢字の意味や響きも、一緒に考えてみて。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#韓国の名前",
+            "#名付け"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "韓国の名前、一文字で印象が違う？",
+              "body": "意味が似ていても、呼ぶと響きが変わる。毎日使う名前だからね。",
+              "note": "韓国の名前を考える帖 · 01"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "意味と、呼んだときの響き",
+              "body": "韓国の命名では陰陽や五行を参考にすることがあり、音や漢字の分類は流派で違うんだ。姓との響き、意味、毎日呼ぶ感覚を並べて考えてみよう。つなげて呼び、意味を説明し、書いてみる。長く使う名前だから、その感覚も大切にしよう。",
+              "note": "姓とつなげて、呼んで書いてみよう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "自分らしい、韓国の名前を",
+              "body": "姓と出生情報をもとに、韓国の名前の候補を見てみよう。漢字の意味や響きも、一緒に考えてみて。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "Why does one syllable matter?",
+          "caption": "A Korean name lives in its sound as well as its written meaning.\n\nSome Korean naming traditions use yin-yang and the five elements, with sound and character classifications varying by school. Consider the family name, the meaning and the everyday sound together. Say the full name, write it down and see how it feels.\n\nExplore Korean name ideas using your family name and birth details. Consider the character meanings and how the full name sounds.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#KoreanNames",
+            "#NameMeaning"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "Why does one syllable matter?",
+              "body": "A Korean name lives in its sound as well as its written meaning.",
+              "note": "Saju Notes · Korean Names · 01"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Try the meaning and the sound",
+              "body": "Some Korean naming traditions use yin-yang and the five elements, with sound and character classifications varying by school. Consider the family name, the meaning and the everyday sound together. Say the full name, write it down and see how it feels.",
+              "note": "Say the full Korean name aloud, then write it down."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Explore a Korean name with meaning",
+              "body": "Explore Korean name ideas using your family name and birth details. Consider the character meanings and how the full name sounds.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-naming-family",
+      "topic": "작명·한국 이름",
+      "category": "naming",
+      "artwork": "inyeon",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "돌림자, 꼭 넣어야 좋은 걸까?",
+          "caption": "가족의 뜻도 담고 싶고, 아이만의 이름도 주고 싶다면 같이 생각해보자.\n\n돌림자는 같은 세대가 한 글자를 나누는 가족의 약속이야. 이름의 오행을 보는 방식과는 구분해서 생각해도 돼. 전통을 잇는 마음, 성씨와의 소리, 한자의 뜻을 함께 적어보자. 물려주고 싶은 뜻과 아이만의 이름에 바라는 느낌을 나란히 놓아봐.\n\n성씨와 생년 정보를 바탕으로 한국 이름 후보를 만나봐. 뜻과 부르는 느낌도 함께 살펴보자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#작명",
+            "#한국이름"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "돌림자, 꼭 넣어야 좋은 걸까?",
+              "body": "가족의 뜻도 담고 싶고, 아이만의 이름도 주고 싶다면 같이 생각해보자.",
+              "note": "도사의 이름 수첩 · 02"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "이어받을 뜻은 고를 수 있어",
+              "body": "돌림자는 같은 세대가 한 글자를 나누는 가족의 약속이야. 이름의 오행을 보는 방식과는 구분해서 생각해도 돼. 전통을 잇는 마음, 성씨와의 소리, 한자의 뜻을 함께 적어보자. 물려주고 싶은 뜻과 아이만의 이름에 바라는 느낌을 나란히 놓아봐.",
+              "note": "물려줄 뜻과 아이만의 소리를 함께"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "너를 담는 한국 이름",
+              "body": "성씨와 생년 정보를 바탕으로 한국 이름 후보를 만나봐. 뜻과 부르는 느낌도 함께 살펴보자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "韓国の名前、代々の字は必須？",
+          "caption": "家族の思いも、その子らしさも込めたい。両方考えてみよう。\n\n韓国には同じ世代で一字を共有する行列字の習慣があるよ。名前の五行を見る方法とは分けて考えられるんだ。受け継ぎたい思い、姓との響き、漢字の意味を並べてみよう。家族の願いと、その子らしい呼び名の両方を大切にしてみて。\n\n姓と出生情報をもとに、韓国の名前の候補を見てみよう。漢字の意味や響きも、一緒に考えてみて。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#韓国の名前",
+            "#名付け"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "韓国の名前、代々の字は必須？",
+              "body": "家族の思いも、その子らしさも込めたい。両方考えてみよう。",
+              "note": "韓国の名前を考える帖 · 02"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "受け継ぐ意味を選ぼう",
+              "body": "韓国には同じ世代で一字を共有する行列字の習慣があるよ。名前の五行を見る方法とは分けて考えられるんだ。受け継ぎたい思い、姓との響き、漢字の意味を並べてみよう。家族の願いと、その子らしい呼び名の両方を大切にしてみて。",
+              "note": "受け継ぐ意味と、その子らしい響きを"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "自分らしい、韓国の名前を",
+              "body": "姓と出生情報をもとに、韓国の名前の候補を見てみよう。漢字の意味や響きも、一緒に考えてみて。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "A Korean name with a family link?",
+          "caption": "You want to honour family and leave room for a name that feels like theirs.\n\nSome Korean families share a generation character among relatives. That custom is separate from how a naming school classifies elements. Consider the family meaning, the full sound and the chosen characters alongside the feeling you want the child’s own name to carry.\n\nExplore Korean name ideas using your family name and birth details. Consider the character meanings and how the full name sounds.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#KoreanNames",
+            "#NameMeaning"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "A Korean name with a family link?",
+              "body": "You want to honour family and leave room for a name that feels like theirs.",
+              "note": "Saju Notes · Korean Names · 02"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Choose what you want to carry on",
+              "body": "Some Korean families share a generation character among relatives. That custom is separate from how a naming school classifies elements. Consider the family meaning, the full sound and the chosen characters alongside the feeling you want the child’s own name to carry.",
+              "note": "Consider family meaning alongside a sound of their own."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Explore a Korean name with meaning",
+              "body": "Explore Korean name ideas using your family name and birth details. Consider the character meanings and how the full name sounds.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "v2-naming-change",
+      "topic": "작명·한국 이름",
+      "category": "naming",
+      "artwork": "muk",
+      "reviewed": false,
+      "locales": {
+        "ko": {
+          "label": "개명하면 내 삶도 바뀔까?",
+          "caption": "새 이름이 필요한 이유가 운이 나빠서만은 아닐 수 있어.\n\n사주의 여덟 글자는 태어난 때를 바탕으로 읽어. 이름은 너를 소개하는 소리와 뜻으로 매일 만나지. 새 이름이 너를 어떻게 표현해주면 좋을지 생각해봐. 한국 이름을 바꾸고 싶다면 떠나보낼 느낌과 담고 싶은 뜻부터 적어보자.\n\n성씨와 생년 정보를 바탕으로 한국 이름 후보를 만나봐. 뜻과 부르는 느낌도 함께 살펴보자.\n프로필 링크에서 무료 성향 풀이와 오늘의 핑계부터 만나봐.",
+          "hashtags": [
+            "#사주핑계",
+            "#사주",
+            "#작명",
+            "#한국이름"
+          ],
+          "slides": [
+            {
+              "eyebrow": "도사의 질문",
+              "title": "개명하면 내 삶도 바뀔까?",
+              "body": "새 이름이 필요한 이유가 운이 나빠서만은 아닐 수 있어.",
+              "note": "도사의 이름 수첩 · 03"
+            },
+            {
+              "eyebrow": "명리로 한 번 짚어보자",
+              "title": "이름에 바라는 걸 말해봐",
+              "body": "사주의 여덟 글자는 태어난 때를 바탕으로 읽어. 이름은 너를 소개하는 소리와 뜻으로 매일 만나지. 새 이름이 너를 어떻게 표현해주면 좋을지 생각해봐. 한국 이름을 바꾸고 싶다면 떠나보낼 느낌과 담고 싶은 뜻부터 적어보자.",
+              "note": "새 이름에 담고 싶은 뜻부터 적어봐"
+            },
+            {
+              "eyebrow": "여기서 네 이야기로",
+              "title": "너를 담는 한국 이름",
+              "body": "성씨와 생년 정보를 바탕으로 한국 이름 후보를 만나봐. 뜻과 부르는 느낌도 함께 살펴보자.",
+              "note": "프로필 링크에서 이어보기"
+            }
+          ]
+        },
+        "ja": {
+          "label": "韓国の名前を変えたら、人生も変わる？",
+          "caption": "新しい名前がほしい理由は、運のよしあしだけとは限らない。\n\n四柱の八字は生まれた時をもとに読み、名前は自分を紹介する音や意味として日々使うもの。新しい名前が、どんな自分を表してくれたらうれしいかな。韓国の名前を考えるなら、離れたい印象と込めたい意味から書いてみよう。\n\n姓と出生情報をもとに、韓国の名前の候補を見てみよう。漢字の意味や響きも、一緒に考えてみて。\nプロフィールのリンクから、無料の性格読みと「今日のいいわけ」を試してみて。",
+          "hashtags": [
+            "#サジュピンゲ",
+            "#四柱推命",
+            "#韓国の名前",
+            "#名付け"
+          ],
+          "slides": [
+            {
+              "eyebrow": "サジュの小さな問い",
+              "title": "韓国の名前を変えたら、人生も変わる？",
+              "body": "新しい名前がほしい理由は、運のよしあしだけとは限らない。",
+              "note": "韓国の名前を考える帖 · 03"
+            },
+            {
+              "eyebrow": "四柱推命から、考えるヒント",
+              "title": "名前に願うことを言葉に",
+              "body": "四柱の八字は生まれた時をもとに読み、名前は自分を紹介する音や意味として日々使うもの。新しい名前が、どんな自分を表してくれたらうれしいかな。韓国の名前を考えるなら、離れたい印象と込めたい意味から書いてみよう。",
+              "note": "新しい名前に込めたい意味から書こう"
+            },
+            {
+              "eyebrow": "ここからは、自分の話",
+              "title": "自分らしい、韓国の名前を",
+              "body": "姓と出生情報をもとに、韓国の名前の候補を見てみよう。漢字の意味や響きも、一緒に考えてみて。",
+              "note": "続きはプロフィールのリンクへ"
+            }
+          ]
+        },
+        "en": {
+          "label": "New Korean name, new life?",
+          "caption": "Wanting a new name may be about identity, not simply a run of bad luck.\n\nA Saju chart is read from birth details; a name meets you daily as a sound and an introduction. Think about what you want a new Korean name to express. Start with the meanings you want to carry and how you hope it will feel to hear them over time.\n\nExplore Korean name ideas using your family name and birth details. Consider the character meanings and how the full name sounds.\nFollow the link in bio for a free personality reading and today’s excuse.",
+          "hashtags": [
+            "#SajuPinggye",
+            "#KoreanSaju",
+            "#KoreanNames",
+            "#NameMeaning"
+          ],
+          "slides": [
+            {
+              "eyebrow": "A question for Saju",
+              "title": "New Korean name, new life?",
+              "body": "Wanting a new name may be about identity, not simply a run of bad luck.",
+              "note": "Saju Notes · Korean Names · 03"
+            },
+            {
+              "eyebrow": "A thought from Korean Saju",
+              "title": "Name what you want it to mean",
+              "body": "A Saju chart is read from birth details; a name meets you daily as a sound and an introduction. Think about what you want a new Korean name to express. Start with the meanings you want to carry and how you hope it will feel to hear them over time.",
+              "note": "Start with the meaning you want a new name to carry."
+            },
+            {
+              "eyebrow": "Make it your own",
+              "title": "Explore a Korean name with meaning",
+              "body": "Explore Korean name ideas using your family name and birth details. Consider the character meanings and how the full name sounds.",
+              "note": "Continue at the link in bio"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

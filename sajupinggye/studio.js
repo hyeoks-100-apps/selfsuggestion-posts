@@ -1,11 +1,12 @@
 'use strict';
 
 (() => {
-  const STORE_KEY = 'spg_ig_studio_v1';
+  const STORE_KEY = 'spg_ig_studio_v2';
+  const LEGACY_STORE_KEY = 'spg_ig_studio_v1';
   const APP_ID = 'sajupinggye-instagram-studio';
   const LOCALES = ['ko', 'ja', 'en'];
   const TEMPLATES = ['hanji', 'muk', 'inyeon'];
-  const MAX_CAMPAIGNS = 100;
+  const MAX_CAMPAIGNS = 200;
   const MAX_BACKUP_BYTES = 8 * 1024 * 1024;
   const MAX_TAGS = 5;
   const MAX_CAPTION = 2200;
@@ -23,6 +24,7 @@
   let previewOkay = false;
   let busy = false;
   let storageFailed = false;
+  let categoryFilter = 'all';
 
   function message(text, error = false) {
     const needsBackup = storageFailed && !error;
@@ -65,7 +67,7 @@
   }
 
   function readLocale(value) {
-    if (!plain(value) || !Array.isArray(value.slides) || value.slides.length !== 5) throw new Error('각 언어에는 슬라이드 다섯 장이 필요해.');
+    if (!plain(value) || !Array.isArray(value.slides) || ![3, 5].includes(value.slides.length)) throw new Error('각 언어에는 슬라이드 3장 또는 이전 형식의 5장이 필요해.');
     return { label: text(value.label, '기획 이름', LIMITS.label, false), caption: text(value.caption, '캡션', LIMITS.caption), hashtags: readTags(value.hashtags), slides: value.slides.map(readSlide) };
   }
 
@@ -76,38 +78,45 @@
       if (!own(value.locales, locale)) throw new Error(`${value.id || '기획'}의 ${locale.toUpperCase()} 원고가 없어.`);
       locales[locale] = readLocale(value.locales[locale]);
     }
-    return { id: validId(value.id), topic: text(value.topic, '기획 주제', LIMITS.topic, false), locales };
+    const count = locales.ko.slides.length;
+    if (LOCALES.some(locale => locales[locale].slides.length !== count)) throw new Error('같은 기획의 슬라이드 수는 세 언어 모두 같아야 해.');
+    const category = value.category === undefined ? (count === 5 ? 'legacy' : 'custom') : text(value.category, '분류', 40, false);
+    const artwork = value.artwork === undefined ? 'hanji' : value.artwork;
+    if (!TEMPLATES.includes(artwork)) throw new Error('지원하는 표지 이미지를 선택해 줘.');
+    return { id: validId(value.id), topic: text(value.topic, '기획 주제', LIMITS.topic, false), category, artwork, locales };
   }
 
   function readCatalog(value) {
-    if (!plain(value) || value.version !== 1 || !plain(value.brand) || !Array.isArray(value.campaigns) || !value.campaigns.length || value.campaigns.length > MAX_CAMPAIGNS) {
+    if (!plain(value) || ![1, 2].includes(value.version) || !plain(value.brand) || !Array.isArray(value.campaigns) || !value.campaigns.length || value.campaigns.length > MAX_CAMPAIGNS) {
       throw new Error('원본 기획 데이터 형식이 맞지 않아.');
     }
     const campaigns = value.campaigns.map(readCampaign);
     if (new Set(campaigns.map(item => item.id)).size !== campaigns.length) throw new Error('원본 기획 ID가 중복돼 있어.');
     const site = safeUrl(value.brand.site);
     if (!site) throw new Error('브랜드의 웹 주소를 확인해 줘.');
-    return { version: 1, brand: { name: text(value.brand.name, '브랜드 이름', 100, false), englishName: text(value.brand.englishName, '영문 브랜드 이름', 100, false), site }, campaigns };
+    return { version: 2, brand: { name: text(value.brand.name, '브랜드 이름', 100, false), englishName: text(value.brand.englishName, '영문 브랜드 이름', 100, false), site }, campaigns };
   }
 
   function initialState() {
-    return { app: APP_ID, version: 1, settings: { campaignId: catalog.campaigns[0].id, locale: 'ko', slideIndex: 0, template: 'hanji', format: 'feed' }, campaigns: [], topics: Object.create(null), edits: Object.create(null), posted: Object.create(null) };
+    return { app: APP_ID, version: 2, settings: { campaignId: catalog.campaigns[0].id, locale: 'ko', slideIndex: 0, template: 'hanji', artwork: 'auto', format: 'feed' }, campaigns: [], topics: Object.create(null), edits: Object.create(null), posted: Object.create(null) };
   }
 
   function readBackup(value) {
     exactKeys(value, ['app', 'version', 'exportedAt', 'savedAt', 'settings', 'campaigns', 'topics', 'edits', 'posted'], '백업');
-    if (value.app !== APP_ID || value.version !== 1) throw new Error('사주핑계 작업실 v1 백업이 아니야. 자기암시 스튜디오 백업과는 별개야.');
+    if (value.app !== APP_ID || ![1, 2].includes(value.version)) throw new Error('사주핑계 작업실 백업이 아니야. 자기암시 스튜디오 백업과는 별개야.');
     if (!Array.isArray(value.campaigns) || value.campaigns.length + catalog.campaigns.length > MAX_CAMPAIGNS) throw new Error(`기획은 원본을 포함해 ${MAX_CAMPAIGNS}개까지 보관할 수 있어.`);
     const result = initialState();
     result.campaigns = value.campaigns.map(readCampaign);
     const ids = [...catalog.campaigns, ...result.campaigns].map(item => item.id);
     if (new Set(ids).size !== ids.length) throw new Error('백업에 중복된 기획 ID가 있어. 게시 기록이 섞일 수 있으니 확인해 줘.');
-    exactKeys(value.settings, ['campaignId', 'locale', 'slideIndex', 'template', 'format'], '선택 설정');
+    exactKeys(value.settings, ['campaignId', 'locale', 'slideIndex', 'template', 'artwork', 'format'], '선택 설정');
     const s = value.settings;
     if (!ids.includes(s.campaignId) || !LOCALES.includes(s.locale) || !Number.isInteger(s.slideIndex) || s.slideIndex < 0 || s.slideIndex > 4 || !TEMPLATES.includes(s.template) || !['feed', 'story'].includes(s.format)) {
       throw new Error('백업의 주제·언어·슬라이드·템플릿 선택을 확인해 줘.');
     }
-    result.settings = { campaignId: s.campaignId, locale: s.locale, slideIndex: s.slideIndex, template: s.template, format: s.format };
+    const selected = [...catalog.campaigns, ...result.campaigns].find(item => item.id === s.campaignId);
+    if (s.slideIndex >= selected.locales[s.locale].slides.length || (s.artwork !== undefined && !['auto', ...TEMPLATES].includes(s.artwork))) throw new Error('백업의 페이지·표지 이미지 선택을 확인해 줘.');
+    result.settings = { campaignId: s.campaignId, locale: s.locale, slideIndex: s.slideIndex, template: s.template, artwork: s.artwork || 'auto', format: s.format };
     if (!plain(value.topics) || Object.keys(value.topics).length > ids.length) throw new Error('백업의 주제 목록 형식이 맞지 않아.');
     for (const [id, topic] of Object.entries(value.topics)) {
       if (!ids.includes(id)) throw new Error('주제 수정에 알 수 없는 기획 ID가 있어.');
@@ -118,7 +127,9 @@
     for (const [key, edit] of Object.entries(value.edits)) {
       if (!allowedPairs.has(key)) throw new Error('문구 수정에 알 수 없는 기획이나 언어가 있어.');
       exactKeys(edit, ['label', 'caption', 'hashtags', 'hashtagText', 'slides'], '문구 수정');
-      if (!Array.isArray(edit.slides) || edit.slides.length !== 5) throw new Error('문구 수정에는 슬라이드 다섯 장이 필요해.');
+      const [campaignId, locale] = key.split(':');
+      const source = [...catalog.campaigns, ...result.campaigns].find(item => item.id === campaignId);
+      if (!Array.isArray(edit.slides) || edit.slides.length !== source.locales[locale].slides.length) throw new Error('문구 수정의 슬라이드 수가 원본 기획과 달라.');
       result.edits[key] = {
         label: text(edit.label, '기획 이름', LIMITS.label), caption: text(edit.caption, '캡션', LIMITS.caption), hashtags: readTags(edit.hashtags), hashtagText: text(edit.hashtagText === undefined ? edit.hashtags.join(' ') : edit.hashtagText, '해시태그 초안', 2400),
         slides: edit.slides.map(slide => {
@@ -139,6 +150,8 @@
   function selectedCampaign() { return campaigns().find(item => item.id === state.settings.campaignId); }
   function pairKey(id = state.settings.campaignId, locale = state.settings.locale) { return `${id}:${locale}`; }
   function topicOf(campaign) { return own(state.topics, campaign.id) ? state.topics[campaign.id] : campaign.topic; }
+  function slideCount() { return selectedCampaign().locales[state.settings.locale].slides.length; }
+  function renderOptions() { return { ...state.settings, slideCount: slideCount(), artwork: state.settings.artwork === 'auto' ? selectedCampaign().artwork : state.settings.artwork }; }
 
   function localeContent(campaign = selectedCampaign(), locale = state.settings.locale) {
     const base = campaign.locales[locale];
@@ -190,9 +203,10 @@
   function renderCampaigns() {
     const focused = $('campaign-list').contains(document.activeElement) ? document.activeElement.dataset.campaign : undefined;
     const scrollTop = $('campaign-list').scrollTop;
-    const items = campaigns();
-    $('campaign-count').textContent = `${items.length} / ${MAX_CAMPAIGNS}`;
-    $('duplicate-campaign').disabled = busy || items.length >= MAX_CAMPAIGNS;
+    const allItems = campaigns();
+    const items = allItems.filter(item => categoryFilter === 'all' || item.category === categoryFilter);
+    $('campaign-count').textContent = `${items.length} / ${allItems.length}`;
+    $('duplicate-campaign').disabled = busy || allItems.length >= MAX_CAMPAIGNS;
     const fragment = document.createDocumentFragment();
     items.forEach((campaign, index) => {
       const button = element('button', 'campaign-card');
@@ -202,7 +216,7 @@
       button.append(element('span', 'campaign-number', `${String(index + 1).padStart(2, '0')} · ${topicOf(campaign) || '이름 없는 주제'}`));
       button.append(element('span', 'campaign-title', localeContent(campaign).label || '이름 없는 기획'));
       const posted = own(state.posted, pairKey(campaign.id));
-      button.append(element('span', `campaign-meta${posted ? ' is-posted' : ''}`, `${LOCALES.includes(state.settings.locale) ? state.settings.locale.toUpperCase() : ''} · ${posted ? '게시 완료 ✓' : '슬라이드 5장'}${index >= catalog.campaigns.length ? ' · 내 기획' : ''}`));
+      button.append(element('span', `campaign-meta${posted ? ' is-posted' : ''}`, `${state.settings.locale.toUpperCase()} · ${posted ? '게시 완료 ✓' : `${campaign.locales[state.settings.locale].slides.length}장`}${state.campaigns.some(item => item.id === campaign.id) ? ' · 내 기획' : ''}`));
       fragment.append(button);
     });
     $('campaign-list').replaceChildren(fragment);
@@ -215,8 +229,13 @@
     document.querySelectorAll('[data-locale]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.locale === state.settings.locale)));
     document.querySelectorAll('[data-template]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.template === state.settings.template)));
     $('format').value = state.settings.format;
+    $('artwork').value = state.settings.artwork;
+    $('category-filter').value = categoryFilter;
+    $('export-zip').textContent = `${slideCount()}장 ZIP ↓`;
+    $('export-hint').textContent = `PNG ${slideCount()}장 + 캡션`;
+    $('sequence-label').textContent = slideCount() === 3 ? ['01 제목과 이미지', '02 사주로 읽기', '03 사주핑계 소개'][state.settings.slideIndex] : '이전 5장 기획';
     const fragment = document.createDocumentFragment();
-    for (let index = 0; index < 5; index++) {
+    for (let index = 0; index < slideCount(); index++) {
       const button = element('button', '', String(index + 1).padStart(2, '0'));
       button.type = 'button';
       button.dataset.slide = String(index);
@@ -227,13 +246,13 @@
     $('slide-buttons').replaceChildren(fragment);
     if (focusedSlide !== undefined) [...$('slide-buttons').querySelectorAll('[data-slide]')].find(button => button.dataset.slide === focusedSlide)?.focus({ preventScroll: true });
     $('previous-slide').disabled = state.settings.slideIndex === 0;
-    $('next-slide').disabled = state.settings.slideIndex === 4;
+    $('next-slide').disabled = state.settings.slideIndex === slideCount() - 1;
   }
 
   function renderEditor() {
     const content = localeContent();
     const slide = content.slides[state.settings.slideIndex];
-    $('slide-label').textContent = `${String(state.settings.slideIndex + 1).padStart(2, '0')} / 05`;
+    $('slide-label').textContent = `${String(state.settings.slideIndex + 1).padStart(2, '0')} / ${String(slideCount()).padStart(2, '0')}`;
     $('content-label').textContent = `${state.settings.locale.toUpperCase()} · ${slide.eyebrow}`;
     $('edit-topic').value = topicOf(selectedCampaign());
     $('edit-label').value = content.label;
@@ -262,7 +281,7 @@
   function renderAll() { renderCampaigns(); renderSelections(); renderEditor(); requestPreview(); }
 
   function selectSlide(index) {
-    state.settings.slideIndex = Math.max(0, Math.min(4, index));
+    state.settings.slideIndex = Math.max(0, Math.min(slideCount() - 1, index));
     renderSelections(); renderEditor(); requestPreview(); saveSoon();
   }
 
@@ -307,7 +326,7 @@
       locales[locale] = localeContent(source, locale);
       locales[locale].label = `${locales[locale].label.slice(0, 140)} · ${names[locale]}`;
     }
-    state.campaigns.push({ id, topic: `${topicOf(source).slice(0, 90)} · 복제`, locales });
+    state.campaigns.push({ id, topic: `${topicOf(source).slice(0, 90)} · 복제`, category: source.category, artwork: source.artwork, locales });
     for (const locale of LOCALES) {
       const edit = state.edits[pairKey(source.id, locale)];
       if (edit) state.edits[pairKey(id, locale)] = { ...clone(edit), label: locales[locale].label };
@@ -405,7 +424,7 @@
     try {
       await window.SajuPoster.ready;
       if (token !== previewToken || busy) return;
-      const options = { ...state.settings };
+      const options = renderOptions();
       const content = localeContent();
       const offscreen = document.createElement('canvas');
       const issues = drawPoster(offscreen, content.slides[options.slideIndex], options);
@@ -413,7 +432,7 @@
       const canvas = $('poster'); canvas.width = offscreen.width; canvas.height = offscreen.height;
       canvas.getContext('2d').drawImage(offscreen, 0, 0);
       canvas.setAttribute('aria-label', `${content.label}, ${options.slideIndex + 1}번째 슬라이드. ${content.slides[options.slideIndex].title}. ${content.slides[options.slideIndex].body}`);
-      $('preview-message').textContent = issues.length ? issues.join(' ') : `${canvas.width} × ${canvas.height} · ${options.locale.toUpperCase()} · ${options.slideIndex + 1} / 5`;
+      $('preview-message').textContent = issues.length ? issues.join(' ') : `${canvas.width} × ${canvas.height} · ${options.locale.toUpperCase()} · ${options.slideIndex + 1} / ${options.slideCount}`;
       $('preview-message').classList.toggle('error', issues.length > 0);
       previewOkay = issues.length === 0;
       $('export-png').disabled = !previewOkay;
@@ -427,7 +446,7 @@
     document.querySelectorAll('.workspace-tabs button').forEach(button => { button.disabled = value; });
     if (!value) {
       $('previous-slide').disabled = state.settings.slideIndex === 0;
-      $('next-slide').disabled = state.settings.slideIndex === 4;
+      $('next-slide').disabled = state.settings.slideIndex === slideCount() - 1;
       $('duplicate-campaign').disabled = campaigns().length >= MAX_CAMPAIGNS;
       $('export-png').disabled = !previewOkay;
     }
@@ -452,10 +471,10 @@
     try {
       commitEditor(); saveNow();
       if (allSlides) checkPublishContent();
-      const options = { ...state.settings }, content = localeContent(), campaign = selectedCampaign();
-      setBusy(true, allSlides ? '현재 언어의 다섯 장을 만드는 중…' : 'PNG 이미지를 만드는 중…');
+      const options = renderOptions(), content = localeContent(), campaign = selectedCampaign();
+      setBusy(true, allSlides ? `현재 언어의 ${options.slideCount}장을 만드는 중…` : 'PNG 이미지를 만드는 중…');
       await window.SajuPoster.ready;
-      const indexes = allSlides ? [0, 1, 2, 3, 4] : [options.slideIndex];
+      const indexes = allSlides ? content.slides.map((_, index) => index) : [options.slideIndex];
       const rendered = [];
       // Validate every requested slide before downloading anything.
       for (const index of indexes) {
@@ -470,17 +489,17 @@
       } else {
         const files = [];
         for (const { canvas, index } of rendered) {
-          message(`${index + 1} / 5장 PNG를 묶는 중…`);
+          message(`${index + 1} / ${options.slideCount}장 PNG를 묶는 중…`);
           const blob = await canvasPng(canvas);
           files.push({ name: `${String(index + 1).padStart(2, '0')}.png`, bytes: new Uint8Array(await blob.arrayBuffer()) });
         }
         const encoder = new TextEncoder();
         files.push({ name: 'caption.txt', bytes: encoder.encode(captionText(content) + '\n') });
-        const metadata = { app: APP_ID, version: 1, exportedAt: new Date().toISOString(), brand: catalog.brand, campaignId: campaign.id, topic: topicOf(campaign), locale: options.locale, template: options.template, format: options.format, mediaType: 'image/png', width: 1080, height: options.format === 'story' ? 1920 : 1350, label: content.label, caption: content.caption, hashtags: content.hashtags, slides: content.slides.map((slide, index) => ({ file: `${String(index + 1).padStart(2, '0')}.png`, ...slide })) };
+        const metadata = { app: APP_ID, version: 2, exportedAt: new Date().toISOString(), brand: catalog.brand, campaignId: campaign.id, topic: topicOf(campaign), category: campaign.category, slideCount: options.slideCount, artwork: options.artwork, locale: options.locale, template: options.template, format: options.format, mediaType: 'image/png', width: 1080, height: options.format === 'story' ? 1920 : 1350, label: content.label, caption: content.caption, hashtags: content.hashtags, slides: content.slides.map((slide, index) => ({ file: `${String(index + 1).padStart(2, '0')}.png`, ...slide })) };
         files.push({ name: 'metadata.json', bytes: encoder.encode(JSON.stringify(metadata, null, 2) + '\n') });
         downloadBlob(makeZip(files), `${basename}.zip`);
       }
-      message(allSlides ? '현재 언어의 PNG 다섯 장과 캡션을 ZIP으로 저장했어.' : '현재 장을 PNG로 저장했어.');
+      message(allSlides ? `현재 언어의 PNG ${options.slideCount}장과 캡션을 ZIP으로 저장했어.` : '현재 장을 PNG로 저장했어.');
     } catch (error) { message(error.message || '이미지를 만들지 못했어.', true); }
     finally { setBusy(false); requestPreview(); }
   }
@@ -550,7 +569,7 @@
       let parsed;
       try { parsed = JSON.parse(raw); } catch (_) { throw new Error('JSON을 읽지 못했어. 압축파일이 아닌 작업실 JSON 백업을 골라 줘.'); }
       const restored = readBackup(parsed);
-      state = restored;
+      state = restored; categoryFilter = 'all';
       setBusy(false); renderAll();
       if (saveNow()) message(`백업을 불러왔어. 기획 ${campaigns().length}개와 언어별 게시 기록을 복원했어.`);
     } catch (error) { message(`백업을 불러오지 않았어. ${error.message}`, true); }
@@ -578,6 +597,8 @@
     document.querySelectorAll('[data-locale]').forEach(button => button.addEventListener('click', () => { state.settings.locale = button.dataset.locale; renderAll(); saveSoon(); }));
     document.querySelectorAll('[data-template]').forEach(button => button.addEventListener('click', () => { state.settings.template = button.dataset.template; renderSelections(); requestPreview(); saveSoon(); }));
     $('campaign-list').addEventListener('click', event => { const button = event.target.closest('[data-campaign]'); if (!button) return; state.settings.campaignId = button.dataset.campaign; state.settings.slideIndex = 0; renderAll(); saveSoon(); });
+    $('category-filter').addEventListener('change', () => { categoryFilter = $('category-filter').value; const visible = campaigns().filter(item => categoryFilter === 'all' || item.category === categoryFilter); if (!visible.some(item => item.id === state.settings.campaignId) && visible.length) { state.settings.campaignId = visible[0].id; state.settings.slideIndex = 0; } renderAll(); saveSoon(); });
+    $('artwork').addEventListener('change', () => { state.settings.artwork = $('artwork').value; requestPreview(); saveSoon(); });
     $('format').addEventListener('change', () => { state.settings.format = $('format').value; requestPreview(); saveSoon(); });
     $('slide-buttons').addEventListener('click', event => { const button = event.target.closest('[data-slide]'); if (button) selectSlide(Number(button.dataset.slide)); });
     $('previous-slide').addEventListener('click', () => selectSlide(state.settings.slideIndex - 1));
@@ -615,18 +636,25 @@
     // Reference failure should never prevent creating or exporting a post.
     const references = fetchJson('references.json').then(renderReferences).catch(() => { $('references-summary').textContent = '레퍼런스 노트를 불러오지 못했어. 새로고침하면 다시 확인할 수 있어. 콘텐츠 제작은 그대로 할 수 있어.'; $('reference-positioning').hidden = true; });
     try {
-      catalog = readCatalog(await fetchJson('campaigns.json'));
+      const [current, legacy] = await Promise.all([fetchJson('campaigns-v2.json'), fetchJson('campaigns.json')]);
+      catalog = readCatalog({ ...current, campaigns: [...current.campaigns, ...legacy.campaigns] });
       state = initialState();
       let restored = false, warning = '';
       try {
-        const raw = localStorage.getItem(STORE_KEY);
+        const currentRaw = localStorage.getItem(STORE_KEY);
+        const raw = currentRaw || localStorage.getItem(LEGACY_STORE_KEY);
         if (raw) {
           if (byteLength(raw) > MAX_BACKUP_BYTES) throw new Error('저장 기록이 8MB를 넘어가.');
           state = readBackup(JSON.parse(raw)); restored = true;
+          if (!currentRaw) {
+            state.settings.campaignId = catalog.campaigns[0].id; state.settings.slideIndex = 0;
+            warning = '예전 5장 원고와 게시 기록을 보관했어. 새 3장 기획으로 시작해. 분류에서 이전 원고도 볼 수 있어.';
+            saveNow();
+          }
         }
       } catch (_) { warning = '기존 저장 기록을 읽지 못했어. 원본 기획으로 열었어. 갖고 있는 JSON 백업을 불러올 수 있어.'; }
       $('loading').hidden = true; $('workspace').hidden = false;
-      renderAll(); message(warning || (restored ? '이 브라우저의 문구와 게시 기록을 이어서 열었어.' : '원하는 주제와 언어를 고르면 시작할 수 있어.'), Boolean(warning));
+      renderAll(); message(warning || (restored ? '이 브라우저의 문구와 게시 기록을 이어서 열었어.' : '원하는 주제와 언어를 고르면 시작할 수 있어.'), Boolean(warning) && !restored);
       if (location.hash === '#references') showTab('references');
     } catch (error) { $('loading').hidden = true; $('load-error').hidden = false; $('load-error').textContent = `작업실을 열지 못했어. ${error.message} 페이지를 새로고침해 줘.`; message('원본 데이터를 확인해 줘.', true); }
     await references;

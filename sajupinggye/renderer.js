@@ -17,13 +17,13 @@
     inyeon: { paper: '#faecd7', ink: '#302b27', muted: '#68594f', accent: '#a63328' }
   };
   const labels = {
-    ko: { brand: '사주핑계', cta: '프로필 링크에서 무료 풀이' },
-    ja: { brand: 'サジュピンゲ', cta: 'プロフィールから無料で読む' },
-    en: { brand: 'SajuPinggye', cta: 'Read free via the profile link' }
+    ko: { brand: '사주핑계', cta: '프로필 링크에서 무료 풀이', appType: '사주 풀이 앱', appCta: '프로필에서 사주핑계 만나기' },
+    ja: { brand: 'サジュピンゲ', cta: 'プロフィールから無料で読む', appType: '四柱推命アプリ', appCta: 'プロフィールからアプリへ' },
+    en: { brand: 'SajuPinggye', cta: 'Read free via the profile link', appType: 'Your Saju reading app', appCta: 'Explore the app via our profile' }
   };
 
-  function loadArt(name) {
-    const url = new URL(`assets/${name}-art.png`, scriptUrl);
+  function loadArt(name, filename = `${name}-art.png`) {
+    const url = new URL(`assets/${filename}`, scriptUrl);
     if (url.origin !== window.location.origin) return Promise.reject(new Error('아트 이미지는 작업실과 같은 주소에서 불러와야 해.'));
     return new Promise((resolve, reject) => {
       const image = new Image();
@@ -56,7 +56,7 @@
     await document.fonts.ready;
   }
 
-  const ready = Promise.all([loadFonts(), ...TEMPLATES.map(loadArt)]).then(() => { loaded = true; }).catch(error => {
+  const ready = Promise.all([loadFonts(), ...TEMPLATES.map(name => loadArt(name)), loadArt('appIcon', 'app-icon.png')]).then(() => { loaded = true; }).catch(error => {
     loadingError = error.message || '이미지와 글꼴을 불러오지 못했어.';
     throw error;
   });
@@ -189,9 +189,12 @@
 
   function masthead(page) {
     const name = page.locale === 'ko' ? page.brand.name : page.locale === 'ja' ? labels.ja.brand : page.brand.englishName;
-    textBlock(page, 'brand', { x: MARGIN, y: 79, width: 540, height: 48 }, { max: 30, min: 26, leading: 1.2, weight: 600 }, page.palette.ink, name);
+    const imageHeader = page.count === 3 && page.index === 0;
+    const palette = imageHeader ? palettes[page.artwork] : page.palette;
+    textBlock(page, 'brand', { x: MARGIN, y: 79, width: 540, height: 48 }, { max: 30, min: 26, leading: 1.2, weight: 600 }, palette.ink, name);
     const code = `${page.locale.toUpperCase()} / ${String(page.index + 1).padStart(2, '0')}`;
-    setFont(page.ctx, 24, SANS, 400); page.ctx.fillStyle = page.palette.muted; page.ctx.textBaseline = 'alphabetic'; page.ctx.textAlign = 'right';
+    // The moon artwork is light in its upper-right corner, where the code sits.
+    setFont(page.ctx, 24, SANS, 400); page.ctx.fillStyle = imageHeader && page.artwork === 'muk' ? palettes.muk.paper : palette.muted; page.ctx.textBaseline = 'alphabetic'; page.ctx.textAlign = 'right';
     page.ctx.fillText(code, WIDTH - MARGIN, 108); page.ctx.textAlign = 'left';
   }
 
@@ -202,7 +205,7 @@
     ctx.beginPath(); ctx.moveTo(MARGIN, H - 130); ctx.lineTo(WIDTH - MARGIN, H - 130); ctx.stroke(); ctx.globalAlpha = 1;
     textBlock(page, 'footer', { x: MARGIN, y: H - 108, width: 690, height: 35 }, { max: 23, min: 22, leading: 1.2 }, palette.ink, page.host);
     setFont(ctx, 23, SANS, 600); ctx.fillStyle = palette.ink; ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'right';
-    ctx.fillText(`${String(page.index + 1).padStart(2, '0')} / 05`, WIDTH - MARGIN, H - 84); ctx.textAlign = 'left';
+    ctx.fillText(`${String(page.index + 1).padStart(2, '0')} / ${String(page.count).padStart(2, '0')}`, WIDTH - MARGIN, H - 84); ctx.textAlign = 'left';
   }
 
   function eyebrow(page, y = 160, x = MARGIN, width = 920) {
@@ -355,11 +358,121 @@
     if (bodyY + bodyBlock.height > ctaY - 32) page.issues.push('본문이 마지막 안내와 겹쳐. 문장이나 줄바꿈을 조금 줄여 줘.');
   }
 
+  // The three-page format has its own hierarchy: an image-led question, a short
+  // reading, then the app. Five-page drafts retain their original compositions.
+  function campaignFooter(page) {
+    const { ctx, H, palette } = page;
+    fill(ctx, palette.paper, 0, H - 87, WIDTH, 87);
+    ctx.strokeStyle = palette.muted; ctx.globalAlpha = .32; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(MARGIN, H - 87); ctx.lineTo(WIDTH - MARGIN, H - 87); ctx.stroke(); ctx.globalAlpha = 1;
+    textBlock(page, 'footer', { x: MARGIN, y: H - 65, width: 720, height: 31 }, { max: 22, min: 22, leading: 1.2 }, palette.ink, page.host);
+    setFont(ctx, 22, SANS, 600); ctx.fillStyle = palette.ink; ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'right';
+    ctx.fillText(`${String(page.index + 1).padStart(2, '0')} / ${String(page.count).padStart(2, '0')}`, WIDTH - MARGIN, H - 41); ctx.textAlign = 'left';
+  }
+
+  function campaignHook(page, y, bottom, x = MARGIN, width = 920) {
+    const { ctx, H, locale, palette } = page;
+    let heading, deck;
+    // Fit the hook and its deck together. A three-line question must not claim
+    // the two lines needed by the introduction, especially in Japanese.
+    for (let size = H === 1920 ? 130 : 124; size >= 92; size -= 2) {
+      heading = fit(ctx, page.slide.title, { x, y, width, height: bottom - y }, { max: size, min: size, leading: 1.12, family: page.template === 'inyeon' ? SANS : page.serif, weight: 600, balance: true }, locale);
+      const bodyY = y + heading.height + 24;
+      deck = fit(ctx, page.slide.body, { x, y: bodyY, width, height: bottom - bodyY }, { max: 40, min: 36, leading: 1.45 }, locale);
+      if (heading.fits && deck.fits) break;
+    }
+    if (!heading.fits) page.issues.push('제목이 이미지 영역을 넘어가. 문장이나 줄바꿈을 줄여 줘.');
+    if (!deck.fits) page.issues.push('본문이 이미지 영역을 넘어가. 문장이나 줄바꿈을 줄여 줘.');
+    paint(ctx, heading, palette.ink); paint(ctx, deck, palette.ink);
+  }
+
+  function campaignCover(page) {
+    const { ctx, H, template, palette, image } = page;
+    const story = H === 1920;
+    const pictureHeight = story ? 1080 : 675;
+    const artFocus = page.artwork === 'inyeon' ? .08 : page.artwork === 'muk' ? .12 : .56;
+    // Half of the feed is reserved for the artwork. Copy has its own reading
+    // field, so changing templates never lays an introduction over a face.
+    imageCover(ctx, image, { x: 0, y: 0, width: WIDTH, height: pictureHeight }, .5, artFocus);
+    fill(ctx, palette.paper, 0, pictureHeight, WIDTH, H - pictureHeight);
+    if (template === 'hanji') {
+      fill(ctx, palette.accent, 0, pictureHeight, WIDTH, 3);
+    } else if (template === 'muk') {
+      fade(ctx, '#0a223600', palette.paper, 0, pictureHeight - 150, WIDTH, 150);
+    } else {
+      fill(ctx, palette.accent, MARGIN, pictureHeight + 22, 5, story ? 410 : 350);
+    }
+    const imagePalette = palettes[page.artwork];
+    const originalPalette = page.palette;
+    page.palette = imagePalette;
+    eyebrow(page, story ? 184 : 151, MARGIN, 900);
+    page.palette = originalPalette;
+    const x = template === 'inyeon' ? 122 : MARGIN;
+    campaignHook(page, pictureHeight + (story ? 48 : 19), H - 205, x, WIDTH - x - MARGIN);
+    note(page, H - 172, WIDTH - x - MARGIN, x, 64);
+  }
+
+  function campaignReading(page) {
+    const { ctx, H, template, palette, image } = page;
+    const story = H === 1920;
+    const x = template === 'inyeon' ? 116 : MARGIN;
+    const width = WIDTH - x - MARGIN;
+    const start = story ? 338 : 236;
+    if (template === 'hanji') {
+      fill(ctx, palette.accent, x, start - 65, 80, 5);
+    } else if (template === 'muk') {
+      // A low-contrast fragment provides continuity without competing with the
+      // reading. The text field remains a solid, legible ink colour.
+      ctx.save(); ctx.globalAlpha = .15;
+      imageCover(ctx, image, { x: 592, y: H - 650, width: 488, height: 488 }, .8, .5);
+      ctx.restore();
+      fade(ctx, palette.paper, '#0a223600', 480, H - 650, 350, 488, true);
+    } else {
+      fill(ctx, palette.accent, MARGIN, start - 58, 5, 120);
+    }
+    eyebrow(page, start, x, width);
+    const heading = title(page, start + 91, story ? 290 : 218, width, x, template === 'muk' ? 90 : 86, 72, template === 'inyeon' ? SANS : page.serif);
+    const bodyY = heading.box.y + heading.height + (story ? 94 : 55);
+    const bodyEnd = H - 280;
+    textBlock(page, 'body', { x, y: bodyY, width, height: bodyEnd - bodyY }, { max: 50, min: 44, leading: 1.5 });
+    note(page, H - 215, width, x, 96);
+  }
+
+  function campaignApp(page) {
+    const { ctx, H, template, palette, image } = page;
+    const story = H === 1920;
+    const copy = labels[page.locale];
+    const appName = page.locale === 'ko' ? page.brand.name : page.locale === 'en' ? page.brand.englishName : copy.brand;
+    if (story) {
+      imageCover(ctx, image, { x: 0, y: 135, width: WIDTH, height: 200 }, .5, .7);
+      fade(ctx, palette.paper, `${palette.paper}00`, 0, 135, WIDTH, 65);
+      fade(ctx, `${palette.paper}00`, palette.paper, 0, 270, WIDTH, 65);
+    }
+    const brandY = story ? 488 : 230;
+    eyebrow(page, brandY - 73, MARGIN, 720);
+    ctx.drawImage(art.appIcon, 850, brandY - 4, 150, 150);
+    const app = textBlock(page, 'app', { x: MARGIN, y: brandY, width: 720, height: 146 }, { max: page.locale === 'en' ? 112 : 126, min: 100, leading: 1.12, family: page.serif, weight: 600 }, palette.ink, appName);
+    const descriptionY = brandY + app.height + 18;
+    textBlock(page, 'app', { x: MARGIN, y: descriptionY, width: 900, height: 52 }, { max: 32, min: 30, leading: 1.3, weight: 600 }, palette.accent, copy.appType);
+    const titleY = descriptionY + 103;
+    const heading = title(page, titleY, story ? 240 : 190, 920, MARGIN, 82, 72, template === 'inyeon' ? SANS : page.serif);
+    const bodyY = heading.box.y + heading.height + 35;
+    const noteY = H - 382;
+    textBlock(page, 'body', { x: MARGIN, y: bodyY, width: 900, height: noteY - bodyY - 38 }, { max: 46, min: 44, leading: 1.48 });
+    note(page, noteY, 900, MARGIN, 106);
+    const ctaY = H - 222;
+    fill(ctx, palette.ink, MARGIN, ctaY, 920, 86);
+    textBlock(page, 'cta', { x: MARGIN + 28, y: ctaY + 22, width: 800, height: 45 }, { max: 30, min: 26, leading: 1.2, weight: 600 }, palette.paper, copy.appCta);
+    ctx.strokeStyle = palette.paper; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(922, ctaY + 43); ctx.lineTo(966, ctaY + 43); ctx.lineTo(952, ctaY + 29); ctx.moveTo(966, ctaY + 43); ctx.lineTo(952, ctaY + 57); ctx.stroke();
+  }
+
   function draw(canvas, slide, options = {}, brand = {}) {
     const issues = [];
     if (!loaded) return [loadingError || '아트와 글꼴을 준비하는 중이야. 잠시 기다려 줘.'];
     if (!canvas?.getContext) return ['이미지를 그릴 Canvas가 없어.'];
-    if (!TEMPLATES.includes(options.template) || !['feed', 'story'].includes(options.format) || !['ko', 'ja', 'en'].includes(options.locale) || !Number.isInteger(options.slideIndex) || options.slideIndex < 0 || options.slideIndex > 4) return ['이미지 템플릿·규격·언어·페이지 선택을 확인해 줘.'];
+    const count = options.slideCount === undefined ? 5 : options.slideCount;
+    if (![3, 5].includes(count) || !TEMPLATES.includes(options.template) || !['feed', 'story'].includes(options.format) || !['ko', 'ja', 'en'].includes(options.locale) || !Number.isInteger(options.slideIndex) || options.slideIndex < 0 || options.slideIndex >= count || (options.artwork !== undefined && !TEMPLATES.includes(options.artwork))) return ['이미지 템플릿·규격·언어·페이지 선택을 확인해 줘.'];
     if (!slide || ['eyebrow', 'title', 'body', 'note'].some(key => typeof slide[key] !== 'string')) return ['제목·본문·덧말의 원고 형식을 확인해 줘.'];
     let host;
     try { host = new URL(brand.site).hostname; } catch (_) { return ['브랜드의 웹 주소를 확인해 줘.']; }
@@ -370,13 +483,13 @@
     if (!ctx) return ['이 브라우저에서 Canvas를 열지 못했어. 최신 브라우저로 다시 열어 줘.'];
     if ('lang' in ctx) ctx.lang = options.locale;
     ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high'; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-    const page = { ctx, H, slide, brand, host, issues, locale: options.locale, index: options.slideIndex, template: options.template, palette: palettes[options.template], serif: options.locale === 'en' ? 'Georgia,serif' : SERIF };
+    const page = { ctx, H, slide, brand, host, issues, count, locale: options.locale, index: options.slideIndex, template: options.template, artwork: options.artwork || options.template, image: art[options.artwork || options.template], palette: palettes[options.template], serif: options.locale === 'en' ? 'Georgia,serif' : SERIF };
     fill(ctx, page.palette.paper, 0, 0, WIDTH, H);
     if (!slide.title.trim()) issues.push('이미지 제목을 한 문장 넣어 줘.');
     if (!slide.body.trim()) issues.push('이미지 본문을 넣어 줘.');
-    [cover, observation, metaphor, practice, invitation][page.index](page);
+    (count === 3 ? [campaignCover, campaignReading, campaignApp] : [cover, observation, metaphor, practice, invitation])[page.index](page);
     masthead(page);
-    footer(page);
+    (count === 3 ? campaignFooter : footer)(page);
     return Array.from(new Set(issues));
   }
 

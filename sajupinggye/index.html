@@ -7,9 +7,9 @@
   <meta name="theme-color" content="#ffffff">
   <title>사주핑계 · Editorial studio</title>
   <link rel="stylesheet" href="fonts.css?v=1">
-  <link rel="stylesheet" href="studio.css?v=5">
-  <script src="renderer.js?v=3" defer></script>
-  <script src="studio.js?v=4" defer></script>
+  <link rel="stylesheet" href="studio.css?v=6">
+  <script src="renderer.js?v=5" defer></script>
+  <script src="studio.js?v=5" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#workspace">작업 영역으로 건너뛰기</a>
@@ -28,7 +28,7 @@
         <button id="tab-studio" type="button" role="tab" aria-selected="true" aria-controls="studio-panel" tabindex="0">작업실</button>
         <button id="tab-references" type="button" role="tab" aria-selected="false" aria-controls="references-panel" tabindex="-1">레퍼런스 노트</button>
       </div>
-      <p class="workspace-note">A small journal of everyday connections.</p>
+      <p class="workspace-note">한 질문, 세 장의 이야기.</p>
     </div>
 
     <p id="loading" class="notice">작업실을 여는 중이야…</p>
@@ -43,6 +43,10 @@
             <button type="button" data-locale="ja" aria-pressed="false">日本語</button>
             <button type="button" data-locale="en" aria-pressed="false">English</button>
           </div>
+          <label class="category-label" for="category-filter">주제별로 보기</label>
+          <select id="category-filter" class="category-filter">
+            <option value="all">전체 기획</option><option value="exam">수능·시험·합격</option><option value="child">자녀·재능·진로</option><option value="crush">짝사랑·썸</option><option value="reunion">재회·이별</option><option value="marriage">결혼·배우자</option><option value="family">부부·가족</option><option value="career">취업·이직·퇴사</option><option value="wealth">재물·사업·동업</option><option value="charm">매력·인복·귀인</option><option value="year">신년·전환기</option><option value="naming">이름 작명</option><option value="legacy">이전 5장 원고</option><option value="custom">내 기획</option>
+          </select>
           <div id="campaign-list" class="campaign-list"></div>
           <div class="library-footer">
             <button type="button" id="duplicate-campaign" class="button duplicate-button"><span aria-hidden="true">＋</span> 이 기획 복제</button>
@@ -60,7 +64,7 @@
 
         <section class="preview-panel" aria-labelledby="preview-heading">
           <div class="preview-top">
-            <h2 id="preview-heading">미리보기</h2>
+            <h2 id="preview-heading"><span id="sequence-label">01 제목과 이미지</span></h2>
             <div class="template-switch" role="group" aria-label="이미지 템플릿">
               <button type="button" data-template="hanji" aria-pressed="true"><img src="assets/hanji-art.png" alt="" aria-hidden="true"><span>서간</span></button>
               <button type="button" data-template="muk" aria-pressed="false"><img src="assets/muk-art.png" alt="" aria-hidden="true"><span>밤의 기록</span></button>
@@ -80,21 +84,22 @@
             <p id="preview-message" class="preview-message" role="status" aria-live="polite"></p>
           </div>
           <div class="export-bar">
-            <p class="export-hint">PNG 5장 + 캡션<br><span>스토리는 정지 이미지로 저장돼.</span></p>
+            <p class="export-hint"><span id="export-hint">PNG 3장 + 캡션</span><br><span>스토리는 정지 이미지로 저장돼.</span></p>
             <div class="export-actions">
               <button type="button" id="export-png" class="button secondary">현재 장 PNG</button>
-              <button type="button" id="export-zip" class="button primary">5장 ZIP <span aria-hidden="true">↓</span></button>
+              <button type="button" id="export-zip" class="button primary">3장 ZIP <span aria-hidden="true">↓</span></button>
             </div>
           </div>
         </section>
 
         <aside class="editor-panel" aria-labelledby="editor-heading">
-          <div class="panel-heading"><h2 id="editor-heading">원고</h2><span id="slide-label" class="small-muted">01 / 05</span></div>
+          <div class="panel-heading"><h2 id="editor-heading">원고</h2><span id="slide-label" class="small-muted">01 / 03</span></div>
           <p id="content-label" class="editor-context"></p>
           <details class="inspector-section campaign-information">
             <summary>기획 정보</summary>
             <div class="campaign-fields">
               <label for="edit-topic">주제 <span class="small-muted">세 언어 공통</span></label><input id="edit-topic" type="text" maxlength="100">
+              <label for="artwork">표지 이미지 <span class="small-muted">3장 기획</span></label><select id="artwork"><option value="auto">주제에 맞게</option><option value="hanji">강과 소나무</option><option value="muk">밤의 산과 달</option><option value="inyeon">두 마리 학과 인연</option></select>
               <label for="edit-label">기획 이름 <span class="small-muted">현재 언어</span></label><input id="edit-label" type="text" maxlength="160">
             </div>
           </details>
