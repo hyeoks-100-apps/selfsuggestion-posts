@@ -7,9 +7,10 @@
   <meta name="theme-color" content="#ffffff">
   <title>사주핑계 · Editorial studio</title>
   <link rel="stylesheet" href="fonts.css?v=1">
-  <link rel="stylesheet" href="studio.css?v=6">
-  <script src="renderer.js?v=5" defer></script>
-  <script src="studio.js?v=5" defer></script>
+  <link rel="stylesheet" href="studio.css?v=7">
+  <script src="backgrounds.js?v=1" defer></script>
+  <script src="renderer.js?v=6" defer></script>
+  <script src="studio.js?v=6" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#workspace">작업 영역으로 건너뛰기</a>
@@ -28,7 +29,7 @@
         <button id="tab-studio" type="button" role="tab" aria-selected="true" aria-controls="studio-panel" tabindex="0">작업실</button>
         <button id="tab-references" type="button" role="tab" aria-selected="false" aria-controls="references-panel" tabindex="-1">레퍼런스 노트</button>
       </div>
-      <p class="workspace-note">한 질문, 세 장의 이야기.</p>
+      <p class="workspace-note">한국어 100 · 日本語 100 · English 100</p>
     </div>
 
     <p id="loading" class="notice">작업실을 여는 중이야…</p>
@@ -43,19 +44,25 @@
             <button type="button" data-locale="ja" aria-pressed="false">日本語</button>
             <button type="button" data-locale="en" aria-pressed="false">English</button>
           </div>
+          <label class="visually-hidden" for="collection-filter">원고 모음</label>
+          <select id="collection-filter" class="category-filter"><option value="drafts">새 초안 · 언어마다 100개</option><option value="previous">이전 원고 모음</option><option value="all">전체 원고와 내 기획</option></select>
+          <label class="visually-hidden" for="campaign-search">원고 검색</label><input id="campaign-search" type="search" placeholder="제목·주제 검색" maxlength="100">
           <label class="category-label" for="category-filter">주제별로 보기</label>
           <select id="category-filter" class="category-filter">
             <option value="all">전체 기획</option><option value="exam">수능·시험·합격</option><option value="child">자녀·재능·진로</option><option value="crush">짝사랑·썸</option><option value="reunion">재회·이별</option><option value="marriage">결혼·배우자</option><option value="family">부부·가족</option><option value="career">취업·이직·퇴사</option><option value="wealth">재물·사업·동업</option><option value="charm">매력·인복·귀인</option><option value="year">신년·전환기</option><option value="naming">이름 작명</option><option value="legacy">이전 5장 원고</option><option value="custom">내 기획</option>
           </select>
           <div id="campaign-list" class="campaign-list"></div>
+          <p id="search-empty" class="small-muted" hidden>맞는 원고가 없어. 검색어나 분류를 바꿔 봐.</p>
           <div class="library-footer">
+            <button type="button" id="export-drafts" class="button quiet" title="원본 300개 원고·캡션·그림 메모를 Markdown과 JSON으로 받기">300개 초안 받기 <span aria-hidden="true">↓</span></button>
             <button type="button" id="duplicate-campaign" class="button duplicate-button"><span aria-hidden="true">＋</span> 이 기획 복제</button>
             <details class="library-tools">
               <summary>백업과 보관</summary>
-              <p>원고와 게시 기록은 이 브라우저에 저장돼. 다른 기기로 옮길 때는 JSON 백업을 받아 둬.</p>
+              <p>원고와 게시 기록은 이 브라우저에 저장돼. 다른 기기로 옮길 때는 사진이 포함된 JSON 백업을 받아 둬.</p>
               <div class="backup-actions">
                 <button type="button" id="export-backup" class="button quiet">JSON 백업 받기 <span aria-hidden="true">↓</span></button>
                 <button type="button" id="import-backup" class="button quiet">백업 불러오기 <span aria-hidden="true">↑</span></button>
+                <button type="button" id="prune-photos" class="text-button">안 쓰는 사진 정리</button>
                 <input id="backup-file" type="file" accept="application/json,.json" hidden>
               </div>
             </details>
@@ -80,6 +87,7 @@
               <button type="button" id="previous-slide" class="arrow-button" aria-label="이전 슬라이드">←</button>
               <div id="slide-buttons" class="slide-buttons" role="group" aria-label="슬라이드 선택"></div>
               <button type="button" id="next-slide" class="arrow-button" aria-label="다음 슬라이드">→</button>
+              <button type="button" id="quick-background-upload" class="quick-photo">사진 바꾸기 ↑</button>
             </div>
             <p id="preview-message" class="preview-message" role="status" aria-live="polite"></p>
           </div>
@@ -95,10 +103,29 @@
         <aside class="editor-panel" aria-labelledby="editor-heading">
           <div class="panel-heading"><h2 id="editor-heading">원고</h2><span id="slide-label" class="small-muted">01 / 03</span></div>
           <p id="content-label" class="editor-context"></p>
+          <details class="inspector-section background-section" id="background-section" open>
+            <summary>배경 사진 <span id="background-page" class="small-muted">1번째 장</span></summary>
+            <div class="background-editor">
+              <button type="button" id="background-upload" class="button secondary">내 사진 올리기 ↑</button>
+              <input id="background-file" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+              <p id="background-name" class="small-muted">기본 그림을 쓰고 있어.</p>
+              <p class="small-muted">JPG·PNG·WebP · 20MB까지. 사진은 이 브라우저에만 보관해.</p>
+              <div id="background-controls" hidden>
+                <label for="background-x">가로 위치 <output id="background-x-value">50%</output></label><input id="background-x" type="range" min="0" max="100" value="50">
+                <label for="background-y">세로 위치 <output id="background-y-value">50%</output></label><input id="background-y" type="range" min="0" max="100" value="50">
+                <label for="background-zoom">확대 <output id="background-zoom-value">1.00×</output></label><input id="background-zoom" type="range" min="1" max="3" step="0.01" value="1">
+                <label for="background-wash">종이색 덮기 <output id="background-wash-value">0%</output></label><input id="background-wash" type="range" min="0" max="95" value="0">
+                <p class="small-muted">값을 높이면 글이 더 또렷해져.</p>
+                <button type="button" id="background-all" class="text-button">이 게시물 모든 장에 같은 사진</button>
+                <button type="button" id="background-reset" class="text-button">이 장을 기본 그림으로</button>
+              </div>
+              <label for="edit-image-brief">다시 그릴 때 참고할 그림 메모</label><textarea id="edit-image-brief" rows="3" maxlength="1200" placeholder="장면·구도·분위기를 적어 둬."></textarea>
+            </div>
+          </details>
           <details class="inspector-section campaign-information">
             <summary>기획 정보</summary>
             <div class="campaign-fields">
-              <label for="edit-topic">주제 <span class="small-muted">세 언어 공통</span></label><input id="edit-topic" type="text" maxlength="100">
+              <label for="edit-topic">주제 <span class="small-muted">현재 언어</span></label><input id="edit-topic" type="text" maxlength="100">
               <label for="artwork">표지 이미지 <span class="small-muted">3장 기획</span></label><select id="artwork"><option value="auto">주제에 맞게</option><option value="hanji">강과 소나무</option><option value="muk">밤의 산과 달</option><option value="inyeon">두 마리 학과 인연</option></select>
               <label for="edit-label">기획 이름 <span class="small-muted">현재 언어</span></label><input id="edit-label" type="text" maxlength="160">
             </div>

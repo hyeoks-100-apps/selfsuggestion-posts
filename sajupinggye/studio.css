@@ -282,3 +282,24 @@ textarea:focus, input[type="text"]:focus { background: #fff; }
 @media (max-width: 700px) {
  .category-filter, .campaign-fields select { min-height: 44px; font-size: 14px; }
 }
+
+/* Personal artwork and the 300-draft reference library. */
+#campaign-search { width: 100%; min-height: 36px; border: 1px solid var(--line); border-radius: 2px; padding: 7px 9px; background: #fff; margin-bottom: 4px; font-size: 12px; }
+#search-empty { padding: 15px 3px; }
+.library-footer > .button.quiet { margin-bottom: 5px; }
+.background-section { margin: 0 0 20px; border-top: 0; border-bottom: 1px solid var(--line); }
+.background-section > summary { padding-top: 0; }
+.background-section > summary > span { margin-left: 8px; }
+.background-editor { display: flex; flex-direction: column; gap: 9px; padding-bottom: 20px; }
+.background-editor > label, #background-controls label { font-size: 11px; font-weight: 550; }
+.background-editor .small-muted { line-height: 1.7; }
+#background-controls { display: flex; flex-direction: column; gap: 6px; padding: 7px 0; }
+#background-controls output { float: right; font-size: 11px; color: var(--muted); }
+#background-controls input[type=range] { width: 100%; min-height: 28px; margin: 0; accent-color: var(--accent); }
+.quick-photo { min-height: 36px; padding: 3px 9px; border-left: 1px solid #cecec6; color: #66665e; font-size: 11px; white-space: nowrap; }
+.quick-photo:hover { color: var(--accent); }
+@media (max-width: 700px) {
+ #campaign-search { min-height: 44px; font-size: 16px; }
+ .quick-photo, #background-controls input[type=range] { min-height: 44px; }
+ .background-editor > label, #background-controls label { font-size: 12px; }
+}

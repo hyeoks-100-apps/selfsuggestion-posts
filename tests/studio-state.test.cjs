@@ -1,4 +1,4 @@
-// State validation and the v1 → v2 migration boundary. Run: node --test tests/studio-state.test.cjs
+// State validation and the v1/v2 → v3 migration boundary. Run: node --test tests/studio-state.test.cjs
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -9,14 +9,23 @@ const original = JSON.parse(fs.readFileSync(path.join(root, 'sajupinggye/campaig
 const copy = value => JSON.parse(JSON.stringify(value));
 
 function api() {
+  const records = new Map();
+  const nodes = new Map();
+  let writes = 0;
   const source = fs.readFileSync(path.join(root, 'sajupinggye/studio.js'), 'utf8');
   assert.equal(source.match(/  start\(\);/g)?.length, 1);
-  const context = { URL, TextEncoder };
+  const context = { URL, TextEncoder, window: {}, setTimeout: () => 0, clearTimeout() {},
+    document: { getElementById(id) { if (!nodes.has(id)) nodes.set(id, { textContent: '', classList: { toggle() {} } }); return nodes.get(id); } },
+    localStorage: { getItem: key => records.get(key) ?? null, setItem(key, value) { writes++; records.set(key, value); } }
+  };
+  context.testStorage = { records, nodes, writes: () => writes };
   vm.createContext(context);
+  vm.runInContext(fs.readFileSync(path.join(root, 'sajupinggye/backgrounds.js'), 'utf8'), context);
   vm.runInContext(source.replace('  start();', `globalThis.boundary = {
     setup(value) { catalog = readCatalog(value); state = initialState(); },
-    readBackup, readCampaign, initialState,
-    keys: [STORE_KEY, LEGACY_STORE_KEY]
+    readBackup, readCampaign, initialState, saveNow, saveSoon,
+    storage: testStorage,
+    keys: [STORE_KEY, PREVIOUS_STORE_KEY, LEGACY_STORE_KEY]
   };`), context);
   const sample = copy(original.campaigns[0]);
   sample.id = 'v2-state-test'; sample.category = 'crush'; sample.artwork = 'inyeon';
@@ -39,7 +48,7 @@ function legacyBackup() {
 
 test('v1 edits, raw hashtag draft, all five pages and posted dates survive', () => {
   const a = api(), old = legacyBackup(), restored = a.readBackup(old);
-  assert.equal(restored.version, 2);
+  assert.equal(restored.version, 3);
   assert.equal(restored.settings.slideIndex, 4);
   assert.equal(restored.settings.artwork, 'auto');
   for (const key of ['topics', 'edits', 'posted']) assert.equal(JSON.stringify(restored[key]), JSON.stringify(old[key]));
@@ -47,7 +56,7 @@ test('v1 edits, raw hashtag draft, all five pages and posted dates survive', () 
 });
 
 test('new and old browser storage use separate keys', () => {
-  assert.deepEqual(Array.from(api().keys), ['spg_ig_studio_v2', 'spg_ig_studio_v1']);
+  assert.deepEqual(Array.from(api().keys), ['spg_ig_studio_v3', 'spg_ig_studio_v2', 'spg_ig_studio_v1']);
 });
 
 test('three-page v2 backups round-trip custom campaigns and artwork', () => {
@@ -92,4 +101,68 @@ test('the larger seed library can preserve a previously full v1 workspace', () =
     const campaign = copy(original.campaigns[0]); campaign.id = `local-old-${index}`; backup.campaigns.push(campaign);
   }
   assert.equal(a.readBackup(backup).campaigns.length, 94);
+});
+
+
+test('v3 preserves per-page photo crops and per-language image briefs', () => {
+  const a = api(), backup = copy(a.initialState());
+  const id = 'img_12345678-1234-1234-1234-123456789abc';
+  backup.backgrounds['v2-state-test:ko'] = [{ assetId: id, x: 20, y: 80, zoom: 1.75, wash: 12 }, null, null];
+  const result = a.readBackup(backup);
+  assert.deepEqual(copy(result.backgrounds), backup.backgrounds);
+  assert.deepEqual(copy(a.readBackup(legacyBackup()).backgrounds), {});
+});
+
+test('photo references reject unknown campaigns, page truncation and unsafe coordinates', () => {
+  const a = api(), backup = copy(a.initialState());
+  backup.backgrounds['unknown:ko'] = [null, null, null];
+  assert.throws(() => a.readBackup(backup), /사진 설정/);
+  backup.backgrounds = { 'v2-state-test:ko': [null] };
+  assert.throws(() => a.readBackup(backup), /페이지/);
+  for (const field of ['assetId', 'x', 'y', 'zoom', 'wash']) {
+    const setting = { assetId: 'img_12345678-1234-1234-1234-123456789abc', x: 50, y: 50, zoom: 1, wash: 0 };
+    setting[field] = field === 'assetId' ? 'https://external.example/photo.jpg' : Infinity;
+    backup.backgrounds = { 'v2-state-test:ko': [setting, null, null] };
+    assert.throws(() => a.readBackup(backup), /사진/);
+  }
+});
+
+test('backups reject active image content and duplicate asset IDs', () => {
+  const a = api(), backup = copy(a.initialState());
+  const asset = { id: 'img_12345678-1234-1234-1234-123456789abc', name: 'sample.jpg', width: 1080, height: 1080, dataUrl: 'data:image/svg+xml;base64,PHN2Zy8+' };
+  backup.assets = [asset];
+  assert.throws(() => a.readBackup(backup), /JPEG/);
+  asset.dataUrl = 'data:image/jpeg;base64,/9j/AAAA';
+  backup.assets = [asset, asset];
+  assert.throws(() => a.readBackup(backup), /중복/);
+});
+
+
+test('closing an unchanged old tab never overwrites a newer stored workspace', () => {
+  const a = api(), key = a.keys[0];
+  a.storage.records.set(key, 'newer-tab-workspace');
+  assert.equal(a.saveNow(), true);
+  assert.equal(a.storage.records.get(key), 'newer-tab-workspace');
+  assert.equal(a.storage.writes(), 0);
+});
+
+test('a dirty stale tab refuses to overwrite newer photos, drafts and posting records', () => {
+  const a = api(), key = a.keys[0];
+  a.saveSoon();
+  a.storage.records.set(key, 'newer-tab-workspace');
+  assert.equal(a.saveNow(), false);
+  assert.equal(a.storage.records.get(key), 'newer-tab-workspace');
+  assert.match(a.storage.nodes.get('save-status').textContent, /다른 탭/);
+  assert.equal(a.storage.writes(), 0);
+});
+
+test('a fresh changed workspace saves once and repeated idle saves preserve it', () => {
+  const a = api(), key = a.keys[0];
+  a.saveSoon(); assert.equal(a.saveNow(), true);
+  const saved = a.storage.records.get(key);
+  assert.equal(JSON.parse(saved).version, 3);
+  assert.equal(a.storage.writes(), 1);
+  assert.equal(a.saveNow(), true);
+  assert.equal(a.storage.records.get(key), saved);
+  assert.equal(a.storage.writes(), 1);
 });

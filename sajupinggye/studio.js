@@ -1,12 +1,14 @@
 'use strict';
 
 (() => {
-  const STORE_KEY = 'spg_ig_studio_v2';
+  const STORE_KEY = 'spg_ig_studio_v3';
+  const PREVIOUS_STORE_KEY = 'spg_ig_studio_v2';
   const LEGACY_STORE_KEY = 'spg_ig_studio_v1';
   const APP_ID = 'sajupinggye-instagram-studio';
   const LOCALES = ['ko', 'ja', 'en'];
   const TEMPLATES = ['hanji', 'muk', 'inyeon'];
-  const MAX_CAMPAIGNS = 200;
+  const MAX_CAMPAIGNS = 500;
+  const MAX_IMAGE_BACKUP_BYTES = 64 * 1024 * 1024;
   const MAX_BACKUP_BYTES = 8 * 1024 * 1024;
   const MAX_TAGS = 5;
   const MAX_CAPTION = 2200;
@@ -25,9 +27,15 @@
   let busy = false;
   let storageFailed = false;
   let categoryFilter = 'all';
+  let collectionFilter = 'drafts';
+  let searchTerm = '';
+  let draftCatalog;
+  let dirty = false;
+  let lastSavedRaw = null;
+  let storageConflict = false;
 
   function message(text, error = false) {
-    const needsBackup = storageFailed && !error;
+    const needsBackup = (storageFailed || storageConflict) && !error;
     $('save-status').textContent = text + (needsBackup ? ' · 자동 저장은 실패했어. JSON 백업을 받아 둬.' : '');
     $('save-status').classList.toggle('error', error || needsBackup);
   }
@@ -68,7 +76,14 @@
 
   function readLocale(value) {
     if (!plain(value) || !Array.isArray(value.slides) || ![3, 5].includes(value.slides.length)) throw new Error('각 언어에는 슬라이드 3장 또는 이전 형식의 5장이 필요해.');
-    return { label: text(value.label, '기획 이름', LIMITS.label, false), caption: text(value.caption, '캡션', LIMITS.caption), hashtags: readTags(value.hashtags), slides: value.slides.map(readSlide) };
+    const extra = {};
+    if (value.topic !== undefined) extra.topic = text(value.topic, '현지 주제', LIMITS.topic);
+    if (value.imageBrief !== undefined) extra.imageBrief = text(value.imageBrief, '그림 메모', 1200);
+    if (value.artwork !== undefined) {
+      if (!TEMPLATES.includes(value.artwork)) throw new Error('표지 이미지 형식을 확인해 줘.');
+      extra.artwork = value.artwork;
+    }
+    return { label: text(value.label, '기획 이름', LIMITS.label, false), caption: text(value.caption, '캡션', LIMITS.caption), hashtags: readTags(value.hashtags), slides: value.slides.map(readSlide), ...extra };
   }
 
   function readCampaign(value) {
@@ -87,23 +102,23 @@
   }
 
   function readCatalog(value) {
-    if (!plain(value) || ![1, 2].includes(value.version) || !plain(value.brand) || !Array.isArray(value.campaigns) || !value.campaigns.length || value.campaigns.length > MAX_CAMPAIGNS) {
+    if (!plain(value) || ![1, 2, 3].includes(value.version) || !plain(value.brand) || !Array.isArray(value.campaigns) || !value.campaigns.length || value.campaigns.length > MAX_CAMPAIGNS) {
       throw new Error('원본 기획 데이터 형식이 맞지 않아.');
     }
     const campaigns = value.campaigns.map(readCampaign);
     if (new Set(campaigns.map(item => item.id)).size !== campaigns.length) throw new Error('원본 기획 ID가 중복돼 있어.');
     const site = safeUrl(value.brand.site);
     if (!site) throw new Error('브랜드의 웹 주소를 확인해 줘.');
-    return { version: 2, brand: { name: text(value.brand.name, '브랜드 이름', 100, false), englishName: text(value.brand.englishName, '영문 브랜드 이름', 100, false), site }, campaigns };
+    return { version: value.version, brand: { name: text(value.brand.name, '브랜드 이름', 100, false), englishName: text(value.brand.englishName, '영문 브랜드 이름', 100, false), site }, campaigns };
   }
 
   function initialState() {
-    return { app: APP_ID, version: 2, settings: { campaignId: catalog.campaigns[0].id, locale: 'ko', slideIndex: 0, template: 'hanji', artwork: 'auto', format: 'feed' }, campaigns: [], topics: Object.create(null), edits: Object.create(null), posted: Object.create(null) };
+    return { app: APP_ID, version: 3, backgrounds: Object.create(null), settings: { campaignId: catalog.campaigns[0].id, locale: 'ko', slideIndex: 0, template: 'hanji', artwork: 'auto', format: 'feed' }, campaigns: [], topics: Object.create(null), edits: Object.create(null), posted: Object.create(null) };
   }
 
   function readBackup(value) {
-    exactKeys(value, ['app', 'version', 'exportedAt', 'savedAt', 'settings', 'campaigns', 'topics', 'edits', 'posted'], '백업');
-    if (value.app !== APP_ID || ![1, 2].includes(value.version)) throw new Error('사주핑계 작업실 백업이 아니야. 자기암시 스튜디오 백업과는 별개야.');
+    exactKeys(value, ['app', 'version', 'exportedAt', 'savedAt', 'settings', 'campaigns', 'topics', 'edits', 'posted', 'backgrounds', 'assets'], '백업');
+    if (value.app !== APP_ID || ![1, 2, 3].includes(value.version)) throw new Error('사주핑계 작업실 백업이 아니야. 자기암시 스튜디오 백업과는 별개야.');
     if (!Array.isArray(value.campaigns) || value.campaigns.length + catalog.campaigns.length > MAX_CAMPAIGNS) throw new Error(`기획은 원본을 포함해 ${MAX_CAMPAIGNS}개까지 보관할 수 있어.`);
     const result = initialState();
     result.campaigns = value.campaigns.map(readCampaign);
@@ -126,12 +141,14 @@
     if (!plain(value.edits) || Object.keys(value.edits).length > allowedPairs.size) throw new Error('문구 수정 기록의 형식이 맞지 않아.');
     for (const [key, edit] of Object.entries(value.edits)) {
       if (!allowedPairs.has(key)) throw new Error('문구 수정에 알 수 없는 기획이나 언어가 있어.');
-      exactKeys(edit, ['label', 'caption', 'hashtags', 'hashtagText', 'slides'], '문구 수정');
+      exactKeys(edit, ['label', 'caption', 'hashtags', 'hashtagText', 'slides', 'imageBrief', 'topic'], '문구 수정');
       const [campaignId, locale] = key.split(':');
       const source = [...catalog.campaigns, ...result.campaigns].find(item => item.id === campaignId);
       if (!Array.isArray(edit.slides) || edit.slides.length !== source.locales[locale].slides.length) throw new Error('문구 수정의 슬라이드 수가 원본 기획과 달라.');
       result.edits[key] = {
         label: text(edit.label, '기획 이름', LIMITS.label), caption: text(edit.caption, '캡션', LIMITS.caption), hashtags: readTags(edit.hashtags), hashtagText: text(edit.hashtagText === undefined ? edit.hashtags.join(' ') : edit.hashtagText, '해시태그 초안', 2400),
+        ...(edit.topic === undefined ? {} : { topic: text(edit.topic, '현지 주제', LIMITS.topic) }),
+        ...(edit.imageBrief === undefined ? {} : { imageBrief: text(edit.imageBrief, '그림 메모', 1200) }),
         slides: edit.slides.map(slide => {
           exactKeys(slide, ['title', 'body', 'note'], '슬라이드 수정');
           return { title: text(slide.title, '제목', LIMITS.title), body: text(slide.body, '본문', LIMITS.body), note: text(slide.note, '덧말', LIMITS.note) };
@@ -143,28 +160,38 @@
       if (!allowedPairs.has(key) || typeof date !== 'string' || date.length > 40 || !/^\d{4}-\d{2}-\d{2}T/.test(date) || !Number.isFinite(Date.parse(date))) throw new Error('게시 기록의 기획·언어·날짜를 확인해 줘.');
       result.posted[key] = date;
     }
+    if (value.backgrounds !== undefined) {
+      if (!plain(value.backgrounds) || Object.keys(value.backgrounds).length > allowedPairs.size) throw new Error('사진 설정 목록이 맞지 않아.');
+      for (const [key, slots] of Object.entries(value.backgrounds)) {
+        const [id, locale] = key.split(':');
+        const source = [...catalog.campaigns, ...result.campaigns].find(item => item.id === id);
+        if (!allowedPairs.has(key) || !Array.isArray(slots) || slots.length !== source.locales[locale].slides.length) throw new Error('사진 설정의 기획·언어·페이지 수를 확인해 줘.');
+        result.backgrounds[key] = slots.map(slot => slot === null ? null : window.SajuBackgrounds.readSetting(slot));
+      }
+    }
+    if (value.assets !== undefined) window.SajuBackgrounds.readAssets(value.assets);
     return result;
   }
 
   function campaigns() { return [...catalog.campaigns, ...state.campaigns]; }
   function selectedCampaign() { return campaigns().find(item => item.id === state.settings.campaignId); }
   function pairKey(id = state.settings.campaignId, locale = state.settings.locale) { return `${id}:${locale}`; }
-  function topicOf(campaign) { return own(state.topics, campaign.id) ? state.topics[campaign.id] : campaign.topic; }
+  function topicOf(campaign) { return state.edits[pairKey(campaign.id)]?.topic ?? (own(state.topics, campaign.id) ? state.topics[campaign.id] : (campaign.locales[state.settings.locale].topic || campaign.topic)); }
   function slideCount() { return selectedCampaign().locales[state.settings.locale].slides.length; }
-  function renderOptions() { return { ...state.settings, slideCount: slideCount(), artwork: state.settings.artwork === 'auto' ? selectedCampaign().artwork : state.settings.artwork }; }
+  function renderOptions() { return { ...state.settings, slideCount: slideCount(), artwork: state.settings.artwork === 'auto' ? (localeContent().artwork || selectedCampaign().artwork) : state.settings.artwork }; }
 
   function localeContent(campaign = selectedCampaign(), locale = state.settings.locale) {
     const base = campaign.locales[locale];
     const edit = state.edits[pairKey(campaign.id, locale)];
     if (!edit) return clone(base);
-    return { label: edit.label, caption: edit.caption, hashtags: [...edit.hashtags], slides: base.slides.map((slide, index) => ({ ...slide, ...edit.slides[index] })) };
+    return { ...clone(base), label: edit.label, caption: edit.caption, hashtags: [...edit.hashtags], topic: edit.topic ?? base.topic, imageBrief: edit.imageBrief === undefined ? (base.imageBrief || '') : edit.imageBrief, slides: base.slides.map((slide, index) => ({ ...slide, ...edit.slides[index] })) };
   }
 
   function ensureEdit() {
     const key = pairKey();
     if (!own(state.edits, key)) {
       const source = localeContent();
-      state.edits[key] = { label: source.label, caption: source.caption, hashtags: [...source.hashtags], hashtagText: source.hashtags.join(' '), slides: source.slides.map(({ title, body, note }) => ({ title, body, note })) };
+      state.edits[key] = { topic: topicOf(selectedCampaign()), imageBrief: source.imageBrief || '', label: source.label, caption: source.caption, hashtags: [...source.hashtags], hashtagText: source.hashtags.join(' '), slides: source.slides.map(({ title, body, note }) => ({ title, body, note })) };
     }
     return state.edits[key];
   }
@@ -173,10 +200,17 @@
 
   function saveNow() {
     clearTimeout(saveTimer);
+    if (!dirty) return true;
     try {
+      if (localStorage.getItem(STORE_KEY) !== lastSavedRaw) {
+        storageConflict = true;
+        message('다른 탭에 최신 작업이 있어. 현재 원고는 JSON 백업을 받은 뒤 새로고침해 줘. 최신 저장본은 덮어쓰지 않았어.', true);
+        return false;
+      }
       const json = JSON.stringify(envelope());
       if (byteLength(json) > MAX_BACKUP_BYTES) throw new Error('저장 용량 한도');
       localStorage.setItem(STORE_KEY, json);
+      lastSavedRaw = json; dirty = false; storageConflict = false;
       storageFailed = false;
       message(`이 브라우저에 저장했어 · ${new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}`);
       return true;
@@ -188,6 +222,7 @@
   }
 
   function saveSoon() {
+    dirty = true;
     clearTimeout(saveTimer);
     if (!storageFailed) message('변경 내용을 저장하는 중…');
     saveTimer = setTimeout(saveNow, 300);
@@ -204,8 +239,9 @@
     const focused = $('campaign-list').contains(document.activeElement) ? document.activeElement.dataset.campaign : undefined;
     const scrollTop = $('campaign-list').scrollTop;
     const allItems = campaigns();
-    const items = allItems.filter(item => categoryFilter === 'all' || item.category === categoryFilter);
-    $('campaign-count').textContent = `${items.length} / ${allItems.length}`;
+    const items = allItems.filter(matchesFilter);
+    $('search-empty').hidden = items.length > 0;
+    $('campaign-count').textContent = `${items.length} / ${allItems.filter(inCollection).length}`;
     $('duplicate-campaign').disabled = busy || allItems.length >= MAX_CAMPAIGNS;
     const fragment = document.createDocumentFragment();
     items.forEach((campaign, index) => {
@@ -231,6 +267,7 @@
     $('format').value = state.settings.format;
     $('artwork').value = state.settings.artwork;
     $('category-filter').value = categoryFilter;
+    $('collection-filter').value = collectionFilter;
     $('export-zip').textContent = `${slideCount()}장 ZIP ↓`;
     $('export-hint').textContent = `PNG ${slideCount()}장 + 캡션`;
     $('sequence-label').textContent = slideCount() === 3 ? ['01 제목과 이미지', '02 사주로 읽기', '03 사주핑계 소개'][state.settings.slideIndex] : '이전 5장 기획';
@@ -258,8 +295,11 @@
     $('edit-label').value = content.label;
     for (const field of ['title', 'body', 'note']) $('edit-' + field).value = slide[field];
     $('edit-caption').value = content.caption;
+    $('edit-image-brief').value = content.imageBrief || '';
+    renderBackgroundControls();
     $('edit-hashtags').value = state.edits[pairKey()] ? state.edits[pairKey()].hashtagText : content.hashtags.join(' ');
     $('edit-label').lang = state.settings.locale;
+    $('edit-image-brief').lang = 'ko';
     for (const field of ['title', 'body', 'note', 'caption', 'hashtags']) $('edit-' + field).lang = state.settings.locale;
     updateCounts();
     const date = state.posted[pairKey()];
@@ -291,14 +331,16 @@
   }
 
   function commitEditor() {
+    dirty = true;
     const edit = ensureEdit();
     edit.label = $('edit-label').value;
     edit.caption = $('edit-caption').value;
+    edit.imageBrief = $('edit-image-brief').value;
     const tags = parseTags($('edit-hashtags').value);
     edit.hashtagText = $('edit-hashtags').value;
     if (tags.length <= MAX_TAGS && tags.every(tag => tag.length <= 80)) edit.hashtags = tags;
     edit.slides[state.settings.slideIndex] = { title: $('edit-title').value, body: $('edit-body').value, note: $('edit-note').value };
-    state.topics[state.settings.campaignId] = $('edit-topic').value;
+    edit.topic = $('edit-topic').value;
   }
 
   function checkTags() {
@@ -331,6 +373,11 @@
       const edit = state.edits[pairKey(source.id, locale)];
       if (edit) state.edits[pairKey(id, locale)] = { ...clone(edit), label: locales[locale].label };
     }
+    for (const locale of LOCALES) {
+      const photos = state.backgrounds[pairKey(source.id, locale)];
+      if (photos) state.backgrounds[pairKey(id, locale)] = clone(photos);
+    }
+    collectionFilter = 'all'; searchTerm = ''; $('campaign-search').value = '';
     state.settings.campaignId = id;
     state.settings.slideIndex = 0;
     renderAll();
@@ -406,6 +453,106 @@
     }
   }
 
+  function inCollection(campaign) {
+    const draft = campaign.id.startsWith('draft-');
+    return collectionFilter === 'all' || (collectionFilter === 'drafts' ? draft : !draft);
+  }
+
+  function matchesFilter(campaign) {
+    const categoryMatches = categoryFilter === 'custom' ? state.campaigns.some(item => item.id === campaign.id) : categoryFilter === 'all' || campaign.category === categoryFilter;
+    const source = localeContent(campaign);
+    const searchable = [source.label, topicOf(campaign), ...source.slides.map(slide => slide.title)].join(' ').toLocaleLowerCase();
+    return inCollection(campaign) && categoryMatches && (!searchTerm || searchable.includes(searchTerm));
+  }
+
+  function applyFilters() {
+    const visible = campaigns().filter(matchesFilter);
+    if (visible.length && !visible.some(item => item.id === state.settings.campaignId)) { state.settings.campaignId = visible[0].id; state.settings.slideIndex = 0; }
+    renderAll(); saveSoon();
+    $('search-empty').hidden = visible.length > 0;
+  }
+
+  function currentBackground() { return state.backgrounds[pairKey()]?.[state.settings.slideIndex] || null; }
+  function setBackground(value) {
+    dirty = true;
+    if (!state.backgrounds[pairKey()]) state.backgrounds[pairKey()] = Array(slideCount()).fill(null);
+    state.backgrounds[pairKey()][state.settings.slideIndex] = value;
+    if (state.backgrounds[pairKey()].every(item => item === null)) delete state.backgrounds[pairKey()];
+  }
+
+  async function optionsWithBackground(options) {
+    const config = state.backgrounds[pairKey(options.campaignId, options.locale)]?.[options.slideIndex];
+    if (!config) return options;
+    const asset = await window.SajuBackgrounds.image(config.assetId);
+    return { ...options, customImage: asset.image, customImageName: asset.name, background: config };
+  }
+
+  function renderBackgroundControls() {
+    const background = currentBackground();
+    $('background-page').textContent = `${state.settings.slideIndex + 1}번째 장`;
+    $('background-name').textContent = background ? '직접 올린 사진 · 이 장에 적용됨' : '기본 그림을 쓰고 있어.';
+    $('background-controls').hidden = !background;
+    for (const key of ['x', 'y', 'zoom', 'wash']) {
+      const input = $('background-' + key);
+      const value = background?.[key] ?? (key === 'zoom' ? 1 : key === 'wash' ? 0 : 50);
+      input.value = String(value);
+      $('background-' + key + '-value').textContent = key === 'zoom' ? Number(value).toFixed(2) + '×' : value + '%';
+      input.disabled = busy || !background;
+    }
+    $('background-reset').disabled = busy || !background;
+    $('background-all').disabled = busy || !background;
+  }
+
+  async function uploadBackground(file) {
+    if (!file || busy) return;
+    try {
+      setBusy(true, '사진을 다듬어 이 브라우저에 저장하는 중…');
+      const asset = await window.SajuBackgrounds.prepare(file);
+      await window.SajuBackgrounds.putAll([asset]);
+      setBackground({ assetId: asset.id, x: 50, y: 50, zoom: 1, wash: state.settings.slideIndex === 0 ? 0 : 85 });
+      saveNow(); message('사진을 바꿨어. 위치와 확대를 조절해 봐. 사진은 서버에 업로드되지 않아.');
+    } catch (error) { message(error.message, true); }
+    finally { setBusy(false); renderBackgroundControls(); requestPreview(); $('background-file').value = ''; }
+  }
+
+  function bindBackgroundEvents() {
+    $('quick-background-upload').addEventListener('click', () => $('background-file').click());
+    $('background-upload').addEventListener('click', () => $('background-file').click());
+    $('background-file').addEventListener('change', () => uploadBackground($('background-file').files[0]));
+    for (const key of ['x', 'y', 'zoom', 'wash']) $('background-' + key).addEventListener('input', () => {
+      const background = currentBackground(); if (!background) return;
+      background[key] = Number($('background-' + key).value); renderBackgroundControls(); requestPreview(); saveSoon();
+    });
+    $('background-reset').addEventListener('click', () => { setBackground(null); renderBackgroundControls(); requestPreview(); saveSoon(); });
+    $('background-all').addEventListener('click', () => {
+      const source = currentBackground(); if (!source) return;
+      dirty = true;
+      state.backgrounds[pairKey()] = Array.from({ length: slideCount() }, (_, index) => ({ ...source, wash: index === state.settings.slideIndex ? source.wash : index === 0 ? 0 : Math.max(85, source.wash) }));
+      renderBackgroundControls(); requestPreview(); saveNow(); message(`현재 언어의 ${slideCount()}장에 같은 사진을 적용했어. 구도는 장마다 따로 조절할 수 있어.`);
+    });
+  }
+
+  async function exportDrafts() {
+    if (busy || !draftCatalog) return;
+    try {
+      setBusy(true, '300개 초안을 묶는 중…');
+      const encoder = new TextEncoder(), files = [];
+      for (const locale of LOCALES) {
+        const heading = { ko: '한국어 100개 초안', ja: '日本語 100本の下書き', en: '100 English post drafts' }[locale];
+        const sections = draftCatalog.campaigns.map((campaign, index) => {
+          const content = campaign.locales[locale];
+          const slides = content.slides.map((slide, page) => `### ${page + 1}. ${slide.title}\n\n${slide.eyebrow}\n\n${slide.body}\n\n${slide.note}`).join('\n\n');
+          return `## ${String(index + 1).padStart(3, '0')}. ${content.label}\n\n그림 메모: ${content.imageBrief || ''}\n\n${slides}\n\n### Caption\n\n${captionText(content)}`;
+        });
+        files.push({ name: `${locale}-100-drafts.md`, bytes: encoder.encode(`# ${heading}\n\n게시물당 3장 · 재작화와 문구 편집용 초안\n\n${sections.join('\n\n---\n\n')}\n`) });
+      }
+      files.push({ name: 'all-300-drafts.json', bytes: encoder.encode(JSON.stringify(draftCatalog, null, 2)) });
+      downloadBlob(makeZip(files), 'sajupinggye-300-content-drafts.zip');
+      message('한국어·일본어·영어 각100개, 그림 메모와 캡션까지 내려받았어.');
+    } catch (error) { message(error.message, true); }
+    finally { setBusy(false); requestPreview(); }
+  }
+
   function drawPoster(canvas, slide, options) {
     return window.SajuPoster.draw(canvas, slide, options, catalog.brand);
   }
@@ -424,8 +571,10 @@
     try {
       await window.SajuPoster.ready;
       if (token !== previewToken || busy) return;
-      const options = renderOptions();
+      const options = await optionsWithBackground(renderOptions());
+      if (token !== previewToken || busy) return;
       const content = localeContent();
+      if (options.customImageName) $('background-name').textContent = options.customImageName + ' · 이 장에 적용됨';
       const offscreen = document.createElement('canvas');
       const issues = drawPoster(offscreen, content.slides[options.slideIndex], options);
       if (token !== previewToken) return;
@@ -436,7 +585,7 @@
       $('preview-message').classList.toggle('error', issues.length > 0);
       previewOkay = issues.length === 0;
       $('export-png').disabled = !previewOkay;
-    } catch (error) { $('preview-message').textContent = error.message; $('preview-message').classList.add('error'); }
+    } catch (error) { if (token !== previewToken) return; $('preview-message').textContent = error.message; $('preview-message').classList.add('error'); }
   }
 
   function setBusy(value, label = '') {
@@ -449,6 +598,7 @@
       $('next-slide').disabled = state.settings.slideIndex === slideCount() - 1;
       $('duplicate-campaign').disabled = campaigns().length >= MAX_CAMPAIGNS;
       $('export-png').disabled = !previewOkay;
+      renderBackgroundControls();
     }
     if (label) message(label);
   }
@@ -479,7 +629,7 @@
       // Validate every requested slide before downloading anything.
       for (const index of indexes) {
         const canvas = document.createElement('canvas');
-        const issues = drawPoster(canvas, content.slides[index], { ...options, slideIndex: index });
+        const issues = drawPoster(canvas, content.slides[index], await optionsWithBackground({ ...options, slideIndex: index }));
         if (issues.length) throw new Error(`${index + 1}번째 장: ${issues.join(' ')}`);
         rendered.push({ canvas, index });
       }
@@ -495,7 +645,7 @@
         }
         const encoder = new TextEncoder();
         files.push({ name: 'caption.txt', bytes: encoder.encode(captionText(content) + '\n') });
-        const metadata = { app: APP_ID, version: 2, exportedAt: new Date().toISOString(), brand: catalog.brand, campaignId: campaign.id, topic: topicOf(campaign), category: campaign.category, slideCount: options.slideCount, artwork: options.artwork, locale: options.locale, template: options.template, format: options.format, mediaType: 'image/png', width: 1080, height: options.format === 'story' ? 1920 : 1350, label: content.label, caption: content.caption, hashtags: content.hashtags, slides: content.slides.map((slide, index) => ({ file: `${String(index + 1).padStart(2, '0')}.png`, ...slide })) };
+        const metadata = { app: APP_ID, version: 3, imageBrief: content.imageBrief || '', backgrounds: state.backgrounds[pairKey()] || [], exportedAt: new Date().toISOString(), brand: catalog.brand, campaignId: campaign.id, topic: topicOf(campaign), category: campaign.category, slideCount: options.slideCount, artwork: options.artwork, locale: options.locale, template: options.template, format: options.format, mediaType: 'image/png', width: 1080, height: options.format === 'story' ? 1920 : 1350, label: content.label, caption: content.caption, hashtags: content.hashtags, slides: content.slides.map((slide, index) => ({ file: `${String(index + 1).padStart(2, '0')}.png`, ...slide })) };
         files.push({ name: 'metadata.json', bytes: encoder.encode(JSON.stringify(metadata, null, 2) + '\n') });
         downloadBlob(makeZip(files), `${basename}.zip`);
       }
@@ -548,32 +698,52 @@
     } catch (error) { message(error.message || '복사하지 못했어. 캡션 칸에서 직접 복사해 줘.', true); }
   }
 
-  function exportBackup() {
+  async function exportBackup() {
+    if (busy) return;
     try {
-      commitEditor();
-      const value = { ...envelope(), exportedAt: new Date().toISOString() };
+      commitEditor(); setBusy(true, '사진과 문구를 백업하는 중…');
+      const value = { ...envelope(), exportedAt: new Date().toISOString(), assets: await window.SajuBackgrounds.collect(state.backgrounds) };
       readBackup(value);
       const json = JSON.stringify(value, null, 2);
-      if (byteLength(json) > MAX_BACKUP_BYTES) throw new Error('백업이 8MB를 넘어가. 기획 수나 문구 길이를 줄여 줘.');
+      if (byteLength(json) > MAX_IMAGE_BACKUP_BYTES) throw new Error('사진 포함 백업이 64MB를 넘어가. 필요한 기획을 나눠 보관해 줘.');
       downloadBlob(new Blob([json], { type: 'application/json;charset=utf-8' }), `sajupinggye-studio-${new Date().toISOString().slice(0, 10)}.json`);
-      saveNow(); message('문구·복제 기획·선택 설정·게시 기록을 백업했어.');
+      saveNow(); message('사진·구도·문구·게시 기록을 함께 백업했어. 다른 기기에서도 불러올 수 있어.');
     } catch (error) { message(error.message, true); }
+    finally { setBusy(false); requestPreview(); }
   }
 
   async function importBackup(file) {
     if (!file || busy) return;
     try {
-      if (file.size > MAX_BACKUP_BYTES) throw new Error('백업은 8MB까지 불러올 수 있어.');
-      setBusy(true, '백업 형식을 확인하는 중…');
+      if (file.size > MAX_IMAGE_BACKUP_BYTES) throw new Error('사진 포함 백업은 64MB까지 불러올 수 있어.');
+      setBusy(true, '백업과 사진을 확인하는 중…');
       const raw = await file.text();
       let parsed;
-      try { parsed = JSON.parse(raw); } catch (_) { throw new Error('JSON을 읽지 못했어. 압축파일이 아닌 작업실 JSON 백업을 골라 줘.'); }
+      try { parsed = JSON.parse(raw); } catch (_) { throw new Error('JSON을 읽지 못했어. 작업실 JSON 백업을 골라 줘.'); }
       const restored = readBackup(parsed);
-      state = restored; categoryFilter = 'all';
+      if (byteLength(JSON.stringify(restored)) > MAX_BACKUP_BYTES) throw new Error('문구 저장본은 8MB 이내로 맞춰 줘.');
+      if (localStorage.getItem(STORE_KEY) !== lastSavedRaw) throw new Error('다른 탭의 저장본이 바뀌었어. 새로고침한 뒤 백업을 불러와 줘.');
+      await window.SajuBackgrounds.restore(parsed.assets || [], restored.backgrounds);
+      if (localStorage.getItem(STORE_KEY) !== lastSavedRaw) throw new Error('다른 탭의 저장본이 바뀌었어. 새로고침한 뒤 백업을 불러와 줘.');
+      state = restored; dirty = true; categoryFilter = 'all'; collectionFilter = 'all'; searchTerm = ''; $('campaign-search').value = '';
       setBusy(false); renderAll();
-      if (saveNow()) message(`백업을 불러왔어. 기획 ${campaigns().length}개와 언어별 게시 기록을 복원했어.`);
+      if (saveNow()) message(`사진과 기획 ${campaigns().length}개, 언어별 게시 기록을 복원했어.`);
     } catch (error) { message(`백업을 불러오지 않았어. ${error.message}`, true); }
     finally { setBusy(false); $('backup-file').value = ''; }
+  }
+
+  async function prunePhotos() {
+    if (busy) return;
+    try {
+      commitEditor();
+      if (!saveNow()) return;
+      if (!window.confirm('다른 작업실 탭을 닫고 진행해 줘. 현재 원고에서 쓰지 않는 사진을 이 브라우저에서 삭제할까? 필요한 작업은 먼저 사진 포함 JSON 백업으로 보관해 둬. 원본 사진 파일은 바뀌지 않아.')) return;
+      if (localStorage.getItem(STORE_KEY) !== lastSavedRaw) throw new Error('다른 탭의 저장본이 바뀌었어. 새로고침한 뒤 다시 정리해 줘.');
+      setBusy(true, '쓰지 않는 사진을 정리하는 중…');
+      const count = await window.SajuBackgrounds.prune(window.SajuBackgrounds.requiredIds(state.backgrounds));
+      message(`현재 원고의 사진은 남기고, 쓰지 않는 사진 ${count}개를 정리했어.`);
+    } catch (error) { message(error.message, true); }
+    finally { setBusy(false); requestPreview(); }
   }
 
   function showTab(name) {
@@ -597,14 +767,19 @@
     document.querySelectorAll('[data-locale]').forEach(button => button.addEventListener('click', () => { state.settings.locale = button.dataset.locale; renderAll(); saveSoon(); }));
     document.querySelectorAll('[data-template]').forEach(button => button.addEventListener('click', () => { state.settings.template = button.dataset.template; renderSelections(); requestPreview(); saveSoon(); }));
     $('campaign-list').addEventListener('click', event => { const button = event.target.closest('[data-campaign]'); if (!button) return; state.settings.campaignId = button.dataset.campaign; state.settings.slideIndex = 0; renderAll(); saveSoon(); });
-    $('category-filter').addEventListener('change', () => { categoryFilter = $('category-filter').value; const visible = campaigns().filter(item => categoryFilter === 'all' || item.category === categoryFilter); if (!visible.some(item => item.id === state.settings.campaignId) && visible.length) { state.settings.campaignId = visible[0].id; state.settings.slideIndex = 0; } renderAll(); saveSoon(); });
+    $('category-filter').addEventListener('change', () => { categoryFilter = $('category-filter').value; if (categoryFilter === 'custom') collectionFilter = 'all'; applyFilters(); });
+    $('collection-filter').addEventListener('change', () => { collectionFilter = $('collection-filter').value; categoryFilter = 'all'; applyFilters(); });
+    $('campaign-search').addEventListener('input', () => { searchTerm = $('campaign-search').value.trim().toLocaleLowerCase(); applyFilters(); });
+    bindBackgroundEvents();
+    $('export-drafts').addEventListener('click', exportDrafts);
+    $('prune-photos').addEventListener('click', prunePhotos);
     $('artwork').addEventListener('change', () => { state.settings.artwork = $('artwork').value; requestPreview(); saveSoon(); });
     $('format').addEventListener('change', () => { state.settings.format = $('format').value; requestPreview(); saveSoon(); });
     $('slide-buttons').addEventListener('click', event => { const button = event.target.closest('[data-slide]'); if (button) selectSlide(Number(button.dataset.slide)); });
     $('previous-slide').addEventListener('click', () => selectSlide(state.settings.slideIndex - 1));
     $('next-slide').addEventListener('click', () => selectSlide(state.settings.slideIndex + 1));
     document.querySelector('.slide-navigation').addEventListener('keydown', event => { if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return; event.preventDefault(); selectSlide(state.settings.slideIndex + (event.key === 'ArrowRight' ? 1 : -1)); $('slide-buttons').querySelector('[aria-current="true"]').focus(); });
-    for (const field of ['topic', 'label', 'title', 'body', 'note', 'caption', 'hashtags']) {
+    for (const field of ['topic', 'label', 'title', 'body', 'note', 'caption', 'hashtags', 'image-brief']) {
       $('edit-' + field).addEventListener('input', () => {
         commitEditor(); updateCounts();
         if (field === 'topic' || field === 'label') renderCampaigns();
@@ -622,7 +797,22 @@
     $('import-backup').addEventListener('click', () => $('backup-file').click());
     $('backup-file').addEventListener('change', () => importBackup($('backup-file').files[0]));
     window.addEventListener('hashchange', () => showTab(location.hash === '#references' ? 'references' : 'studio'));
-    window.addEventListener('pagehide', () => { if (state) saveNow(); });
+    window.addEventListener('pagehide', () => { if (state && dirty && !storageConflict) saveNow(); });
+    window.addEventListener('storage', event => {
+      if (event.key !== STORE_KEY || !state || event.newValue === lastSavedRaw) return;
+      clearTimeout(saveTimer);
+      if (dirty || busy || !event.newValue) {
+        storageConflict = true;
+        message('다른 탭에서 작업이 바뀌었어. 이 탭의 원고는 JSON 백업을 받은 뒤 새로고침해 줘. 최신 저장본은 덮어쓰지 않을게.', true);
+        return;
+      }
+      try {
+        const latest = readBackup(JSON.parse(event.newValue));
+        state = latest; lastSavedRaw = event.newValue; storageConflict = false;
+        categoryFilter = 'all'; collectionFilter = 'all'; searchTerm = ''; $('campaign-search').value = '';
+        renderAll(); message('다른 탭의 최신 원고·사진·게시 기록을 이어받았어.');
+      } catch (_) { storageConflict = true; message('다른 탭의 저장 상태가 바뀌었어. 현재 작업을 백업한 뒤 새로고침해 줘.', true); }
+    });
   }
 
   async function fetchJson(path) {
@@ -636,23 +826,26 @@
     // Reference failure should never prevent creating or exporting a post.
     const references = fetchJson('references.json').then(renderReferences).catch(() => { $('references-summary').textContent = '레퍼런스 노트를 불러오지 못했어. 새로고침하면 다시 확인할 수 있어. 콘텐츠 제작은 그대로 할 수 있어.'; $('reference-positioning').hidden = true; });
     try {
-      const [current, legacy] = await Promise.all([fetchJson('campaigns-v2.json'), fetchJson('campaigns.json')]);
-      catalog = readCatalog({ ...current, campaigns: [...current.campaigns, ...legacy.campaigns] });
+      const [drafts, current, legacy] = await Promise.all([fetchJson('campaigns-300.json'), fetchJson('campaigns-v2.json'), fetchJson('campaigns.json')]);
+      draftCatalog = readCatalog(drafts);
+      catalog = readCatalog({ ...current, campaigns: [...draftCatalog.campaigns, ...current.campaigns, ...legacy.campaigns] });
       state = initialState();
       let restored = false, warning = '';
       try {
         const currentRaw = localStorage.getItem(STORE_KEY);
-        const raw = currentRaw || localStorage.getItem(LEGACY_STORE_KEY);
+        lastSavedRaw = currentRaw;
+        const raw = currentRaw || localStorage.getItem(PREVIOUS_STORE_KEY) || localStorage.getItem(LEGACY_STORE_KEY);
         if (raw) {
           if (byteLength(raw) > MAX_BACKUP_BYTES) throw new Error('저장 기록이 8MB를 넘어가.');
           state = readBackup(JSON.parse(raw)); restored = true;
           if (!currentRaw) {
             state.settings.campaignId = catalog.campaigns[0].id; state.settings.slideIndex = 0;
-            warning = '예전 5장 원고와 게시 기록을 보관했어. 새 3장 기획으로 시작해. 분류에서 이전 원고도 볼 수 있어.';
-            saveNow();
+            warning = '기존 원고와 게시 기록을 보관했어. 새 초안은 언어마다 100개씩 있어. 모음에서 이전 기획도 볼 수 있어.';
+            dirty = true; saveNow();
           }
         }
       } catch (_) { warning = '기존 저장 기록을 읽지 못했어. 원본 기획으로 열었어. 갖고 있는 JSON 백업을 불러올 수 있어.'; }
+      if (!selectedCampaign().id.startsWith('draft-')) collectionFilter = 'all';
       $('loading').hidden = true; $('workspace').hidden = false;
       renderAll(); message(warning || (restored ? '이 브라우저의 문구와 게시 기록을 이어서 열었어.' : '원하는 주제와 언어를 고르면 시작할 수 있어.'), Boolean(warning) && !restored);
       if (location.hash === '#references') showTab('references');

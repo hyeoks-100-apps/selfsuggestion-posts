@@ -173,11 +173,17 @@
     return block;
   }
 
-  function imageCover(ctx, image, box, focusX = .5, focusY = .5) {
-    const scale = Math.max(box.width / image.naturalWidth, box.height / image.naturalHeight);
+  function imageCover(ctx, image, box, focusX = .5, focusY = .5, zoom = 1) {
+    const scale = Math.max(box.width / image.naturalWidth, box.height / image.naturalHeight) * zoom;
     const sw = box.width / scale, sh = box.height / scale;
     const sx = (image.naturalWidth - sw) * focusX, sy = (image.naturalHeight - sh) * focusY;
     ctx.drawImage(image, sx, sy, sw, sh, box.x, box.y, box.width, box.height);
+  }
+
+  function drawArt(page, image, box, focusX = .5, focusY = .5) {
+    const config = page.background;
+    imageCover(page.ctx, page.customImage || image, box, config ? config.x / 100 : focusX, config ? config.y / 100 : focusY, config ? config.zoom : 1);
+    if (config?.wash) { page.ctx.save(); page.ctx.globalAlpha = config.wash / 100; fill(page.ctx, page.palette.paper, box.x, box.y, box.width, box.height); page.ctx.restore(); }
   }
 
   function fill(ctx, color, x, y, width, height) { ctx.fillStyle = color; ctx.fillRect(x, y, width, height); }
@@ -189,7 +195,7 @@
 
   function masthead(page) {
     const name = page.locale === 'ko' ? page.brand.name : page.locale === 'ja' ? labels.ja.brand : page.brand.englishName;
-    const imageHeader = page.count === 3 && page.index === 0;
+    const imageHeader = page.count === 3 && page.index === 0 && !page.customImage;
     const palette = imageHeader ? palettes[page.artwork] : page.palette;
     textBlock(page, 'brand', { x: MARGIN, y: 79, width: 540, height: 48 }, { max: 30, min: 26, leading: 1.2, weight: 600 }, palette.ink, name);
     const code = `${page.locale.toUpperCase()} / ${String(page.index + 1).padStart(2, '0')}`;
@@ -226,7 +232,7 @@
     const story = H === 1920;
     if (template === 'hanji') {
       // The illustration's own empty sky carries the headline; the river stays large below it.
-      imageCover(ctx, art.hanji, { x: 0, y: 0, width: WIDTH, height: H }, .7, .5);
+      drawArt(page, art.hanji, { x: 0, y: 0, width: WIDTH, height: H }, .7, .5);
       const heading = title(page, story ? 256 : 212, 376, 920, MARGIN, 120, 100);
       const bodyY = Math.max(story ? 660 : 594, heading.box.y + heading.height + 34);
       // A quiet paper strip keeps the deck clear of the pine branches without covering the landscape.
@@ -237,7 +243,7 @@
       note(page, story ? 882 : 807, 760);
     } else if (template === 'muk') {
       const side = story ? 1240 : 1120;
-      imageCover(ctx, art.muk, { x: WIDTH - side, y: H - side, width: side, height: side }, .5, .5);
+      drawArt(page, art.muk, { x: WIDTH - side, y: H - side, width: side, height: side }, .5, .5);
       fade(ctx, palette.paper, '#0a223600', 0, 0, WIDTH, story ? 1000 : 800);
       fade(ctx, '#0a2236e8', '#0a223600', 0, 0, WIDTH, H - 130, true);
       eyebrow(page, story ? 196 : 150, MARGIN, 820);
@@ -247,7 +253,7 @@
       note(page, bodyY + 242, 800);
     } else {
       const side = story ? 1220 : 1030;
-      imageCover(ctx, art.inyeon, { x: 185, y: H - side - 36, width: side, height: side }, .5, .5);
+      drawArt(page, art.inyeon, { x: 185, y: H - side - 36, width: side, height: side }, .5, .5);
       fade(ctx, palette.paper, '#faecd700', 0, 0, WIDTH, story ? 720 : 500);
       eyebrow(page, story ? 184 : 150);
       const heading = title(page, story ? 276 : 220, 376, 920, MARGIN, 118, 100);
@@ -268,7 +274,7 @@
       body(page, heading.box.y + heading.height + (story ? 116 : 76), story ? 600 : 410, 820, 110, 48);
       note(page, H - 240, 820, 110);
     } else if (template === 'muk') {
-      imageCover(ctx, art.muk, { x: 640, y: H - 710, width: 600, height: 600 }, .85, .35);
+      drawArt(page, art.muk, { x: 640, y: H - 710, width: 600, height: 600 }, .85, .35);
       fade(ctx, palette.paper, '#0a223600', 570, H - 710, 220, 600, true);
       eyebrow(page, story ? 288 : 224);
       const heading = title(page, story ? 390 : 320, 330, 900, MARGIN, 106, 76);
@@ -291,13 +297,13 @@
       const heading = title(page, 246, 254, 920, 80, 98, 74);
       const imageY = heading.box.y + heading.height + 35;
       const imageHeight = story ? 550 : 310;
-      imageCover(ctx, art.hanji, { x: 80, y: imageY, width: 920, height: imageHeight }, .5, .78);
+      drawArt(page, art.hanji, { x: 80, y: imageY, width: 920, height: imageHeight }, .5, .78);
       const bodyY = imageY + imageHeight + 34;
       body(page, bodyY, H - 260 - bodyY, 880, 80, 42);
       note(page, H - 232, 920);
     } else if (template === 'muk') {
       const imageHeight = story ? 790 : 380;
-      imageCover(ctx, art.muk, { x: 0, y: 132, width: WIDTH, height: imageHeight }, .72, .27);
+      drawArt(page, art.muk, { x: 0, y: 132, width: WIDTH, height: imageHeight }, .72, .27);
       fade(ctx, palette.paper, '#0a223600', 0, 132, WIDTH, 240);
       // Reading occupies an opaque lower field; the moon remains completely unobscured above.
       const textY = imageHeight + 150;
@@ -312,7 +318,7 @@
       const heading = title(page, 246, 250, 900, 80, 98, 74);
       const imageY = heading.box.y + heading.height + 34;
       const imageHeight = story ? 610 : 280;
-      imageCover(ctx, art.inyeon, { x: 190, y: imageY, width: 890, height: imageHeight }, .6, .32);
+      drawArt(page, art.inyeon, { x: 190, y: imageY, width: 890, height: imageHeight }, .6, .32);
       const bodyY = imageY + imageHeight + 34;
       body(page, bodyY, H - 260 - bodyY, 810, 80, 42);
       note(page, H - 232, 920);
@@ -335,13 +341,13 @@
     const story = H === 1920;
     if (template === 'hanji') {
       const imageHeight = story ? 480 : 260;
-      imageCover(ctx, art.hanji, { x: 0, y: 130, width: WIDTH, height: imageHeight }, .5, .8);
+      drawArt(page, art.hanji, { x: 0, y: 130, width: WIDTH, height: imageHeight }, .5, .8);
       fade(ctx, palette.paper, '#f6ead600', 0, 130, WIDTH, 95);
     } else if (template === 'muk') {
-      imageCover(ctx, art.muk, { x: 690, y: 128, width: 390, height: story ? 580 : 350 }, .92, .15);
+      drawArt(page, art.muk, { x: 690, y: 128, width: 390, height: story ? 580 : 350 }, .92, .15);
       fade(ctx, palette.paper, '#0a223600', 630, 128, 200, story ? 580 : 350, true);
     } else {
-      imageCover(ctx, art.inyeon, { x: 690, y: 130, width: 430, height: story ? 570 : 350 }, .68, .42);
+      drawArt(page, art.inyeon, { x: 690, y: 130, width: 430, height: story ? 570 : 350 }, .68, .42);
       fade(ctx, palette.paper, '#faecd700', 610, 130, 230, story ? 570 : 350, true);
     }
     const start = template === 'hanji' ? (story ? 658 : 420) : (story ? 360 : 226);
@@ -393,7 +399,7 @@
     const artFocus = page.artwork === 'inyeon' ? .08 : page.artwork === 'muk' ? .12 : .56;
     // Half of the feed is reserved for the artwork. Copy has its own reading
     // field, so changing templates never lays an introduction over a face.
-    imageCover(ctx, image, { x: 0, y: 0, width: WIDTH, height: pictureHeight }, .5, artFocus);
+    drawArt(page, image, { x: 0, y: page.customImage ? 135 : 0, width: WIDTH, height: pictureHeight - (page.customImage ? 135 : 0) }, .5, artFocus);
     fill(ctx, palette.paper, 0, pictureHeight, WIDTH, H - pictureHeight);
     if (template === 'hanji') {
       fill(ctx, palette.accent, 0, pictureHeight, WIDTH, 3);
@@ -405,7 +411,7 @@
     const imagePalette = palettes[page.artwork];
     const originalPalette = page.palette;
     page.palette = imagePalette;
-    eyebrow(page, story ? 184 : 151, MARGIN, 900);
+    if (!page.customImage) eyebrow(page, story ? 184 : 151, MARGIN, 900);
     page.palette = originalPalette;
     const x = template === 'inyeon' ? 122 : MARGIN;
     campaignHook(page, pictureHeight + (story ? 48 : 19), H - 205, x, WIDTH - x - MARGIN);
@@ -420,11 +426,11 @@
     const start = story ? 338 : 236;
     if (template === 'hanji') {
       fill(ctx, palette.accent, x, start - 65, 80, 5);
-    } else if (template === 'muk') {
+    } else if (template === 'muk' && !page.customImage) {
       // A low-contrast fragment provides continuity without competing with the
       // reading. The text field remains a solid, legible ink colour.
       ctx.save(); ctx.globalAlpha = .15;
-      imageCover(ctx, image, { x: 592, y: H - 650, width: 488, height: 488 }, .8, .5);
+      drawArt(page, image, { x: 592, y: H - 650, width: 488, height: 488 }, .8, .5);
       ctx.restore();
       fade(ctx, palette.paper, '#0a223600', 480, H - 650, 350, 488, true);
     } else {
@@ -443,8 +449,8 @@
     const story = H === 1920;
     const copy = labels[page.locale];
     const appName = page.locale === 'ko' ? page.brand.name : page.locale === 'en' ? page.brand.englishName : copy.brand;
-    if (story) {
-      imageCover(ctx, image, { x: 0, y: 135, width: WIDTH, height: 200 }, .5, .7);
+    if (story && !page.customImage) {
+      drawArt(page, image, { x: 0, y: 135, width: WIDTH, height: 200 }, .5, .7);
       fade(ctx, palette.paper, `${palette.paper}00`, 0, 135, WIDTH, 65);
       fade(ctx, `${palette.paper}00`, palette.paper, 0, 270, WIDTH, 65);
     }
@@ -483,11 +489,14 @@
     if (!ctx) return ['이 브라우저에서 Canvas를 열지 못했어. 최신 브라우저로 다시 열어 줘.'];
     if ('lang' in ctx) ctx.lang = options.locale;
     ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high'; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-    const page = { ctx, H, slide, brand, host, issues, count, locale: options.locale, index: options.slideIndex, template: options.template, artwork: options.artwork || options.template, image: art[options.artwork || options.template], palette: palettes[options.template], serif: options.locale === 'en' ? 'Georgia,serif' : SERIF };
+    const page = { ctx, H, slide, brand, host, issues, count, locale: options.locale, index: options.slideIndex, template: options.template, artwork: options.artwork || options.template, image: art[options.artwork || options.template], customImage: options.customImage, background: options.background, palette: palettes[options.template], serif: options.locale === 'en' ? 'Georgia,serif' : SERIF };
     fill(ctx, page.palette.paper, 0, 0, WIDTH, H);
+    if (page.customImage && (!page.customImage.naturalWidth || !page.customImage.naturalHeight)) return ['사진을 준비하지 못했어. 다시 올려 줘.'];
+    if (page.customImage && (count === 5 || page.index !== 0)) drawArt(page, page.customImage, { x: 0, y: 135, width: WIDTH, height: H - 222 });
     if (!slide.title.trim()) issues.push('이미지 제목을 한 문장 넣어 줘.');
     if (!slide.body.trim()) issues.push('이미지 본문을 넣어 줘.');
     (count === 3 ? [campaignCover, campaignReading, campaignApp] : [cover, observation, metaphor, practice, invitation])[page.index](page);
+    if (page.customImage) fill(ctx, page.palette.paper, 0, 0, WIDTH, 135);
     masthead(page);
     (count === 3 ? campaignFooter : footer)(page);
     return Array.from(new Set(issues));
