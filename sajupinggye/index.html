@@ -7,10 +7,11 @@
   <meta name="theme-color" content="#ffffff">
   <title>사주핑계 · Editorial studio</title>
   <link rel="stylesheet" href="fonts.css?v=1">
-  <link rel="stylesheet" href="studio.css?v=7">
+  <link rel="stylesheet" href="studio.css?v=8">
   <script src="backgrounds.js?v=1" defer></script>
   <script src="renderer.js?v=6" defer></script>
-  <script src="studio.js?v=6" defer></script>
+  <script src="visuals.js?v=1" defer></script>
+  <script src="studio.js?v=7" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#workspace">작업 영역으로 건너뛰기</a>
@@ -27,6 +28,7 @@
     <div class="workspace-top">
       <div class="workspace-tabs" role="tablist" aria-label="작업실 메뉴">
         <button id="tab-studio" type="button" role="tab" aria-selected="true" aria-controls="studio-panel" tabindex="0">작업실</button>
+        <button id="tab-visuals" type="button" role="tab" aria-selected="false" aria-controls="visuals-panel" tabindex="-1">이미지 레퍼런스</button>
         <button id="tab-references" type="button" role="tab" aria-selected="false" aria-controls="references-panel" tabindex="-1">레퍼런스 노트</button>
       </div>
       <p class="workspace-note">한국어 100 · 日本語 100 · English 100</p>
@@ -106,6 +108,7 @@
           <details class="inspector-section background-section" id="background-section" open>
             <summary>배경 사진 <span id="background-page" class="small-muted">1번째 장</span></summary>
             <div class="background-editor">
+              <button type="button" id="open-visuals" class="button secondary">이 주제에 맞는 이미지 보기 ↗</button>
               <button type="button" id="background-upload" class="button secondary">내 사진 올리기 ↑</button>
               <input id="background-file" type="file" accept="image/jpeg,image/png,image/webp" hidden>
               <p id="background-name" class="small-muted">기본 그림을 쓰고 있어.</p>
@@ -156,6 +159,36 @@
         </aside>
       </div>
     </section>
+
+    <section id="visuals-panel" class="visuals-panel" role="tabpanel" aria-labelledby="tab-visuals" hidden>
+      <header class="visual-heading">
+        <div><p class="step">THE IMAGE EDIT</p><h2>이 장면에 어울리는 얼굴과 빛</h2><p>사진, 영화 스틸, 일러스트를 원고에 맞춰 골랐어. 색감과 표정, 인물 사이의 거리를 보고 네 그림으로 풀어 봐.</p></div>
+        <p id="visual-summary" class="small-muted"></p>
+      </header>
+      <div class="visual-toolbar">
+        <div class="visual-modes" role="group" aria-label="이미지 모음 선택"><button type="button" id="visual-mode-current" aria-pressed="true">지금 원고</button><button type="button" id="visual-mode-all" aria-pressed="false">전체 이미지</button></div>
+        <button type="button" id="visual-download" class="text-button" disabled>300개 원고의 이미지 목록 받기 ↓</button>
+      </div>
+      <p id="visual-loading" class="visual-loading" role="status">이미지 레퍼런스를 불러오는 중…</p>
+      <div id="visual-context" class="visual-context">
+        <div class="visual-picker"><label><span>언어</span><select id="visual-locale"><option value="ko">한국어</option><option value="ja">日本語</option><option value="en">English</option></select></label><label class="visual-campaign-picker"><span>원고</span><select id="visual-campaign"></select></label><button type="button" id="visual-edit-campaign" class="button secondary">이 원고 편집하기 ↗</button></div>
+        <div class="visual-story"><div><p id="visual-current-topic" class="visual-kicker"></p><h3 id="visual-current-title"></h3><p id="visual-reason"></p></div><details class="visual-direction-box"><summary>재작화 메모 펼치기</summary><p id="visual-direction"></p></details></div>
+      </div>
+      <div id="visual-library-filters" class="visual-library-filters" hidden>
+        <label class="visual-search-label"><span class="visually-hidden">이미지 분위기 검색</span><input id="visual-search" type="search" placeholder="첫사랑, 비, 배우, 달, 창가…" maxlength="100"></label>
+        <label><span class="visually-hidden">이미지 종류</span><select id="visual-kind"><option value="all">모든 종류</option><option value="film">영화·드라마</option><option value="photo">사진·화보</option><option value="illustration">일러스트·회화</option></select></label>
+        <label><span class="visually-hidden">이미지 주제</span><select id="visual-category"><option value="all">모든 주제</option><option value="exam">수능·시험</option><option value="child">자녀·진로</option><option value="crush">짝사랑·썸</option><option value="reunion">재회·이별</option><option value="marriage">결혼·배우자</option><option value="family">부부·가족</option><option value="career">직장·이직</option><option value="wealth">재물·사업</option><option value="charm">매력·인복</option><option value="year">신년·전환기</option><option value="naming">이름 작명</option></select></label>
+      </div>
+      <p id="visual-result-count" class="visual-result-count" role="status" aria-live="polite"></p>
+      <div id="visual-grid" class="visual-grid"></div>
+      <p id="visual-empty" class="visual-empty" hidden>조건에 맞는 이미지가 없어. 전체 이미지나 다른 검색어로 찾아 봐.</p>
+      <p class="visual-footnote">이미지를 누르면 크게 볼 수 있어. 각 이미지 아래에 원본과 출처를 함께 남겼어. 초안 ZIP에도 이 링크와 재작화 메모가 담겨.</p>
+    </section>
+    <dialog id="visual-dialog" class="visual-dialog" aria-labelledby="visual-dialog-title">
+      <div class="visual-dialog-top"><h2 id="visual-dialog-title"></h2><button type="button" id="visual-dialog-close" aria-label="이미지 닫기">×</button></div>
+      <img id="visual-dialog-image" alt="" referrerpolicy="no-referrer"><p id="visual-dialog-image-error" class="visual-empty" hidden>이 사이트의 이미지는 새 창에서 열어 봐. 아래 원본 이미지 링크를 눌러 줘.</p>
+      <p id="visual-dialog-caption"></p><div id="visual-dialog-links"></div>
+    </dialog>
 
     <section id="references-panel" class="references-panel" role="tabpanel" aria-labelledby="tab-references" hidden>
       <div class="references-intro"><p class="step">THE REFERENCE EDIT</p><h2>잘 읽히는 방식의 기록</h2><p id="references-summary">지역별 원문과 확인한 내용을 정리하고 있어.</p><p id="references-date" class="small-muted"></p></div>

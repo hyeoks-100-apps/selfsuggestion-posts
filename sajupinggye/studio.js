@@ -6,6 +6,7 @@
   const LEGACY_STORE_KEY = 'spg_ig_studio_v1';
   const APP_ID = 'sajupinggye-instagram-studio';
   const LOCALES = ['ko', 'ja', 'en'];
+  const TABS = ['studio', 'visuals', 'references'];
   const TEMPLATES = ['hanji', 'muk', 'inyeon'];
   const MAX_CAMPAIGNS = 500;
   const MAX_IMAGE_BACKUP_BYTES = 64 * 1024 * 1024;
@@ -77,6 +78,7 @@
   function readLocale(value) {
     if (!plain(value) || !Array.isArray(value.slides) || ![3, 5].includes(value.slides.length)) throw new Error('각 언어에는 슬라이드 3장 또는 이전 형식의 5장이 필요해.');
     const extra = {};
+    if (value.visualSourceId !== undefined) extra.visualSourceId = validId(value.visualSourceId);
     if (value.topic !== undefined) extra.topic = text(value.topic, '현지 주제', LIMITS.topic);
     if (value.imageBrief !== undefined) extra.imageBrief = text(value.imageBrief, '그림 메모', 1200);
     if (value.artwork !== undefined) {
@@ -296,6 +298,7 @@
     for (const field of ['title', 'body', 'note']) $('edit-' + field).value = slide[field];
     $('edit-caption').value = content.caption;
     $('edit-image-brief').value = content.imageBrief || '';
+    window.SajuVisuals?.setContext({ campaignId: state.settings.campaignId, referenceCampaignId: content.visualSourceId, locale: state.settings.locale, label: content.label, labels: Object.fromEntries(LOCALES.map(locale => [locale, localeContent(selectedCampaign(), locale).label])), imageBrief: content.imageBrief || '' });
     renderBackgroundControls();
     $('edit-hashtags').value = state.edits[pairKey()] ? state.edits[pairKey()].hashtagText : content.hashtags.join(' ');
     $('edit-label').lang = state.settings.locale;
@@ -366,6 +369,7 @@
     const names = { ko: '새 기획', ja: '新しい企画', en: 'new edition' };
     for (const locale of LOCALES) {
       locales[locale] = localeContent(source, locale);
+      if (source.id.startsWith('draft-') || locales[locale].visualSourceId) locales[locale].visualSourceId ||= source.id;
       locales[locale].label = `${locales[locale].label.slice(0, 140)} · ${names[locale]}`;
     }
     state.campaigns.push({ id, topic: `${topicOf(source).slice(0, 90)} · 복제`, category: source.category, artwork: source.artwork, locales });
@@ -535,20 +539,23 @@
   async function exportDrafts() {
     if (busy || !draftCatalog) return;
     try {
-      setBusy(true, '300개 초안을 묶는 중…');
+      setBusy(true, '300개 초안과 이미지 레퍼런스를 묶는 중…');
+      await window.SajuVisuals?.ready;
       const encoder = new TextEncoder(), files = [];
       for (const locale of LOCALES) {
         const heading = { ko: '한국어 100개 초안', ja: '日本語 100本の下書き', en: '100 English post drafts' }[locale];
         const sections = draftCatalog.campaigns.map((campaign, index) => {
           const content = campaign.locales[locale];
           const slides = content.slides.map((slide, page) => `### ${page + 1}. ${slide.title}\n\n${slide.eyebrow}\n\n${slide.body}\n\n${slide.note}`).join('\n\n');
-          return `## ${String(index + 1).padStart(3, '0')}. ${content.label}\n\n그림 메모: ${content.imageBrief || ''}\n\n${slides}\n\n### Caption\n\n${captionText(content)}`;
+          return `## ${String(index + 1).padStart(3, '0')}. ${content.label}\n\n그림 메모: ${content.imageBrief || ''}\n\n${slides}\n\n### Caption\n\n${captionText(content)}${window.SajuVisuals?.markdownFor(campaign.id, locale) || ''}`;
         });
         files.push({ name: `${locale}-100-drafts.md`, bytes: encoder.encode(`# ${heading}\n\n게시물당 3장 · 재작화와 문구 편집용 초안\n\n${sections.join('\n\n---\n\n')}\n`) });
       }
       files.push({ name: 'all-300-drafts.json', bytes: encoder.encode(JSON.stringify(draftCatalog, null, 2)) });
+      const visualBundle = window.SajuVisuals?.bundle();
+      if (visualBundle) files.push({ name: 'visual-references.json', bytes: encoder.encode(JSON.stringify(visualBundle, null, 2)) });
       downloadBlob(makeZip(files), 'sajupinggye-300-content-drafts.zip');
-      message('한국어·일본어·영어 각100개, 그림 메모와 캡션까지 내려받았어.');
+      message(visualBundle ? '300개 초안과 이미지 출처·재작화 메모를 함께 내려받았어.' : '300개 초안을 내려받았어. 이미지 목록은 불러오지 못해 이번 ZIP에서 빠졌어.');
     } catch (error) { message(error.message, true); }
     finally { setBusy(false); requestPreview(); }
   }
@@ -644,8 +651,9 @@
           files.push({ name: `${String(index + 1).padStart(2, '0')}.png`, bytes: new Uint8Array(await blob.arrayBuffer()) });
         }
         const encoder = new TextEncoder();
+        await window.SajuVisuals?.ready;
         files.push({ name: 'caption.txt', bytes: encoder.encode(captionText(content) + '\n') });
-        const metadata = { app: APP_ID, version: 3, imageBrief: content.imageBrief || '', backgrounds: state.backgrounds[pairKey()] || [], exportedAt: new Date().toISOString(), brand: catalog.brand, campaignId: campaign.id, topic: topicOf(campaign), category: campaign.category, slideCount: options.slideCount, artwork: options.artwork, locale: options.locale, template: options.template, format: options.format, mediaType: 'image/png', width: 1080, height: options.format === 'story' ? 1920 : 1350, label: content.label, caption: content.caption, hashtags: content.hashtags, slides: content.slides.map((slide, index) => ({ file: `${String(index + 1).padStart(2, '0')}.png`, ...slide })) };
+        const metadata = { app: APP_ID, version: 3, visualReferences: window.SajuVisuals?.entryFor(content.visualSourceId || campaign.id, options.locale) || null, imageBrief: content.imageBrief || '', backgrounds: state.backgrounds[pairKey()] || [], exportedAt: new Date().toISOString(), brand: catalog.brand, campaignId: campaign.id, topic: topicOf(campaign), category: campaign.category, slideCount: options.slideCount, artwork: options.artwork, locale: options.locale, template: options.template, format: options.format, mediaType: 'image/png', width: 1080, height: options.format === 'story' ? 1920 : 1350, label: content.label, caption: content.caption, hashtags: content.hashtags, slides: content.slides.map((slide, index) => ({ file: `${String(index + 1).padStart(2, '0')}.png`, ...slide })) };
         files.push({ name: 'metadata.json', bytes: encoder.encode(JSON.stringify(metadata, null, 2) + '\n') });
         downloadBlob(makeZip(files), `${basename}.zip`);
       }
@@ -747,12 +755,12 @@
   }
 
   function showTab(name) {
-    for (const tabName of ['studio', 'references']) {
+    for (const tabName of TABS) {
       const active = tabName === name, tab = $('tab-' + tabName);
       tab.setAttribute('aria-selected', String(active)); tab.tabIndex = active ? 0 : -1;
       $(tabName + '-panel').hidden = !active;
     }
-    history.replaceState(null, '', name === 'references' ? '#references' : location.pathname + location.search);
+    history.replaceState(null, '', name === 'studio' ? location.pathname + location.search : '#' + name);
   }
 
   function bindEvents() {
@@ -760,7 +768,7 @@
       button.addEventListener('click', () => showTab(button.id.replace('tab-', '')));
       button.addEventListener('keydown', event => {
         if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-        event.preventDefault(); const name = event.key === 'Home' ? 'studio' : event.key === 'End' ? 'references' : button.id === 'tab-studio' ? 'references' : 'studio';
+        event.preventDefault(); const index = TABS.indexOf(button.id.replace('tab-', '')); const name = event.key === 'Home' ? TABS[0] : event.key === 'End' ? TABS.at(-1) : TABS[(index + (event.key === 'ArrowRight' ? 1 : TABS.length - 1)) % TABS.length];
         showTab(name); $('tab-' + name).focus();
       });
     });
@@ -771,6 +779,7 @@
     $('collection-filter').addEventListener('change', () => { collectionFilter = $('collection-filter').value; categoryFilter = 'all'; applyFilters(); });
     $('campaign-search').addEventListener('input', () => { searchTerm = $('campaign-search').value.trim().toLocaleLowerCase(); applyFilters(); });
     bindBackgroundEvents();
+    $('open-visuals').addEventListener('click', () => { window.SajuVisuals?.showCurrent(); showTab('visuals'); $('tab-visuals').focus(); });
     $('export-drafts').addEventListener('click', exportDrafts);
     $('prune-photos').addEventListener('click', prunePhotos);
     $('artwork').addEventListener('change', () => { state.settings.artwork = $('artwork').value; requestPreview(); saveSoon(); });
@@ -796,7 +805,7 @@
     $('export-backup').addEventListener('click', exportBackup);
     $('import-backup').addEventListener('click', () => $('backup-file').click());
     $('backup-file').addEventListener('change', () => importBackup($('backup-file').files[0]));
-    window.addEventListener('hashchange', () => showTab(location.hash === '#references' ? 'references' : 'studio'));
+    window.addEventListener('hashchange', () => showTab(TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'studio'));
     window.addEventListener('pagehide', () => { if (state && dirty && !storageConflict) saveNow(); });
     window.addEventListener('storage', event => {
       if (event.key !== STORE_KEY || !state || event.newValue === lastSavedRaw) return;
@@ -830,6 +839,7 @@
       draftCatalog = readCatalog(drafts);
       catalog = readCatalog({ ...current, campaigns: [...draftCatalog.campaigns, ...current.campaigns, ...legacy.campaigns] });
       state = initialState();
+      window.SajuVisuals?.init({ campaigns: draftCatalog.campaigns, onEdit: (id, locale) => { if (busy) return; commitEditor(); state.settings.campaignId = id; state.settings.locale = locale; state.settings.slideIndex = 0; collectionFilter = id.startsWith('draft-') ? 'drafts' : 'all'; categoryFilter = 'all'; searchTerm = ''; $('campaign-search').value = ''; renderAll(); saveSoon(); showTab('studio'); $('workspace').focus(); } });
       let restored = false, warning = '';
       try {
         const currentRaw = localStorage.getItem(STORE_KEY);
@@ -848,7 +858,7 @@
       if (!selectedCampaign().id.startsWith('draft-')) collectionFilter = 'all';
       $('loading').hidden = true; $('workspace').hidden = false;
       renderAll(); message(warning || (restored ? '이 브라우저의 문구와 게시 기록을 이어서 열었어.' : '원하는 주제와 언어를 고르면 시작할 수 있어.'), Boolean(warning) && !restored);
-      if (location.hash === '#references') showTab('references');
+      if (TABS.includes(location.hash.slice(1))) showTab(location.hash.slice(1));
     } catch (error) { $('loading').hidden = true; $('load-error').hidden = false; $('load-error').textContent = `작업실을 열지 못했어. ${error.message} 페이지를 새로고침해 줘.`; message('원본 데이터를 확인해 줘.', true); }
     await references;
   }
