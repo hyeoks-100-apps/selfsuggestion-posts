@@ -385,6 +385,8 @@ textarea:focus, input[type="text"]:focus { background: #fff; }
 
 /* Personal editing surfaces: the poster stays in view until a focused task opens. */
 .full-editor-open { width: 100%; margin: 4px 0 18px; }
+.quick-edit { display: block; min-height: 36px; font-size: 12px; color: var(--accent); }
+@media(max-width:700px) { .quick-edit { min-height: 44px; font-size: 12px; } }
 .recommended-photos { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 7px; }
 .recommended-photo { aspect-ratio: 4/5; overflow: hidden; background: #f0efea; }
 .recommended-photo img { width: 100%; height: 100%; object-fit: cover; }

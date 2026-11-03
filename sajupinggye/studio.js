@@ -911,6 +911,7 @@
     $('campaign-search').addEventListener('input', () => { searchTerm = $('campaign-search').value.trim().toLocaleLowerCase(); applyFilters(); });
     bindBackgroundEvents();
     $('open-full-editor').addEventListener('click', openFullEditor);
+    $('quick-full-editor').addEventListener('click', openFullEditor);
     $('full-editor-fields').addEventListener('input', editFullManuscript);
     for (const id of ['full-close', 'full-done']) $(id).addEventListener('click', () => $('full-editor-dialog').close());
     $('full-editor-dialog').addEventListener('close', () => { saveNow(); (fullOpener?.isConnected ? fullOpener : $('open-full-editor')).focus({ preventScroll: true }); });
