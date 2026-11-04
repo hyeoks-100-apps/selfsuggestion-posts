@@ -7,11 +7,12 @@
   <meta name="theme-color" content="#ffffff">
   <title>사주핑계 · Editorial studio</title>
   <link rel="stylesheet" href="fonts.css?v=1">
-  <link rel="stylesheet" href="studio.css?v=10">
+  <link rel="stylesheet" href="studio.css?v=11">
   <script src="backgrounds.js?v=2" defer></script>
   <script src="renderer.js?v=6" defer></script>
   <script src="visuals.js?v=2" defer></script>
-  <script src="studio.js?v=9" defer></script>
+  <script src="copy-exchange.js?v=1" defer></script>
+  <script src="studio.js?v=10" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#workspace">작업 영역으로 건너뛰기</a>
@@ -57,6 +58,7 @@
           <div id="campaign-list" class="campaign-list"></div>
           <p id="search-empty" class="small-muted" hidden>맞는 원고가 없어. 검색어나 분류를 바꿔 봐.</p>
           <div class="library-footer">
+            <button type="button" id="open-copy-exchange" class="button quiet">GPT로 문구 일괄 교체 <span aria-hidden="true">↗</span></button>
             <button type="button" id="export-drafts" class="button quiet" title="새 초안·이전 모음·내 기획의 현재 편집본·캡션·그림 메모를 모두 받기">편집한 원고 받기 <span aria-hidden="true">↓</span></button>
             <button type="button" id="duplicate-campaign" class="button duplicate-button"><span aria-hidden="true">＋</span> 이 기획 복제</button>
             <details class="library-tools">
@@ -169,6 +171,31 @@
       <p class="small-muted">입력하면 이 브라우저에 자동 저장돼. 본문과 인스타 캡션은 각각 수정할 수 있어.</p>
       <div id="full-editor-fields" class="full-editor-fields"></div>
       <footer class="editing-dialog-footer"><p id="full-status" role="status"></p><button type="button" id="full-done" class="button primary">편집 마치기</button></footer>
+    </dialog>
+    <dialog id="copy-exchange-dialog" class="editing-dialog copy-exchange-dialog" aria-labelledby="copy-exchange-heading">
+      <header class="editing-dialog-header"><div><p class="step">COPY EXCHANGE</p><h2 id="copy-exchange-heading">GPT로 문구 일괄 교체</h2></div><button type="button" id="copy-exchange-close" class="dialog-close" aria-label="문구 교체 닫기">×</button></header>
+      <p class="small-muted">현재 원고를 GPT에 맡긴 뒤, 수정한 JSON 파일을 여기로 가져와. 사진·구도·게시 기록은 그대로 두고 문구만 바꿔.</p>
+      <section class="copy-step" aria-labelledby="copy-export-heading">
+        <h3 id="copy-export-heading">1. 원고와 프롬프트 받기</h3>
+        <div class="copy-toolbar"><label for="copy-export-scope">보낼 원고</label><select id="copy-export-scope"><option value="all">현재 편집본 전체</option><option value="drafts">새 초안 300개</option><option value="current">지금 선택한 기획 · 3개 언어</option></select><button type="button" id="copy-export-kit" class="button primary">GPT 작업 ZIP 받기 ↓</button></div>
+        <p id="copy-export-count" class="small-muted"></p>
+        <p class="small-muted">ZIP을 풀면 언어별 전체 JSON, 20개씩 나눈 JSON, 요청 프롬프트가 있어. 전체 파일이나 분할 파일 중 한 쪽만 사용해.</p>
+        <details class="copy-prompt"><summary>GPT에 보낼 프롬프트</summary><textarea id="copy-prompt-text" readonly aria-label="GPT 원고 수정 프롬프트" rows="10"></textarea><button type="button" id="copy-prompt-download" class="text-button">프롬프트 TXT 받기 ↓</button></details>
+      </section>
+      <section class="copy-step" aria-labelledby="copy-import-heading">
+        <h3 id="copy-import-heading">2. GPT 수정본 가져오기</h3>
+        <div class="copy-toolbar"><button type="button" id="copy-import-open" class="button secondary">GPT 수정본 가져오기 ↑</button><span class="small-muted">JSON 여러 개 선택 가능 · 합계 8MB</span></div>
+        <input id="copy-import-files" type="file" accept="application/json,.json" multiple hidden>
+        <p class="small-muted">일부 원고만 먼저 올려도 돼. 수정한 파일만 골라 줘. ID·언어·기준값은 내보낸 그대로여야 해.</p>
+        <div id="copy-import-errors" class="copy-import-errors" role="alert" hidden></div>
+      </section>
+      <section id="copy-import-preview" class="copy-step" aria-labelledby="copy-preview-heading" hidden>
+        <h3 id="copy-preview-heading">3. 바뀔 문구 확인</h3>
+        <p id="copy-import-summary" class="copy-import-summary"></p>
+        <div id="copy-import-changes" class="copy-import-changes"></div>
+      </section>
+      <div id="copy-import-result" class="copy-import-result" hidden><p id="copy-import-result-text"></p><div class="copy-toolbar"><button type="button" id="copy-undo" class="text-button">이번 교체 되돌리기</button><button type="button" id="copy-undo-download" class="text-button">되돌리기 JSON 받기 ↓</button></div><p class="small-muted">이 버튼은 새로고침 전까지 쓸 수 있어. 나중에 되돌리려면 되돌리기 JSON을 받아 둬.</p><p class="small-muted">다른 기기에서도 쓰려면 사진 포함 JSON 백업을 받아 옮겨 줘. 이 교체는 현재 브라우저에 저장돼.</p></div>
+      <footer class="editing-dialog-footer"><p id="copy-exchange-status" role="status" aria-live="polite">원고를 내려받아 시작해 줘.</p><button type="button" id="copy-import-apply" class="button primary" disabled>검토한 문구 적용</button></footer>
     </dialog>
     <dialog id="photo-library-dialog" class="editing-dialog" aria-labelledby="photo-library-heading">
       <header class="editing-dialog-header"><div><p class="step">MY PHOTOGRAPHS</p><h2 id="photo-library-heading">내 사진 보관함</h2></div><button type="button" id="photo-library-close" class="dialog-close" aria-label="사진 보관함 닫기">×</button></header>

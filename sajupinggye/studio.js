@@ -37,6 +37,8 @@
   let pendingUploadTarget;
   let photoRows = [], photoPage = 0, photoSearch = '', photoRenderToken = 0;
   let fullOpener;
+  let copyPending = null, copyUndo = null, copyOpener, copyTextsPromise;
+  let copyWorking = false, copyGeneration = 0;
 
   function message(text, error = false) {
     const needsBackup = (storageFailed || storageConflict) && !error;
@@ -691,6 +693,202 @@
     finally { setBusy(false); requestPreview(); }
   }
 
+  function copyRows(scope = 'all') {
+    const selected = state.settings.campaignId;
+    return campaigns().filter(campaign => scope === 'all' || (scope === 'drafts' ? campaign.id.startsWith('draft-') : campaign.id === selected)).flatMap(campaign => LOCALES.map(locale => {
+      const content = localeContent(campaign, locale), edit = state.edits[pairKey(campaign.id, locale)];
+      if (edit?.hashtagText !== undefined) {
+        const draftTags = parseTags(edit.hashtagText);
+        if (draftTags.length > MAX_TAGS || draftTags.some(tag => tag.length > 80)) throw new Error(`${campaign.id}/${locale}의 해시태그 초안을 먼저 5개·각 80자 이내로 정리해 줘. 입력한 초안은 그대로 보관했어.`);
+      }
+      return { id: campaign.id, locale,
+        topic: edit?.topic ?? (own(state.topics, campaign.id) ? state.topics[campaign.id] : (content.topic || campaign.topic)),
+        label: content.label, imageBrief: content.imageBrief || '', slides: content.slides.map(({ eyebrow, title, body, note }) => ({ eyebrow, title, body, note })),
+        caption: content.caption, hashtags: edit?.hashtagText === undefined ? [...content.hashtags] : parseTags(edit.hashtagText) };
+    }));
+  }
+
+  function copyStatus(value, error = false) {
+    $('copy-exchange-status').textContent = value;
+    $('copy-exchange-status').classList.toggle('error', error);
+  }
+
+  function setCopyWorking(value, label) {
+    copyWorking = value;
+    $('copy-exchange-dialog').setAttribute('aria-busy', String(value));
+    $('copy-exchange-dialog').querySelectorAll('button, select, input').forEach(control => { if (control.id !== 'copy-exchange-close') control.disabled = value; });
+    if (!value) {
+      $('copy-import-apply').disabled = !copyPending?.plan.changes.length || storageConflict;
+      $('copy-undo').disabled = !copyUndo;
+      $('copy-undo-download').disabled = !copyUndo;
+    }
+    if (label) copyStatus(label);
+  }
+
+  function loadCopyTexts() {
+    if (!copyTextsPromise) copyTextsPromise = Promise.all(['copy-editing-prompt.txt', 'copy-format-guide.txt'].map(async path => {
+      const response = await fetch(path, { cache: 'no-cache' });
+      if (!response.ok) throw new Error('편집 프롬프트를 불러오지 못했어. 잠시 뒤 다시 눌러 줘.');
+      return response.text();
+    })).catch(error => { copyTextsPromise = null; throw error; });
+    return copyTextsPromise;
+  }
+
+  function updateCopyExportCount() {
+    const count = copyRows($('copy-export-scope').value).length;
+    $('copy-export-count').textContent = `${count.toLocaleString()}개 문구 · 언어별 전체 파일 + 20개씩 분할 파일 · 현재 편집한 글 포함`;
+  }
+
+  function openCopyExchange() {
+    if (busy || copyWorking || !state) return;
+    try {
+      commitEditor();
+      if (!saveNow() || storageConflict || localStorage.getItem(STORE_KEY) !== lastSavedRaw) throw new Error('현재 작업을 먼저 저장하거나 JSON 백업을 받은 뒤 새로고침해 줘.');
+      copyPending = null; copyOpener = document.activeElement;
+      $('copy-import-preview').hidden = true; $('copy-import-errors').hidden = true;
+      $('copy-import-result').hidden = !copyUndo; $('copy-import-apply').textContent = '검토한 문구 적용';
+      updateCopyExportCount(); setCopyWorking(false);
+      copyStatus('원고와 프롬프트를 받은 뒤, 수정한 JSON을 가져와 줘.');
+      $('copy-exchange-dialog').showModal();
+      loadCopyTexts().then(([prompt]) => { $('copy-prompt-text').value = prompt; }).catch(error => copyStatus(error.message, true));
+    } catch (error) { message(error.message, true); }
+  }
+
+  async function exportCopyKit() {
+    if (copyWorking || busy) return;
+    const generation = ++copyGeneration;
+    try {
+      if (dirty && !saveNow()) throw new Error('현재 작업을 먼저 저장해 줘.');
+      if (storageConflict || localStorage.getItem(STORE_KEY) !== lastSavedRaw) throw new Error('다른 탭의 원고가 바뀌었어. JSON 백업 후 새로고침해 줘.');
+      setCopyWorking(true, '현재 편집본을 GPT 작업 파일로 묶는 중…');
+      const rows = copyRows($('copy-export-scope').value), [prompt, guide] = await loadCopyTexts();
+      if (generation !== copyGeneration || !$('copy-exchange-dialog').open) return;
+      const files = [], encoder = new TextEncoder();
+      const add = (name, value) => files.push({ name, bytes: encoder.encode(typeof value === 'string' ? value : JSON.stringify(value, null, 2) + '\n') });
+      add('copy-editing-prompt.txt', prompt); add('copy-format-guide.txt', guide);
+      for (const locale of LOCALES) {
+        const localeRows = rows.filter(row => row.locale === locale);
+        if (!localeRows.length) continue;
+        add(`${locale}-all.json`, window.SajuCopyExchange.makeEnvelope(localeRows));
+        const batches = Math.ceil(localeRows.length / 20);
+        for (let offset = 0; offset < localeRows.length; offset += 20) add(`batches/${locale}/${locale}-${String(offset / 20 + 1).padStart(2, '0')}-of-${String(batches).padStart(2, '0')}.json`, window.SajuCopyExchange.makeEnvelope(localeRows.slice(offset, offset + 20)));
+      }
+      add('manifest.json', { description: '현재 편집 원고', exportedAt: new Date().toISOString(), counts: Object.fromEntries(LOCALES.map(locale => [locale, rows.filter(row => row.locale === locale).length])), note: '언어별 전체 JSON과 batches 중 한 쪽만 사용해. 이 파일은 업로드하지 않아.' });
+      downloadBlob(makeZip(files), `sajupinggye-gpt-current-${new Date().toISOString().slice(0, 10)}.zip`);
+      copyStatus(`${rows.length.toLocaleString()}개 현재 문구와 프롬프트를 ZIP으로 준비했어. 20개 파일 하나씩 GPT에 맡겨도 돼.`);
+    } catch (error) { showCopyErrors(error); }
+    finally { setCopyWorking(false); }
+  }
+
+  function showCopyErrors(error) {
+    copyPending = null; $('copy-import-apply').disabled = true;
+    const box = $('copy-import-errors'); box.replaceChildren(); box.hidden = false;
+    box.append(element('p', '', '적용하지 않았어. 아래 항목을 고친 뒤 파일을 다시 골라 줘.'));
+    const issues = error.issues || [{ message: error.message || '파일을 읽지 못했어.' }];
+    const list = element('ul');
+    for (const issue of issues.slice(0, 100)) list.append(element('li', '', `${issue.id ? `${issue.id} / ${(issue.locale || '').toUpperCase()} · ` : ''}${issue.field ? `${copyFieldLabel(issue.field)}: ` : ''}${issue.message}`));
+    box.append(list);
+    if (issues.length > 100) box.append(element('p', '', `총 ${issues.length.toLocaleString()}개 중 앞의 100개를 표시했어.`));
+    copyStatus('현재 문구는 바뀌지 않았어.', true);
+  }
+
+  function copyFieldLabel(field) {
+    const labels = { topic: '주제', label: '기획 이름', imageBrief: '그림 메모', caption: '캡션', hashtags: '해시태그', eyebrow: '작은 제목', title: '제목', body: '본문', note: '덧말', baseRevision: '수정 기준값', id: 'ID', locale: '언어' };
+    const match = field.match(/^slides\[(\d+)\]\.(\w+)$/);
+    return match ? `${Number(match[1]) + 1}장 ${labels[match[2]] || match[2]}` : (labels[field] || field);
+  }
+
+  function copyFieldValue(copy, field) {
+    const match = field.match(/^slides\[(\d+)\]\.(\w+)$/);
+    const value = match ? copy.slides[Number(match[1])][match[2]] : copy[field];
+    return Array.isArray(value) ? value.join(' ') : value;
+  }
+
+  function stageCopyPreview(envelopes, mode = 'import') {
+    if (dirty || storageConflict || localStorage.getItem(STORE_KEY) !== lastSavedRaw) throw new Error('미리보기 전에 저장본이 바뀌었어. 작업을 백업하고 새로고침해 줘.');
+    const plan = window.SajuCopyExchange.plan(envelopes, copyRows());
+    copyPending = { envelopes, plan, expectedRaw: lastSavedRaw, mode };
+    $('copy-import-errors').hidden = true; $('copy-import-result').hidden = true;
+    $('copy-import-preview').hidden = false;
+    $('copy-preview-heading').textContent = mode === 'undo' ? '3. 되돌릴 문구 확인' : '3. 바뀔 문구 확인';
+    const changedLocales = Object.fromEntries(LOCALES.map(locale => [locale, plan.changes.filter(row => row.locale === locale).length]));
+    $('copy-import-summary').textContent = `${plan.total.toLocaleString()}개 확인 · ${plan.changes.length.toLocaleString()}개 변경 · ${plan.unchanged.toLocaleString()}개 동일\n변경: 한국어 ${changedLocales.ko} · 日本語 ${changedLocales.ja} · English ${changedLocales.en}`;
+    const list = $('copy-import-changes'); list.replaceChildren();
+    for (const change of plan.changes) {
+      const detail = element('details', 'copy-change');
+      detail.append(element('summary', '', `${change.locale.toUpperCase()} · ${change.id} · ${change.after.label} — ${change.fields.length}곳`));
+      let filled = false;
+      detail.addEventListener('toggle', () => {
+        if (!detail.open || filled) return;
+        filled = true;
+        for (const field of change.fields) {
+          const block = element('div', 'copy-change-field'); block.append(element('h4', '', copyFieldLabel(field)));
+          const pair = element('div', 'copy-diff');
+          for (const [label, copy] of [['현재 문구', change.before], ['바뀔 문구', change.after]]) {
+            const column = element('div'); column.append(element('p', '', label), element('pre', '', copyFieldValue(copy, field))); pair.append(column);
+          }
+          block.append(pair); detail.append(block);
+        }
+      });
+      list.append(detail);
+    }
+    $('copy-import-apply').textContent = mode === 'undo' ? '이전 문구로 되돌리기' : '검토한 문구 적용';
+    $('copy-import-apply').disabled = !plan.changes.length;
+    copyStatus(plan.changes.length ? '항목을 펼쳐 현재 문구와 수정본을 비교한 뒤 적용해 줘.' : '수정된 문구가 없어. 현재 원고와 같은 파일이야.');
+  }
+
+  async function importCopyFiles(files) {
+    if (!files?.length || copyWorking || busy) return;
+    const generation = ++copyGeneration;
+    copyPending = null; $('copy-import-preview').hidden = true; $('copy-import-errors').hidden = true;
+    try {
+      if (files.length > 100 || Array.from(files).reduce((sum, file) => sum + file.size, 0) > window.SajuCopyExchange.MAX_BYTES) throw new Error('JSON 파일은 한 번에 100개, 합계 8MB까지 올릴 수 있어. 나눠 골라 줘.');
+      setCopyWorking(true, 'JSON 문법·ID·글자 수와 변경 내용을 확인하는 중…');
+      const envelopes = [];
+      for (const file of files) {
+        try { envelopes.push(window.SajuCopyExchange.parse((await file.text()).replace(/^\uFEFF/, ''))); }
+        catch (error) { throw new Error(`${file.name}: ${error.message}`); }
+      }
+      if (generation !== copyGeneration || !$('copy-exchange-dialog').open) return;
+      stageCopyPreview(envelopes);
+    } catch (error) { if (generation === copyGeneration) showCopyErrors(error); }
+    finally { $('copy-import-files').value = ''; setCopyWorking(false); }
+  }
+
+  // Write the complete validated candidate before replacing the live in-memory state.
+  // This operation touches no image store and keeps design, crops and posted dates.
+  function persistCopyPlan(plan, expectedRaw) {
+    clearTimeout(saveTimer);
+    if (dirty || storageConflict || lastSavedRaw !== expectedRaw || localStorage.getItem(STORE_KEY) !== expectedRaw) throw new Error('확인하는 동안 작업이 바뀌었어. 수정본을 다시 골라 비교해 줘.');
+    const next = clone(state);
+    for (const change of plan.changes) next.edits[pairKey(change.id, change.locale)] = { ...next.edits[pairKey(change.id, change.locale)], ...clone(change.after), hashtagText: change.after.hashtags.join(' ') };
+    const candidate = readBackup(next), json = JSON.stringify({ ...candidate, savedAt: new Date().toISOString() });
+    if (byteLength(json) > MAX_BACKUP_BYTES) throw new Error('적용 후 원고 저장본이 8MB를 넘어가. 원고를 나눠 관리해 줘.');
+    if (localStorage.getItem(STORE_KEY) !== expectedRaw) throw new Error('다른 탭의 저장본이 바뀌었어. 최신 원고를 다시 확인해 줘.');
+    try { localStorage.setItem(STORE_KEY, json); }
+    catch (_) { throw new Error('브라우저 저장 공간이 부족하거나 저장이 차단됐어. 기존 문구를 유지했어. JSON 백업을 받은 뒤 다시 시도해 줘.'); }
+    state = candidate; lastSavedRaw = json; dirty = false; storageFailed = false; storageConflict = false;
+    return json;
+  }
+
+  function applyCopyImport() {
+    if (!copyPending || copyWorking || busy) return;
+    try {
+      const pending = copyPending;
+      if (pending.expectedRaw !== lastSavedRaw || dirty || storageConflict) throw new Error('미리보기 이후 원고가 바뀌었어. 수정본을 다시 골라 줘.');
+      const plan = window.SajuCopyExchange.plan(pending.envelopes, copyRows());
+      if (!plan.changes.length) return;
+      const rollback = { format: window.SajuCopyExchange.FORMAT, version: window.SajuCopyExchange.VERSION, posts: plan.changes.map(change => ({ id: change.id, locale: change.locale, baseRevision: window.SajuCopyExchange.revision(change.after), ...clone(change.before) })) };
+      persistCopyPlan(plan, pending.expectedRaw);
+      copyUndo = pending.mode === 'undo' ? null : rollback; copyPending = null;
+      renderAll(); $('copy-import-preview').hidden = true; $('copy-import-errors').hidden = true;
+      $('copy-import-result').hidden = !copyUndo;
+      const result = pending.mode === 'undo' ? `${plan.changes.length}개 문구를 이전 내용으로 되돌렸어.` : `${plan.changes.length}개 문구를 이 브라우저에 저장했어. 사진·구도·게시 기록은 유지했어.`;
+      $('copy-import-result-text').textContent = result; copyStatus(result); message(result);
+      setCopyWorking(false);
+    } catch (error) { showCopyErrors(error); }
+  }
+
   function drawPoster(canvas, slide, options) {
     return window.SajuPoster.draw(canvas, slide, options, catalog.brand);
   }
@@ -917,6 +1115,20 @@
     $('full-editor-dialog').addEventListener('close', () => { saveNow(); (fullOpener?.isConnected ? fullOpener : $('open-full-editor')).focus({ preventScroll: true }); });
     $('open-visuals').addEventListener('click', () => { window.SajuVisuals?.showCurrent(); showTab('visuals'); $('tab-visuals').focus(); });
     $('export-drafts').addEventListener('click', exportDrafts);
+    $('open-copy-exchange').addEventListener('click', openCopyExchange);
+    $('copy-export-scope').addEventListener('change', () => { try { updateCopyExportCount(); } catch (error) { showCopyErrors(error); } });
+    $('copy-export-kit').addEventListener('click', exportCopyKit);
+    $('copy-prompt-download').addEventListener('click', async () => {
+      try { const [prompt] = await loadCopyTexts(); downloadBlob(new Blob([prompt], { type: 'text/plain;charset=utf-8' }), 'sajupinggye-GPT-PRO-PROMPT.txt'); }
+      catch (error) { copyStatus(error.message, true); }
+    });
+    $('copy-exchange-close').addEventListener('click', () => $('copy-exchange-dialog').close());
+    $('copy-exchange-dialog').addEventListener('close', () => { ++copyGeneration; copyPending = null; (copyOpener?.isConnected ? copyOpener : $('open-copy-exchange')).focus({ preventScroll: true }); });
+    $('copy-import-open').addEventListener('click', () => { if (!copyWorking) $('copy-import-files').click(); });
+    $('copy-import-files').addEventListener('change', () => importCopyFiles(Array.from($('copy-import-files').files)));
+    $('copy-import-apply').addEventListener('click', applyCopyImport);
+    $('copy-undo').addEventListener('click', () => { if (!copyUndo || copyWorking) return; try { stageCopyPreview([copyUndo], 'undo'); } catch (error) { showCopyErrors(error); } });
+    $('copy-undo-download').addEventListener('click', () => { if (copyUndo) downloadBlob(new Blob([JSON.stringify(copyUndo, null, 2) + '\n'], { type: 'application/json;charset=utf-8' }), `sajupinggye-copy-undo-${new Date().toISOString().slice(0, 10)}.json`); });
     $('prune-photos').addEventListener('click', prunePhotos);
     $('artwork').addEventListener('change', () => { state.settings.artwork = $('artwork').value; requestPreview(); saveSoon(); });
     $('format').addEventListener('change', () => { state.settings.format = $('format').value; requestPreview(); saveSoon(); });
@@ -946,8 +1158,12 @@
     window.addEventListener('storage', event => {
       if (event.key !== STORE_KEY || !state || event.newValue === lastSavedRaw) return;
       clearTimeout(saveTimer);
-      if (dirty || busy || $('full-editor-dialog').open || $('photo-library-dialog').open || !event.newValue) {
+      if (dirty || busy || $('full-editor-dialog').open || $('photo-library-dialog').open || $('copy-exchange-dialog').open || !event.newValue) {
         storageConflict = true;
+        if ($('copy-exchange-dialog').open) {
+          copyPending = null; $('copy-import-apply').disabled = true;
+          copyStatus('다른 탭의 원고가 바뀌었어. 현재 작업을 JSON 백업한 뒤 새로고침해 줘.', true);
+        }
         message('다른 탭에서 작업이 바뀌었어. 이 탭의 원고는 JSON 백업을 받은 뒤 새로고침해 줘. 최신 저장본은 덮어쓰지 않을게.', true);
         return;
       }

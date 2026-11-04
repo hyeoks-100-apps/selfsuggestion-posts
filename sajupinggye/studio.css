@@ -427,3 +427,35 @@ textarea:focus, input[type="text"]:focus { background: #fff; }
  .visual-apply-buttons .button { min-height: 44px; }
 }
 body:has(.editing-dialog[open], .visual-dialog[open]) { overflow: hidden; }
+
+.copy-exchange-dialog { width: min(920px, calc(100vw - 32px)); }
+.copy-step { padding: 24px 0; border-bottom: 1px solid var(--line); }
+.copy-step h3 { margin: 0 0 14px; font-size: 16px; font-weight: 600; }
+.copy-step > p + p { margin-top: 6px; }
+.copy-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 16px; margin: 12px 0; }
+.copy-toolbar select { width: auto; max-width: 100%; min-height: 38px; }
+.copy-prompt { margin-top: 14px; }
+.copy-prompt textarea { width: 100%; padding: 12px; border: 1px solid var(--line); font: 12px/1.8 var(--sans); resize: vertical; }
+.copy-import-errors { margin-top: 16px; padding: 14px 16px; color: var(--danger); background: var(--wash); font-size: 12px; line-height: 1.8; overflow-wrap: anywhere; }
+.copy-import-errors ul { margin: 8px 0 0; padding-left: 18px; }
+.copy-import-summary { font-size: 13px; line-height: 1.8; margin-bottom: 14px; white-space: pre-line; }
+.copy-import-changes { max-height: 440px; overflow-y: auto; overscroll-behavior: contain; }
+.copy-change { border-top: 1px solid var(--line); padding: 8px 0; }
+.copy-change summary { padding: 8px 4px; font-size: 12px; overflow-wrap: anywhere; }
+.copy-change-field { padding: 12px 8px; }
+.copy-change-field h4 { font-size: 11px; color: var(--muted); margin: 0 0 8px; }
+.copy-diff { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.copy-diff p { font-size: 10px; color: var(--muted); margin-bottom: 5px; }
+.copy-diff pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; font: 13px/1.8 var(--sans); }
+.copy-import-result { padding: 18px 0 0; font-size: 13px; line-height: 1.8; }
+.copy-exchange-dialog .editing-dialog-footer { gap: 20px; }
+@media(max-width:700px) {
+ .copy-exchange-dialog { width: calc(100vw - 20px); }
+ .copy-toolbar { align-items: stretch; }
+ .copy-toolbar select { width: 100%; }
+ .copy-diff { grid-template-columns: 1fr; gap: 12px; }
+ .copy-import-changes { max-height: 360px; }
+ .copy-exchange-dialog .editing-dialog-footer { align-items: stretch; flex-direction: column; }
+ .copy-exchange-dialog .editing-dialog-footer .button { width: 100%; }
+ .copy-prompt textarea { font-size: 16px; }
+}
