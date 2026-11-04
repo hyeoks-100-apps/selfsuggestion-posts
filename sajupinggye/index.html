@@ -7,12 +7,12 @@
   <meta name="theme-color" content="#ffffff">
   <title>사주핑계 · Editorial studio</title>
   <link rel="stylesheet" href="fonts.css?v=1">
-  <link rel="stylesheet" href="studio.css?v=11">
+  <link rel="stylesheet" href="studio.css?v=12">
   <script src="backgrounds.js?v=2" defer></script>
   <script src="renderer.js?v=6" defer></script>
   <script src="visuals.js?v=2" defer></script>
-  <script src="copy-exchange.js?v=1" defer></script>
-  <script src="studio.js?v=10" defer></script>
+  <script src="copy-exchange.js?v=2" defer></script>
+  <script src="studio.js?v=11" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#workspace">작업 영역으로 건너뛰기</a>
@@ -179,14 +179,16 @@
         <h3 id="copy-export-heading">1. 원고와 프롬프트 받기</h3>
         <div class="copy-toolbar"><label for="copy-export-scope">보낼 원고</label><select id="copy-export-scope"><option value="all">현재 편집본 전체</option><option value="drafts">새 초안 300개</option><option value="current">지금 선택한 기획 · 3개 언어</option></select><button type="button" id="copy-export-kit" class="button primary">GPT 작업 ZIP 받기 ↓</button></div>
         <p id="copy-export-count" class="small-muted"></p>
-        <p class="small-muted">ZIP을 풀면 언어별 전체 JSON, 20개씩 나눈 JSON, 요청 프롬프트가 있어. 전체 파일이나 분할 파일 중 한 쪽만 사용해.</p>
+        <p class="small-muted">ZIP 안의 all-posts.json 하나에 한국어·일본어·영어 원고가 모두 있어. ZIP 전체를 첨부하고 안에 있는 프롬프트로 요청해 줘.</p>
         <details class="copy-prompt"><summary>GPT에 보낼 프롬프트</summary><textarea id="copy-prompt-text" readonly aria-label="GPT 원고 수정 프롬프트" rows="10"></textarea><button type="button" id="copy-prompt-download" class="text-button">프롬프트 TXT 받기 ↓</button></details>
+        <p class="small-muted"><a href="copy-continue-prompt.txt" download="sajupinggye-GPT-이어서-수정.txt">한국어만 받았다면: 이어가기 요청문 받기 ↓</a></p>
       </section>
       <section class="copy-step" aria-labelledby="copy-import-heading">
         <h3 id="copy-import-heading">2. GPT 수정본 가져오기</h3>
         <div class="copy-toolbar"><button type="button" id="copy-import-open" class="button secondary">GPT 수정본 가져오기 ↑</button><span class="small-muted">JSON 여러 개 선택 가능 · 합계 8MB</span></div>
         <input id="copy-import-files" type="file" accept="application/json,.json" multiple hidden>
-        <p class="small-muted">일부 원고만 먼저 올려도 돼. 수정한 파일만 골라 줘. ID·언어·기준값은 내보낸 그대로여야 해.</p>
+        <label class="copy-completeness"><input id="copy-require-complete" type="checkbox" checked aria-describedby="copy-completeness-help"> 선택한 원고 전체 확인</label>
+        <p id="copy-completeness-help" class="small-muted">위에서 고른 원고의 세 언어를 모두 확인해. 일부만 적용할 때만 체크를 꺼 줘. ID·언어·기준값은 내보낸 그대로여야 해.</p>
         <div id="copy-import-errors" class="copy-import-errors" role="alert" hidden></div>
       </section>
       <section id="copy-import-preview" class="copy-step" aria-labelledby="copy-preview-heading" hidden>

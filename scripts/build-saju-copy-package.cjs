@@ -12,7 +12,6 @@ const ROOT = path.resolve(__dirname, '..');
 const BASE = path.join(ROOT, 'sajupinggye');
 const OUTPUT = path.join(BASE, 'downloads');
 const SOURCES = ['campaigns-300.json', 'campaigns-v2.json', 'campaigns.json'];
-const BATCH_SIZE = 20;
 const json = value => Buffer.from(JSON.stringify(value, null, 2) + '\n', 'utf8');
 
 function collectRows(base = BASE) {
@@ -105,30 +104,21 @@ function zipArchive(entries) {
 
 function build() {
   const rows = collectRows();
-  const entries = [];
   const output = new Map();
   const locales = {};
-  const dataFiles = [];
+  const allEnvelope = exchange.makeEnvelope(rows);
+  const allBytes = json(allEnvelope);
+  exchange.parse(allBytes.toString('utf8'));
+  output.set('all-posts.json', allBytes);
+  const entries = [{ name: 'all-posts.json', bytes: allBytes }];
   for (const locale of exchange.LOCALES) {
     const localRows = rows.filter(row => row.locale === locale);
-    const allEnvelope = exchange.makeEnvelope(localRows);
-    // makeEnvelope validates fields; parse checks the exact published JSON text.
-    exchange.parse(json(allEnvelope).toString('utf8'));
-    const allName = `${locale}-all.json`;
-    const allBytes = json(allEnvelope);
-    output.set(allName, allBytes);
-    entries.push({ name: allName, bytes: allBytes });
-    dataFiles.push({ file: allName, locale, posts: localRows.length, kind: 'all' });
-    const batches = Math.ceil(localRows.length / BATCH_SIZE);
-    for (let index = 0; index < batches; index++) {
-      const batchRows = localRows.slice(index * BATCH_SIZE, (index + 1) * BATCH_SIZE);
-      const name = `batches/${locale}/${locale}-${String(index + 1).padStart(2, '0')}-of-${String(batches).padStart(2, '0')}.json`;
-      const bytes = json(exchange.makeEnvelope(batchRows));
-      exchange.parse(bytes.toString('utf8'));
-      entries.push({ name, bytes });
-      dataFiles.push({ file: name, locale, posts: batchRows.length, kind: 'batch' });
-    }
-    locales[locale] = { posts: localRows.length, batches };
+    // Preserve the old standalone URLs for compatibility, but exclude these
+    // duplicates from the default ZIP: GPT receives one unambiguous input file.
+    const localBytes = json(exchange.makeEnvelope(localRows));
+    exchange.parse(localBytes.toString('utf8'));
+    output.set(`${locale}-all.json`, localBytes);
+    locales[locale] = { posts: localRows.length };
   }
   const manifest = {
     format: 'sajupinggye-instagram-copy-kit',
@@ -139,9 +129,9 @@ function build() {
     sourceFiles: SOURCES,
     posts: rows.length,
     locales,
-    batchSize: BATCH_SIZE,
-    files: dataFiles,
-    note: 'Choose either all.json or its batch files. Starter data excludes personal browser edits and images.'
+    files: [{ file: 'all-posts.json', posts: rows.length, kind: 'all-locales' }],
+    expectedOutput: 'all-posts-edited.json',
+    note: 'Edit every row in all-posts.json across all locales. Keep every id, locale, baseRevision and slide count. Starter data excludes personal browser edits and images.'
   };
   entries.push({ name: 'copy-editing-prompt.txt', bytes: fs.readFileSync(path.join(BASE, 'copy-editing-prompt.txt')) });
   entries.push({ name: 'copy-format-guide.txt', bytes: fs.readFileSync(path.join(BASE, 'copy-format-guide.txt')) });

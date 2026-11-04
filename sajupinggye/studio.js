@@ -736,7 +736,7 @@
 
   function updateCopyExportCount() {
     const count = copyRows($('copy-export-scope').value).length;
-    $('copy-export-count').textContent = `${count.toLocaleString()}개 문구 · 언어별 전체 파일 + 20개씩 분할 파일 · 현재 편집한 글 포함`;
+    $('copy-export-count').textContent = `${count.toLocaleString()}개 문구 · 세 언어를 합친 all-posts.json 한 파일 · 현재 편집한 글 포함`;
   }
 
   function openCopyExchange() {
@@ -745,6 +745,7 @@
       commitEditor();
       if (!saveNow() || storageConflict || localStorage.getItem(STORE_KEY) !== lastSavedRaw) throw new Error('현재 작업을 먼저 저장하거나 JSON 백업을 받은 뒤 새로고침해 줘.');
       copyPending = null; copyOpener = document.activeElement;
+      $('copy-require-complete').checked = true;
       $('copy-import-preview').hidden = true; $('copy-import-errors').hidden = true;
       $('copy-import-result').hidden = !copyUndo; $('copy-import-apply').textContent = '검토한 문구 적용';
       updateCopyExportCount(); setCopyWorking(false);
@@ -766,16 +767,10 @@
       const files = [], encoder = new TextEncoder();
       const add = (name, value) => files.push({ name, bytes: encoder.encode(typeof value === 'string' ? value : JSON.stringify(value, null, 2) + '\n') });
       add('copy-editing-prompt.txt', prompt); add('copy-format-guide.txt', guide);
-      for (const locale of LOCALES) {
-        const localeRows = rows.filter(row => row.locale === locale);
-        if (!localeRows.length) continue;
-        add(`${locale}-all.json`, window.SajuCopyExchange.makeEnvelope(localeRows));
-        const batches = Math.ceil(localeRows.length / 20);
-        for (let offset = 0; offset < localeRows.length; offset += 20) add(`batches/${locale}/${locale}-${String(offset / 20 + 1).padStart(2, '0')}-of-${String(batches).padStart(2, '0')}.json`, window.SajuCopyExchange.makeEnvelope(localeRows.slice(offset, offset + 20)));
-      }
-      add('manifest.json', { description: '현재 편집 원고', exportedAt: new Date().toISOString(), counts: Object.fromEntries(LOCALES.map(locale => [locale, rows.filter(row => row.locale === locale).length])), note: '언어별 전체 JSON과 batches 중 한 쪽만 사용해. 이 파일은 업로드하지 않아.' });
+      add('all-posts.json', window.SajuCopyExchange.makeEnvelope(rows));
+      add('manifest.json', { description: '현재 편집 원고 전체', exportedAt: new Date().toISOString(), counts: Object.fromEntries(LOCALES.map(locale => [locale, rows.filter(row => row.locale === locale).length])), total: rows.length, note: 'all-posts.json의 모든 언어·ID를 작업해. 수정본 all-posts-edited.json만 업로드해.' });
       downloadBlob(makeZip(files), `sajupinggye-gpt-current-${new Date().toISOString().slice(0, 10)}.zip`);
-      copyStatus(`${rows.length.toLocaleString()}개 현재 문구와 프롬프트를 ZIP으로 준비했어. 20개 파일 하나씩 GPT에 맡겨도 돼.`);
+      copyStatus(`${rows.length.toLocaleString()}개 현재 문구와 프롬프트를 ZIP으로 준비했어. ZIP 전체와 프롬프트를 GPT에 보내 줘.`);
     } catch (error) { showCopyErrors(error); }
     finally { setCopyWorking(false); }
   }
@@ -804,15 +799,42 @@
     return Array.isArray(value) ? value.join(' ') : value;
   }
 
+  function copyCoverageSummary(coverage) {
+    const names = { ko: '한국어', ja: '日本語', en: 'English' };
+    return LOCALES.map(locale => `${names[locale]} ${coverage.received[locale]}/${coverage.expected[locale]}`).join(' · ');
+  }
+
+  function checkCopyCoverage(envelopes, mode = 'import') {
+    if (mode === 'undo') return null;
+    const coverage = window.SajuCopyExchange.coverage(envelopes, copyRows($('copy-export-scope').value));
+    if ($('copy-require-complete').checked && !coverage.complete) {
+      const issues = [{ message: `선택한 원고 ${coverage.totalExpected}개 중 ${coverage.totalReceived}개를 받았어. ${copyCoverageSummary(coverage)} (받은 수/필요한 수)` }];
+      if (coverage.missing.length) issues.push({ message: `누락 ${coverage.missing.length}개: ${coverage.missing.slice(0, 5).map(row => `${row.id}/${row.locale}`).join(', ')}${coverage.missing.length > 5 ? ' 외' : ''}. GPT에 빠진 원고를 이어서 요청해 줘.` });
+      if (coverage.unexpected.length) issues.push({ message: `선택한 범위 밖의 원고 ${coverage.unexpected.length}개가 있어. 위의 ‘보낼 원고’가 내보낸 범위와 같은지 확인해 줘.` });
+      issues.push({ message: '일부 원고만 적용하려는 경우에만 ‘선택한 원고 전체 확인’을 꺼 줘.' });
+      const error = new Error('전체 원고가 모이지 않았어.'); error.issues = issues; throw error;
+    }
+    return coverage;
+  }
+
+  function invalidateCopyPreview() {
+    copyPending = null;
+    $('copy-import-preview').hidden = true; $('copy-import-errors').hidden = true;
+    $('copy-import-apply').disabled = true;
+    copyStatus('확인 범위가 바뀌었어. 수정 JSON을 다시 골라 줘.');
+  }
+
   function stageCopyPreview(envelopes, mode = 'import') {
     if (dirty || storageConflict || localStorage.getItem(STORE_KEY) !== lastSavedRaw) throw new Error('미리보기 전에 저장본이 바뀌었어. 작업을 백업하고 새로고침해 줘.');
     const plan = window.SajuCopyExchange.plan(envelopes, copyRows());
-    copyPending = { envelopes, plan, expectedRaw: lastSavedRaw, mode };
+    const coverage = checkCopyCoverage(envelopes, mode);
+    copyPending = { envelopes, plan, expectedRaw: lastSavedRaw, mode, scope: $('copy-export-scope').value, requireComplete: $('copy-require-complete').checked };
     $('copy-import-errors').hidden = true; $('copy-import-result').hidden = true;
     $('copy-import-preview').hidden = false;
     $('copy-preview-heading').textContent = mode === 'undo' ? '3. 되돌릴 문구 확인' : '3. 바뀔 문구 확인';
     const changedLocales = Object.fromEntries(LOCALES.map(locale => [locale, plan.changes.filter(row => row.locale === locale).length]));
-    $('copy-import-summary').textContent = `${plan.total.toLocaleString()}개 확인 · ${plan.changes.length.toLocaleString()}개 변경 · ${plan.unchanged.toLocaleString()}개 동일\n변경: 한국어 ${changedLocales.ko} · 日本語 ${changedLocales.ja} · English ${changedLocales.en}`;
+    const coverageText = coverage ? `${coverage.complete ? '선택한 원고 모두 포함' : `일부 원고만 포함 · 누락 ${coverage.missing.length}개 · 범위 밖 ${coverage.unexpected.length}개`}\n${copyCoverageSummary(coverage)} (받은 수/필요한 수)\n` : '';
+    $('copy-import-summary').textContent = `${coverageText}${plan.total.toLocaleString()}개 확인 · ${plan.changes.length.toLocaleString()}개 변경 · ${plan.unchanged.toLocaleString()}개 동일\n변경: 한국어 ${changedLocales.ko} · 日本語 ${changedLocales.ja} · English ${changedLocales.en}`;
     const list = $('copy-import-changes'); list.replaceChildren();
     for (const change of plan.changes) {
       const detail = element('details', 'copy-change');
@@ -876,7 +898,9 @@
     try {
       const pending = copyPending;
       if (pending.expectedRaw !== lastSavedRaw || dirty || storageConflict) throw new Error('미리보기 이후 원고가 바뀌었어. 수정본을 다시 골라 줘.');
+      if (pending.mode !== 'undo' && (pending.scope !== $('copy-export-scope').value || pending.requireComplete !== $('copy-require-complete').checked)) throw new Error('확인 범위가 바뀌었어. 수정본을 다시 골라 줘.');
       const plan = window.SajuCopyExchange.plan(pending.envelopes, copyRows());
+      checkCopyCoverage(pending.envelopes, pending.mode);
       if (!plan.changes.length) return;
       const rollback = { format: window.SajuCopyExchange.FORMAT, version: window.SajuCopyExchange.VERSION, posts: plan.changes.map(change => ({ id: change.id, locale: change.locale, baseRevision: window.SajuCopyExchange.revision(change.after), ...clone(change.before) })) };
       persistCopyPlan(plan, pending.expectedRaw);
@@ -1116,7 +1140,8 @@
     $('open-visuals').addEventListener('click', () => { window.SajuVisuals?.showCurrent(); showTab('visuals'); $('tab-visuals').focus(); });
     $('export-drafts').addEventListener('click', exportDrafts);
     $('open-copy-exchange').addEventListener('click', openCopyExchange);
-    $('copy-export-scope').addEventListener('change', () => { try { updateCopyExportCount(); } catch (error) { showCopyErrors(error); } });
+    $('copy-export-scope').addEventListener('change', () => { invalidateCopyPreview(); try { updateCopyExportCount(); } catch (error) { showCopyErrors(error); } });
+    $('copy-require-complete').addEventListener('change', invalidateCopyPreview);
     $('copy-export-kit').addEventListener('click', exportCopyKit);
     $('copy-prompt-download').addEventListener('click', async () => {
       try { const [prompt] = await loadCopyTexts(); downloadBlob(new Blob([prompt], { type: 'text/plain;charset=utf-8' }), 'sajupinggye-GPT-PRO-PROMPT.txt'); }

@@ -165,5 +165,41 @@
     if (issues.length) fail(issues);
     return { changes: clone(changes), unchanged, total, counts, warnings: [] };
   }
-  return Object.freeze({ FORMAT, VERSION, MAX_BYTES, MAX_POSTS, LIMITS, LOCALES, revision, makeEnvelope, parse, plan });
+  // Compare exact ID/language pairs with the selected export scope. Matching
+  // language totals alone must never make a partial or substituted file complete.
+  function coverage(envelopes, expectedRows) {
+    const issues = [];
+    validateRows(expectedRows, issues);
+    if (issues.length) fail(issues);
+    if (!Array.isArray(envelopes) || !envelopes.length) fail([{ id: null, locale: null, field: 'files', message: '원고 JSON 파일을 하나 이상 골라 줘.' }]);
+    checkBytes(envelopes);
+    const expected = { ko: 0, ja: 0, en: 0 }, received = { ko: 0, ja: 0, en: 0 };
+    const expectedPairs = new Map(expectedRows.map(row => [keyOf(row), { id: row.id, locale: row.locale }]));
+    const receivedPairs = new Map();
+    let totalReceived = 0;
+    expectedRows.forEach(row => { expected[row.locale]++; });
+    envelopes.forEach((envelope, fileIndex) => {
+      if (!keys(envelope, ['format', 'version', 'posts'], issues, null, `files[${fileIndex}]`)) return;
+      if (envelope.format !== FORMAT) issue(issues, null, `files[${fileIndex}].format`, '사주핑계 원고 교환 파일이 아니야.');
+      if (envelope.version !== VERSION) issue(issues, null, `files[${fileIndex}].version`, '지원하지 않는 원고 규격 버전이야.');
+      if (!Array.isArray(envelope.posts) || !envelope.posts.length || envelope.posts.length > MAX_POSTS) { issue(issues, null, `files[${fileIndex}].posts`, `원고는 1~${MAX_POSTS}개여야 해.`); return; }
+      envelope.posts.forEach(row => {
+        totalReceived++;
+        const start = issues.length;
+        validateRow(row, true, issues);
+        if (!plain(row)) return;
+        const key = keyOf(row);
+        if (receivedPairs.has(key)) issue(issues, row, 'id', '업로드한 파일에 같은 ID와 언어가 중복됐어.');
+        if (issues.length !== start) return;
+        receivedPairs.set(key, { id: row.id, locale: row.locale });
+        received[row.locale]++;
+      });
+    });
+    if (totalReceived > MAX_POSTS) issue(issues, null, 'posts', `한 번에 ${MAX_POSTS}개까지 올릴 수 있어.`);
+    if (issues.length) fail(issues);
+    const missing = [...expectedPairs].filter(([key]) => !receivedPairs.has(key)).map(([, pair]) => pair);
+    const unexpected = [...receivedPairs].filter(([key]) => !expectedPairs.has(key)).map(([, pair]) => pair);
+    return { expected, received, missing, unexpected, complete: !missing.length && !unexpected.length, totalExpected: expectedRows.length, totalReceived };
+  }
+  return Object.freeze({ FORMAT, VERSION, MAX_BYTES, MAX_POSTS, LIMITS, LOCALES, revision, makeEnvelope, parse, plan, coverage });
 });

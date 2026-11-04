@@ -35,6 +35,96 @@ test('all 417 rows export together without any picture or studio settings', () =
   assert.equal(api.plan([envelope], rows).unchanged, 417);
 });
 
+test('coverage requires all 417 exact pairs, and reports 278 missing when only Korean returns', () => {
+  const ko = api.makeEnvelope(rows.filter(row => row.locale === 'ko'));
+  assert.equal(api.plan([ko], rows).total, 139, 'a valid partial edit remains a valid change plan');
+  const result = api.coverage([ko], rows);
+  assert.deepEqual(result.expected, { ko: 139, ja: 139, en: 139 });
+  assert.deepEqual(result.received, { ko: 139, ja: 0, en: 0 });
+  assert.equal(result.totalExpected, 417);
+  assert.equal(result.totalReceived, 139);
+  assert.equal(result.complete, false);
+  assert.equal(result.missing.length, 278);
+  assert.ok(result.missing.every(pair => pair.locale === 'ja' || pair.locale === 'en'));
+  assert.deepEqual(result.unexpected, []);
+});
+
+test('coverage accepts all languages across files and an explicitly selected 300-row scope', () => {
+  const envelopes = api.LOCALES.map(locale => api.makeEnvelope(rows.filter(row => row.locale === locale)));
+  const full = api.coverage(envelopes, rows);
+  assert.equal(full.complete, true);
+  assert.deepEqual(full.expected, { ko: 139, ja: 139, en: 139 });
+  assert.deepEqual(full.received, full.expected);
+  assert.equal(full.totalReceived, 417);
+  assert.deepEqual(full.missing, []);
+  assert.deepEqual(full.unexpected, []);
+  const selected = rows.slice(0, 300);
+  const partial = api.coverage([api.makeEnvelope(selected)], selected);
+  assert.equal(partial.complete, true);
+  assert.equal(partial.totalExpected, 300);
+  assert.equal(partial.totalReceived, 300);
+  assert.deepEqual(partial.expected, { ko: 100, ja: 100, en: 100 });
+});
+
+test('coverage reports a known cloned draft outside the export scope as unexpected', () => {
+  const selected = sample(), cloned = { ...clone(rows[0]), id: 'studio-copy-clone' };
+  const envelope = api.makeEnvelope([...selected, cloned]);
+  assert.equal(api.plan([envelope], [...selected, cloned]).total, 4);
+  const result = api.coverage([envelope], selected);
+  assert.equal(result.complete, false);
+  assert.deepEqual(result.missing, []);
+  assert.deepEqual(result.unexpected, [{ id: cloned.id, locale: 'ko' }]);
+  assert.deepEqual(result.received, { ko: 2, ja: 1, en: 1 });
+});
+
+test('equal totals and equal language counts cannot substitute different ID/language pairs', () => {
+  const selected = sample(), different = rows.slice(3, 6);
+  const envelope = api.makeEnvelope(different);
+  assert.equal(api.plan([envelope], rows).total, selected.length);
+  const result = api.coverage([envelope], selected);
+  assert.deepEqual(result.received, result.expected);
+  assert.equal(result.totalExpected, result.totalReceived);
+  assert.equal(result.complete, false);
+  assert.deepEqual(result.missing, selected.map(({ id, locale }) => ({ id, locale })));
+  assert.deepEqual(result.unexpected, different.map(({ id, locale }) => ({ id, locale })));
+});
+
+test('coverage never mutates inputs or returns input-owned identity objects', () => {
+  const selected = sample(), envelope = api.makeEnvelope(rows.slice(3, 6));
+  const before = JSON.stringify({ selected, envelope });
+  const result = api.coverage([envelope], selected);
+  assert.equal(JSON.stringify({ selected, envelope }), before);
+  result.expected.ko = 99;
+  result.received.ja = 99;
+  result.missing[0].id = 'changed-result';
+  result.unexpected[0].locale = 'changed-result';
+  assert.equal(JSON.stringify({ selected, envelope }), before);
+  assert.deepEqual(api.coverage([envelope], selected).expected, { ko: 1, ja: 1, en: 1 });
+});
+
+test('coverage rejects malformed files and duplicate identities rather than counting them', () => {
+  issueAt(() => api.coverage([], sample()), 'files');
+  issueAt(() => api.coverage([changed()], []), 'posts');
+  const badLocale = changed(); badLocale.posts[0].locale = 'fr';
+  issueAt(() => api.coverage([badLocale], sample()), 'locale');
+  const badVersion = changed(); badVersion.version = 2;
+  issueAt(() => api.coverage([badVersion], sample()), 'files[0].version');
+  const duplicate = changed(); duplicate.posts.push(clone(duplicate.posts[0]));
+  issueAt(() => api.coverage([duplicate], sample()), 'id');
+  const first = api.makeEnvelope([rows[0]]);
+  issueAt(() => api.coverage([first, clone(first)], sample()), 'id');
+  issueAt(() => api.coverage([first], [rows[0], rows[0]]), 'id');
+});
+
+test('coverage bounds expected and aggregate received rows at 1500', () => {
+  const many = Array.from({ length: 1501 }, (_, index) => ({ ...clone(rows[0]), id: `bounded-${index}` }));
+  const envelopes = [api.makeEnvelope(many.slice(0, 750)), api.makeEnvelope(many.slice(750))];
+  issueAt(() => api.coverage(envelopes, many.slice(0, 1500)), 'posts');
+  issueAt(() => api.coverage([api.makeEnvelope([rows[0]])], many), 'posts');
+  const atLimit = many.slice(0, 1500);
+  assert.equal(api.coverage([api.makeEnvelope(atLimit)], atLimit).complete, true);
+});
+
 test('only the changed locale is planned, with field-level paths and detached before/after copies', () => {
   const current = sample(), envelope = changed(), snapshot = JSON.stringify({ current, envelope });
   envelope.posts[0].label = '수정된 기획';
